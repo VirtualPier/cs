@@ -156,7 +156,7 @@ public class Question {
     public static final int STATE_PUBLISH = 0;
 
     static {
-        stateCnName.put(0, "发布");
-        stateCnName.put(1, "审核");
+        stateCnName.put(STATE_PUBLISH, "发布");
+        stateCnName.put(STATE_APPLY, "审核");
     }
 }

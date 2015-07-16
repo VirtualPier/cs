@@ -224,16 +224,16 @@ public class User {
     public static final int SEX_MALE = 1;
 
     static {
-        stateCnName.put(0, "禁用");
-        stateCnName.put(1, "正常");
-        stateCnName.put(2, "待审核");
+        stateCnName.put(STATE_DISABLED, "禁用");
+        stateCnName.put(STATE_NORMAL, "正常");
+        stateCnName.put(STATE_APPLY, "待审核");
 
-        roleCnName.put(0, "超级管理员");
-        roleCnName.put(1, "管理员");
-        roleCnName.put(2, "普通用户");
+        roleCnName.put(ROLE_SUPER, "超级管理员");
+        roleCnName.put(ROLE_MANAGER, "管理员");
+        roleCnName.put(ROLE_USER, "普通用户");
 
-        sexCnName.put(0, "女");
-        sexCnName.put(1, "男");
+        sexCnName.put(SEX_MALE, "女");
+        sexCnName.put(SEX_FEMALE, "男");
 
     }
 }
