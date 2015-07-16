@@ -1,18 +1,20 @@
 package org.ligson.coderstar2.article.domains;
 
+import org.ligson.coderstar2.system.domains.Category;
+
 import javax.persistence.*;
 
 /**
  * Created by Ruby on 2015/7/16.
  */
 @Entity
-@Table(name="article_language")
-public class ArticleLanguage {
+@Table(name = "article_category")
+public class ArticleCategory {
     private long id;
 
     private Article article;
 
-    private Language language;
+    private Category category;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,12 +35,12 @@ public class ArticleLanguage {
         this.article = article;
     }
 
-    @Column(name = "language_id")
-    public Language getLanguage() {
-        return language;
+    @Column(name = "category_id")
+    public Category getLanguage() {
+        return category;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
+    public void setLanguage(Category category) {
+        this.category = category;
     }
 }

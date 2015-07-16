@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by Ruby on 2015/7/16.
  */
 @Entity
-@Table(name="article")
+@Table(name = "article")
 public class Article {
     private long id;
     private Set<Remark> remarks = new HashSet<>();
@@ -38,6 +38,7 @@ public class Article {
     public void setId(long id) {
         this.id = id;
     }
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<Remark> getRemarks() {
         return remarks;
@@ -47,7 +48,7 @@ public class Article {
         this.remarks = remarks;
     }
 
-    @Column(name = "title",length = 255,nullable = false)
+    @Column(name = "title", length = 255, nullable = false)
     public String getTitle() {
         return title;
     }
@@ -85,7 +86,7 @@ public class Article {
         this.creator = creator;
     }
 
-    @Column(name = "a_state",nullable = false)
+    @Column(name = "a_state", nullable = false)
     public int getState() {
         return state;
     }
@@ -94,7 +95,7 @@ public class Article {
         this.state = state;
     }
 
-    @Column(name = "a_state",nullable = false)
+    @Column(name = "reply_num", nullable = false)
     public long getReplyNum() {
         return replyNum;
     }
@@ -103,7 +104,7 @@ public class Article {
         this.replyNum = replyNum;
     }
 
-    @Column(name = "view_num",nullable = false)
+    @Column(name = "view_num", nullable = false)
     public long getViewNum() {
         return viewNum;
     }
@@ -112,7 +113,7 @@ public class Article {
         this.viewNum = viewNum;
     }
 
-    @Column(name = "attention_num",nullable = false)
+    @Column(name = "attention_num", nullable = false)
     public long getAttentionNum() {
         return attentionNum;
     }

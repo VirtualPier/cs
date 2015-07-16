@@ -2,6 +2,7 @@ package org.ligson.coderstar2.article.domains;
 
 import com.boful.common.date.utils.DateUtils;
 import freemarker.template.utility.DateUtil;
+import org.ligson.coderstar2.system.domains.SysTag;
 
 import javax.persistence.*;
 import java.util.Date;
