@@ -5,7 +5,6 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * 评价表

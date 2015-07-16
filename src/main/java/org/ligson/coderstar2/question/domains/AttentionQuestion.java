@@ -3,16 +3,15 @@ package org.ligson.coderstar2.question.domains;
 import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * 关注问题
  * Created by ligson on 2015/7/16.
  */
+@Entity
+@Table(name = "attention_question")
 public class AttentionQuestion {
     private long id;
     private User user;
