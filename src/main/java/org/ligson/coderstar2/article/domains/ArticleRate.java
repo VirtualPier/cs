@@ -12,7 +12,7 @@ import java.util.Date;
  * Created by Ruby on 2015/7/16.
  */
 @Entity
-@Table(name="article_rate")
+@Table(name = "article_rate")
 public class ArticleRate {
     private long id;
     private Article article;
@@ -32,7 +32,9 @@ public class ArticleRate {
         this.id = id;
     }
 
-    @Column(name = "article_id")
+
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
     public Article getArticle() {
         return article;
     }
@@ -41,7 +43,8 @@ public class ArticleRate {
         this.article = article;
     }
 
-    @Column(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;
     }
@@ -50,7 +53,7 @@ public class ArticleRate {
         this.user = user;
     }
 
-    @Column(name="is_support",nullable = false)
+    @Column(name = "is_support", nullable = false)
     @Type(type = "byte")
     public boolean isSupport() {
         return isSupport;

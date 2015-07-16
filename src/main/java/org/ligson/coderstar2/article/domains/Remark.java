@@ -3,6 +3,7 @@ package org.ligson.coderstar2.article.domains;
 import com.boful.common.date.utils.DateUtils;
 import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -49,7 +50,8 @@ public class Remark {
         this.content = content;
     }
 
-    @Column(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;
     }
@@ -58,7 +60,8 @@ public class Remark {
         this.user = user;
     }
 
-    @Column(name = "article_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
     public Article getArticle() {
         return article;
     }
@@ -67,7 +70,7 @@ public class Remark {
         this.article = article;
     }
 
-    @Column(name = "support_num",nullable = false)
+    @Column(name = "support_num", nullable = false)
     public int getSupportNum() {
         return supportNum;
     }
@@ -76,7 +79,7 @@ public class Remark {
         this.supportNum = supportNum;
     }
 
-    @Column(name = "oppose_num",nullable = false)
+    @Column(name = "oppose_num", nullable = false)
     public int getOpposeNum() {
         return opposeNum;
     }
@@ -94,7 +97,7 @@ public class Remark {
         this.createDate = createDate;
     }
 
-    @OneToMany(mappedBy = "remark_rate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "remark", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<RemarkRate> getRates() {
         return rates;
     }
@@ -103,11 +106,12 @@ public class Remark {
         this.rates = rates;
     }
 
+    @OneToMany(mappedBy = "remark", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<RemarkReply> getReplyList() {
         return replyList;
     }
 
-    @OneToMany(mappedBy = "remark_reply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
     public void setReplyList(Set<RemarkReply> replyList) {
         this.replyList = replyList;
     }

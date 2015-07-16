@@ -46,7 +46,8 @@ public class SysTag {
         this.createDate = createDate;
     }
 
-    @Column(name = "creator_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "creator_id", referencedColumnName = "id", nullable = false)
     public User getCreator() {
         return creator;
     }

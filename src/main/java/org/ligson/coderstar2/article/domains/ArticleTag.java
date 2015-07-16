@@ -28,7 +28,8 @@ public class ArticleTag {
         this.id = id;
     }
 
-    @Column(name = "tag_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "tag_id", referencedColumnName = "id")
     public SysTag getTag() {
         return tag;
     }
@@ -37,7 +38,8 @@ public class ArticleTag {
         this.tag = tag;
     }
 
-    @Column(name = "article_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
     public Article getArticle() {
         return article;
     }

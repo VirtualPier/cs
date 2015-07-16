@@ -29,7 +29,8 @@ public class RemarkReply {
         this.id = id;
     }
 
-    @Column(name = "remark_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "remark_id", referencedColumnName = "id")
     public Remark getRemark() {
         return remark;
     }
@@ -38,7 +39,8 @@ public class RemarkReply {
         this.remark = remark;
     }
 
-    @Column(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;
     }
@@ -47,7 +49,8 @@ public class RemarkReply {
         this.user = user;
     }
 
-    @Column(nullable = true,name = "at_user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "at_user_id", referencedColumnName = "id", nullable = true)
     public User getAtUser() {
         return atUser;
     }

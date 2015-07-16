@@ -47,7 +47,8 @@ public class Ask {
         this.content = content;
     }
 
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUser() {
         return user;
     }
@@ -56,7 +57,8 @@ public class Ask {
         this.user = user;
     }
 
-    @Column(name = "question_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
     public Question getQuestion() {
         return question;
     }

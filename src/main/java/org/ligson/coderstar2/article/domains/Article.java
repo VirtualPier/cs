@@ -75,7 +75,8 @@ public class Article {
         this.createDate = createDate;
     }
 
-    @Column(name = "creator_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "creator_id", referencedColumnName = "id")
     public User getCreator() {
         return creator;
     }

@@ -26,7 +26,8 @@ public class QuestionCategory {
     }
 
 
-    @Column(nullable = false, name = "question_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
     public Question getQuestion() {
         return question;
     }
@@ -35,7 +36,8 @@ public class QuestionCategory {
         this.question = question;
     }
 
-    @Column(nullable = false, name = "category_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     public Category getCategory() {
         return category;
     }

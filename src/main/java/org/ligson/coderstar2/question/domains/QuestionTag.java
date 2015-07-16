@@ -27,7 +27,8 @@ public class QuestionTag {
         this.id = id;
     }
 
-    @Column(name = "tag_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "tag_id", referencedColumnName = "id")
     public SysTag getTag() {
         return tag;
     }
@@ -36,7 +37,8 @@ public class QuestionTag {
         this.tag = tag;
     }
 
-    @Column(name = "question_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
     public Question getQuestion() {
         return question;
     }

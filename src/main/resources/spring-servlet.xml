@@ -17,15 +17,14 @@
             http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!-- 完成请求和注解POJO的映射 -->
-    <bean
-            class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
     <!-- 处理静态资源 -->
     <mvc:resources mapping="/js/**" location="/assets/js/"/>
     <mvc:resources mapping="/images/**" location="/assets/images/"/>
     <mvc:resources mapping="/css/**" location="/assets/css/"/>
     <mvc:resources mapping="/skin/**" location="/assets/skin/"/>
     <mvc:default-servlet-handler/>
-    <mvc:view-controller path="/" view-name="redirect:/admin/login"/>
+    <mvc:view-controller path="/" view-name="redirect:/index/index"/>
     <!-- 处理静态资源 end -->
 
     <!-- 定义JSP视图解析器 -->
@@ -36,7 +35,7 @@
     <!-- freemarker的配置 -->
     <bean id="bmcConfig"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="file:${user.home}/.bmc2/bmcConfig.properties"/>
+        <property name="location" value="classpath:cs-config.properties"/>
     </bean>
     <!--freemarker 模板继承配置 -->
     <bean id="block"
@@ -65,7 +64,7 @@
                 <entry key="block" value-ref="block"/>
                 <entry key="override" value-ref="override"/>
                 <entry key="extends" value-ref="extends"/>
-                <entry key="basePath" value="${basePath}"></entry>
+                <entry key="basePath" value="${appconfig.domain}/"/>
             </map>
         </property>
     </bean>
@@ -108,8 +107,8 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/admin/*"/>
-            <bean class="com.boful.bmc2.interceptor.LoginInterceptor"/>
+            <mvc:mapping path="/*"/>
+            <bean class="org.ligson.coderstar2.user.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
@@ -138,5 +137,6 @@
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
 
     <!-- 设置使用注解的类所在的jar包 -->
-    <context:component-scan base-package="com.boful.bmc2.controllers"/>
+    <context:component-scan base-package="org.ligson.coderstar2.controllers"/>
+
 </beans>

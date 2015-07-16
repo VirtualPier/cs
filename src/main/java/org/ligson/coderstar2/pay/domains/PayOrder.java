@@ -62,7 +62,8 @@ public class PayOrder {
         this.createDate = createDate;
     }
 
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUser() {
         return user;
     }

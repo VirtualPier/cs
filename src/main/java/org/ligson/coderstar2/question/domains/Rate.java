@@ -32,7 +32,8 @@ public class Rate {
         this.id = id;
     }
 
-    @Column(name = "ask_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "ask_id", referencedColumnName = "id", nullable = false)
     public Ask getAsk() {
         return ask;
     }
@@ -41,7 +42,8 @@ public class Rate {
         this.ask = ask;
     }
 
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUser() {
         return user;
     }
@@ -57,6 +59,10 @@ public class Rate {
     }
 
     public void setIsSupport(boolean isSupport) {
+        this.isSupport = isSupport;
+    }
+
+    public void setSupport(boolean isSupport) {
         this.isSupport = isSupport;
     }
 

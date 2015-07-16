@@ -29,7 +29,8 @@ public class AskReply {
         this.id = id;
     }
 
-    @Column(name = "ask_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "ask_id", referencedColumnName = "id", nullable = false)
     public Ask getAsk() {
         return ask;
     }
@@ -38,7 +39,8 @@ public class AskReply {
         this.ask = ask;
     }
 
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUser() {
         return user;
     }
@@ -47,7 +49,8 @@ public class AskReply {
         this.user = user;
     }
 
-    @Column(name = "at_user_id", nullable = true)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "at_user_id", referencedColumnName = "id", nullable = true)
     public User getAtUser() {
         return atUser;
     }

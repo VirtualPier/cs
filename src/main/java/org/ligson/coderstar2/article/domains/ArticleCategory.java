@@ -26,7 +26,8 @@ public class ArticleCategory {
         this.id = id;
     }
 
-    @Column(name = "article_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
     public Article getArticle() {
         return article;
     }
@@ -35,7 +36,8 @@ public class ArticleCategory {
         this.article = article;
     }
 
-    @Column(name = "category_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     public Category getLanguage() {
         return category;
     }

@@ -35,7 +35,8 @@ public class BlockedFund {
         this.id = id;
     }
 
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;
     }

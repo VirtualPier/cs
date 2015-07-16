@@ -27,7 +27,8 @@ public class AttentionArticle {
         this.id = id;
     }
 
-    @Column(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;
     }
@@ -36,7 +37,8 @@ public class AttentionArticle {
         this.user = user;
     }
 
-    @Column(name = "article_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
     public Article getArticle() {
         return article;
     }
