@@ -5,9 +5,7 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Ruby on 2015/7/16.
@@ -120,5 +118,14 @@ public class Article {
 
     public void setAttentionNum(long attentionNum) {
         this.attentionNum = attentionNum;
+    }
+
+    public static final Map<Integer, String> stateCnName = new HashMap<>();
+    public static final int STATE_APPLY = 1;
+    public static final int STATE_PUBLISH = 0;
+
+    static {
+        stateCnName.put(STATE_PUBLISH, "发布");
+        stateCnName.put(STATE_APPLY, "审核");
     }
 }
