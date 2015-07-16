@@ -18,71 +18,88 @@ public interface ArticleService {
      *
      * @param user    关注用户
      * @param article 文章
-     * @return
+     * @return [success:true/false,msg:XXXX,...]
      */
     public Map attentionArticle(User user, Article article);
 
     /***
      * 审批文章
      *
-     * @param article
-     * @return
+     * @param user    操作用户
+     * @param article 文章
+     * @return [success:true/false,msg:XXXX,...]
      */
     public Map auditArticle(User user, Article article);
 
     /***
      * 创建文章
      *
-     * @param title
-     * @param content
-     * @param creator
+     * @param title       文章标题
+     * @param content     文章内容
+     * @param creator     文章创建者
+     * @param tags        标签,格式:标签1,标签2...
+     * @param categroyIds 分类id
+     * @return [success:true/false,msg:XXXX,...]
      */
     public Map createArticle(String title, String content, User creator, String[] tags, Long[] categroyIds);
 
     /****
      * 删除文章
      *
-     * @param user
-     * @param articleId
-     * @return
+     * @param user      当前用户
+     * @param articleId 文章id
+     * @return [success:true/false,msg:XXXX,...]
      */
     public Map deleteArticle(User user, long articleId);
 
+    /***
+     * @param user       当前用户
+     * @param articleIds 文章id
+     * @return [ [success:true/false,msg:XXXX,...], [success:true/false,msg:XXXX,...],...]
+     */
     public List<Map<String, Object>> deleteArticles(User user, long[] articleIds);
 
     /***
      * 修改文章
      *
-     * @param article
-     * @param title
-     * @param content
-     * @param tags
-     * @param categoryIds
-     * @return
+     * @param user        当前用户
+     * @param article     文章
+     * @param title       文章标题
+     * @param content     文章内容
+     * @param tags        文章标签,格式:标签1,标签2,...
+     * @param categoryIds 分类id
+     * @return [success:true/false,msg:XXXX,...]
      */
-    public Map modifyArticle(Article article, String title, String content, String[] tags, List<Long> categoryIds);
+    public Map modifyArticle(User user, Article article, String title, String content, String[] tags, List<Long> categoryIds);
 
+    /***
+     * 取消文章关注
+     *
+     * @param user    当前用户
+     * @param article 文章
+     * @return [success:true/false,msg:XXXX,...]
+     */
     public Map removeAttention(User user, Article article);
 
     /***
      * 打赏文章
      *
-     * @param article
-     * @param money
-     * @param currentUser
-     * @return
+     * @param currentUser 当前用户
+     * @param article     文章id
+     * @param money       钱
+     * @return [success:true/false,msg:XXXX,...]
      */
-    public Map rewardArticle(Article article, double money, User currentUser);
+    public Map rewardArticle(User currentUser, Article article, double money);
 
     /***
      * 评论保存
      *
-     * @param article
-     * @param creator
-     * @param comment
-     * @return
+     * @param creator 当前用户
+     * @param article 文章
+     * @param comment 评论内容
+     * @return [success:true/false,msg:XXXX,...]
      */
-    public Map saveRemark(Article article, User creator, String comment);
+    public Map saveRemark(User creator, Article article, String comment);
 
     /****
      * 搜索文章
@@ -91,43 +108,43 @@ public interface ArticleService {
      * @param description 描述
      * @param tagName     标签名
      * @param category    语言
-     * @param max
-     * @param offset
-     * @return
+     * @param max         每页记录数
+     * @param offset      开始记录
+     * @return [success:true/false,msg:XXXX,...]
      */
     public Map searchArticle(String title, String description, String tagName, Category category, int max, int offset, String sort, String orderr);
 
     /***
      * 搜索我的文章
      *
-     * @param currentUser
-     * @param offset
-     * @param max
-     * @param sort
-     * @param orderr
-     * @return
+     * @param currentUser 当钱用户
+     * @param offset      开始
+     * @param max         每页记录
+     * @param sort        排序
+     * @param orderr      顺序
+     * @return [success:true/false,msg:XXXX,...]
      */
     public Map searchMyArticle(User currentUser, int offset, int max, String sort, String orderr);
 
     /***
      * 文章投票
      *
-     * @param article
-     * @param isSupport
-     * @param currentUser
-     * @return
+     * @param currentUser 当前用户
+     * @param article     文章
+     * @param isSupport   是否支持
+     * @return [success:true/false,msg:XXXX,...]
      */
-    public Map supportArticle(Article article, boolean isSupport, User currentUser);
+    public Map supportArticle(User currentUser, Article article, boolean isSupport);
 
     /***
      * 评论投票
      *
-     * @param remark
-     * @param isSupport
-     * @param currentUser
-     * @return
+     * @param currentUser 当前用户
+     * @param remark      评论
+     * @param isSupport   是否支持
+     * @return [success:true/false,msg:XXXX,...]
      */
-    public Map supportRemark(Remark remark, boolean isSupport, User currentUser);
+    public Map supportRemark(User currentUser, Remark remark, boolean isSupport);
 
 
 }
