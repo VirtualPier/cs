@@ -71,18 +71,13 @@
     </aop:config>
 
 
+    <!--系统初始化-->
     <bean id="bootstrap" class="org.ligson.coderstar2.system.conf.utils.Bootstrap"/>
 
     <!-- domain的配置 -->
     <import resource="spring-conf-domain.xml"/>
-    <!-- action和filter的配置 -->
-    <!-- <import resource="spring-conf-actionOrFilter.xml" /> -->
-    <!-- dao和service的配置 -->
+
+    <!-- dao的配置 -->
     <import resource="spring-conf-dao.xml"/>
-    <!-- WebSrvice的配置CXF -->
-    <!-- <import resource="spring-conf-jaws.xml" /> -->
-    <!-- mina -->
-    <!-- <import resource="spring-conf-mina.xml" /> -->
-    <!-- websocket -->
-    <!-- <import resource="spring-websocket.xml" /> -->
+
 </beans>

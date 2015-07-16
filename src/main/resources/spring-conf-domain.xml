@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                      http://www.springframework.org/schema/beans/spring-beans.xsd  
                      http://www.springframework.org/schema/tx  
                      http://www.springframework.org/schema/tx/spring-tx.xsd  
                      http://www.springframework.org/schema/aop  
                      http://www.springframework.org/schema/aop/spring-aop.xsd ">
-	<bean id="user" name="user" class="com.boful.bmc2.domains.User"></bean>
-	<bean id="bofulFile" name="bofulFile" class="com.boful.bmc2.domains.BofulFile"></bean>
-	<bean id="transcodeFile" name="transcodeFile"
-		class="com.boful.bmc2.domains.TranscodeFile"></bean>
+    <bean id="user" name="user" class="org.ligson.coderstar2.user.domains.User"/>
+    <bean id="category" name="category" class="org.ligson.coderstar2.system.domains.Category"/>
 </beans>
