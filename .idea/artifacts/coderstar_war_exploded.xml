@@ -63,7 +63,7 @@
           <element id="library" level="project" name="Maven: org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1" />
           <element id="library" level="project" name="Maven: wsdl4j:wsdl4j:1.6.2" />
           <element id="library" level="project" name="Maven: org.apache.cxf:cxf-rt-core:2.7.3" />
-          <element id="library" level="project" name="Maven: com.sun.xml.bind:jaxb-impl:2.2.6" />
+          <element id="library" level="project" name="Maven: com.sun.xml.bind:jaxb-impl:2.1.13" />
           <element id="library" level="project" name="Maven: org.apache.cxf:cxf-rt-bindings-soap:2.7.3" />
           <element id="library" level="project" name="Maven: org.apache.cxf:cxf-rt-databinding-jaxb:2.7.3" />
           <element id="library" level="project" name="Maven: org.apache.cxf:cxf-rt-bindings-xml:2.7.3" />
@@ -119,7 +119,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/coderstar2-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="E:\coder2\target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="coderstar/web/Web" />
     </root>
