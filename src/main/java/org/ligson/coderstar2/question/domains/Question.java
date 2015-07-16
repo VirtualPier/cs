@@ -5,9 +5,7 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 问题表
@@ -90,7 +88,7 @@ public class Question {
         this.tags = tags;
     }
 
-    @Column(name = "creator_id")
+    @Column(name = "creator_id", nullable = false)
     public User getCreator() {
         return creator;
     }
@@ -99,6 +97,7 @@ public class Question {
         this.creator = creator;
     }
 
+    @Column(name = "money", nullable = false)
     public double getMoney() {
         return money;
     }
@@ -107,6 +106,7 @@ public class Question {
         this.money = money;
     }
 
+    @Column(name = "q_state", nullable = false)
     public int getState() {
         return state;
     }
@@ -115,6 +115,7 @@ public class Question {
         this.state = state;
     }
 
+    @Column(name = "replay_num", nullable = false)
     public long getReplyNum() {
         return replyNum;
     }
@@ -123,6 +124,7 @@ public class Question {
         this.replyNum = replyNum;
     }
 
+    @Column(name = "view_num", nullable = false)
     public long getViewNum() {
         return viewNum;
     }
@@ -131,6 +133,7 @@ public class Question {
         this.viewNum = viewNum;
     }
 
+    @Column(name = "attention_num", nullable = false)
     public long getAttentionNum() {
         return attentionNum;
     }
@@ -139,11 +142,21 @@ public class Question {
         this.attentionNum = attentionNum;
     }
 
+    @Column(name = "right_ask_id", nullable = true)
     public Ask getRightAsk() {
         return rightAsk;
     }
 
     public void setRightAsk(Ask rightAsk) {
         this.rightAsk = rightAsk;
+    }
+
+    public static final Map<Integer, String> stateCnName = new HashMap<>();
+    public static final int STATE_APPLY = 1;
+    public static final int STATE_PUBLISH = 0;
+
+    static {
+        stateCnName.put(0, "发布");
+        stateCnName.put(1, "审核");
     }
 }
