@@ -37,9 +37,7 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">
-                    ${db.dialect}
-                </prop>
+                <prop key="hibernate.dialect">${db.dialect}</prop>
                 <prop key="hibernate.show_sql">${db.showSql}</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
