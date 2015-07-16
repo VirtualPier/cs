@@ -78,4 +78,7 @@
     <!-- dao的配置 -->
     <import resource="spring-conf-dao.xml"/>
 
+    <!--service配置文件-->
+    <import resource="spring-conf-service.xml"/>
+
 </beans>
