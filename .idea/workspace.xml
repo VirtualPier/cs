@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="7475f3d2-0087-4143-adcd-77d015e59be1" name="Default" comment="spring服务配置文件">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/spring-conf-service.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/user/service/impl/UserServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/user/service/impl/UserServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coderstar.iml" afterPath="$PROJECT_DIR$/coderstar.iml" />
+    <list default="true" readonly="true" id="7475f3d2-0087-4143-adcd-77d015e59be1" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/spring-conf-data.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/spring-conf.xml" afterPath="$PROJECT_DIR$/src/main/resources/spring-conf.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -143,20 +141,25 @@
       <file leaf-file-name="spring-conf.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/spring-conf.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59203297">
-              <caret line="78" column="34" selection-start-line="78" selection-start-column="34" selection-end-line="78" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.36263737">
+              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuestionService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/question/service/QuestionService.java">
+      <file leaf-file-name="spring-conf-data.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/spring-conf-data.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="48" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="48" />
+              <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#947#970#0" expanded="true" />
+                <element signature="e#1008#1019#0" expanded="true" />
+                <element signature="e#1062#1078#0" expanded="true" />
+                <element signature="e#1121#1137#0" expanded="true" />
+                <element signature="n#prop#0;n#props#0;n#property#2;n#bean#1;n#beans#0;n#!!top" expanded="true" />
+                <element signature="n#prop#1;n#props#0;n#property#2;n#bean#1;n#beans#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -180,7 +183,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/user/domains/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/pay/domains/BlockedFund.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/pay/domains/PayOrder.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/pay/domains/Withdraw.java" />
@@ -230,6 +232,7 @@
         <option value="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/pay/service/impl/PayServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/user/service/impl/UserServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/spring-conf-service.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/spring-conf-data.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/spring-conf.xml" />
       </list>
     </option>
@@ -1108,7 +1111,8 @@
     <MESSAGE value="domain配置" />
     <MESSAGE value="问题服务提交" />
     <MESSAGE value="服务类建立" />
-    <option name="LAST_COMMIT_MESSAGE" value="服务类建立" />
+    <MESSAGE value="spring服务配置文件" />
+    <option name="LAST_COMMIT_MESSAGE" value="spring服务配置文件" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1119,14 +1123,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/article/domains/AttentionArticle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/ligson/coderstar2/article/domains/ArticleTag.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1611,10 +1607,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/spring-conf-data.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+          <folding>
+            <element signature="e#947#970#0" expanded="true" />
+            <element signature="e#1008#1019#0" expanded="true" />
+            <element signature="e#1062#1078#0" expanded="true" />
+            <element signature="e#1121#1137#0" expanded="true" />
+            <element signature="n#prop#0;n#props#0;n#property#2;n#bean#1;n#beans#0;n#!!top" expanded="true" />
+            <element signature="n#prop#1;n#props#0;n#property#2;n#bean#1;n#beans#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/spring-conf.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59203297">
-          <caret line="78" column="34" selection-start-line="78" selection-start-column="34" selection-end-line="78" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.36263737">
+          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
           <folding />
         </state>
       </provider>

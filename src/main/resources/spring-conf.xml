@@ -14,60 +14,8 @@
         <property name="location" value="classpath:cs-config.properties"/>
     </bean>
 
-    <!--数据库配置-->
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${db.driverClassName}"/>
-        <property name="url" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
-    </bean>
-
-    <bean id="mySessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan">
-            <list>
-                <value>org.ligson.coderstar2.article.domains</value>
-                <value>org.ligson.coderstar2.pay.domains</value>
-                <value>org.ligson.coderstar2.question.domains</value>
-                <value>org.ligson.coderstar2.system.domains</value>
-                <value>org.ligson.coderstar2.user.domains</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">${db.dialect}</prop>
-                <prop key="hibernate.show_sql">${db.showSql}</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
-            </props>
-        </property>
-    </bean>
-
-
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="mySessionFactory"/>
-    </bean>
-
-    <!--注解型事务扫描 -->
-    <!-- <tx:annotation-driven /> -->
-    <tx:advice id="baseServiceAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="find*" read-only="true" propagation="REQUIRED"/>
-            <tx:method name="add*" propagation="REQUIRED"/>
-            <tx:method name="update*" propagation="REQUIRED"/>
-            <tx:method name="save*" propagation="REQUIRED"/>
-            <tx:method name="*" propagation="REQUIRED"/>
-        </tx:attributes>
-    </tx:advice>
-    <aop:config>
-        <aop:pointcut expression="execution(public * org.ligson.coderstar2..dao.impl..*.*(..))"
-                      id="bussinessService"/>
-        <aop:advisor advice-ref="baseServiceAdvice" pointcut-ref="bussinessService"/>
-    </aop:config>
-
+    <!--数据源相关配置-->
+    <import resource="spring-conf-data.xml"/>
 
     <!--系统初始化-->
     <bean id="bootstrap" class="org.ligson.coderstar2.system.conf.utils.Bootstrap"/>
