@@ -19,7 +19,7 @@ public class Question {
     private String description;
     private String createDate = DateUtils.format();
     private Set<Ask> asks = new HashSet<>();
-    private Set<TagQuestion> tags = new HashSet<TagQuestion>();
+    private Set<QuestionTag> tags = new HashSet<QuestionTag>();
     private User creator;
     private double money = 0.0;
     private int state = 1;
@@ -80,11 +80,11 @@ public class Question {
     }
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Set<TagQuestion> getTags() {
+    public Set<QuestionTag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<TagQuestion> tags) {
+    public void setTags(Set<QuestionTag> tags) {
         this.tags = tags;
     }
 
