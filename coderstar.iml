@@ -15,6 +15,20 @@
         </sourceRoots>
       </configuration>
     </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/spring-conf-actionOrFilter.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-conf-daoOrService.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-conf-domain.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-conf-jaws.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-conf-mina.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-conf.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-servlet.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-websocket.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
