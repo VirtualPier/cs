@@ -370,6 +370,21 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
+    public List<T> list(int offset, int max) {
+        Query query = getCurrentSession().createQuery("from " + getGenericTypeName());
+        query.setMaxResults(max);
+        query.setFirstResult(offset);
+        return query.list();
+    }
+
+    @Override
+    public int countAll() {
+        Query query = getCurrentSession().createQuery("select count(*) from " + getGenericTypeName());
+        Long count = (Long) query.uniqueResult();
+        return count.intValue();
+    }
+
+    @Override
     public void saveOrUpdate(T t) {
         // TODO Auto-generated method stub
         getCurrentSession().saveOrUpdate(t);

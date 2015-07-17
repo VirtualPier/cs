@@ -156,4 +156,14 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    @Override
+    public Map<String, Object> listUser(int offset, int max) {
+        List<User> userList = userDao.list(offset, max);
+        int total = userDao.countAll();
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", userList);
+        result.put("total", total);
+        return result;
+    }
 }

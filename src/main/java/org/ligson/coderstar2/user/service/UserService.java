@@ -156,4 +156,5 @@ public interface UserService {
 
     public void initSuper();
 
+    public Map<String, Object> listUser(int offset, int max);
 }
