@@ -327,13 +327,13 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public T getById(String id) {
+    public T getById(long id) {
         // TODO Auto-generated method stub
         return (T) getCurrentSession().get(getGenericType(0), id);
     }
 
     @Override
-    public void updateProperty(String property, String propertyValue, String id) {
+    public void updateProperty(String property, String propertyValue, long id) {
         // TODO Auto-generated method stub
         String hql;
         if (propertyValue instanceof String) {

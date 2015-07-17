@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class IndexController {
     }
 
     @RequestMapping("/register")
-    public String register(@RequestParam(value = "nickName", required = false) String nickName, @RequestParam(value = "cellphone") String cellphone, @RequestParam(value = "email", required = false) String email, HttpServletRequest request) {
+    public String register(@RequestParam(value = "nickName", required = false) String nickName, @RequestParam(value = "cellphone",required = false) String cellphone, @RequestParam(value = "email", required = false) String email, HttpServletRequest request) {
         if (nickName != null) {
             request.setAttribute("nickName", nickName);
         }
@@ -81,11 +82,23 @@ public class IndexController {
 
     @RequestMapping("/saveUser")
     public String saveUser(@RequestParam(value = "nickName") String nickName, @RequestParam(value = "cellphone") String cellphone, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email, HttpServletRequest request) {
-        return "login";
+        Map<String, Object> result = userService.register(email,nickName,cellphone,password);
+        boolean success = (boolean) result.get("success");
+        if (success) {
+            return "redirect:/index/login";
+        } else {
+            request.setAttribute("nickName", nickName);
+            request.setAttribute("cellphone", cellphone);
+            request.setAttribute("email", email);
+            request.setAttribute("password", password);
+            return "redirect:/index/register";
+        }
     }
 
     @RequestMapping("/logout")
-    public String logout() {
+    public String logout(HttpServletRequest request) {
+        Map<String, Object> result = userService.logout(request);
+        boolean success = (boolean) result.get("success");
         return "redirect:/index/index";
     }
 

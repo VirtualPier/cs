@@ -5,6 +5,7 @@ import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    public Map register(String email, String nickName, String cellphone, String password);
+    public Map<String,Object> register(String email, String nickName, String cellphone, String password);
 
     /***
      * 新增用户
@@ -80,10 +81,10 @@ public interface UserService {
     /***
      * 退出
      *
-     * @param params
+     * @param
      * @return
      */
-    public Map logout(Map params);
+    public Map<String,Object> logout(HttpServletRequest request);
 
     /***
      * 修改头像
@@ -101,7 +102,7 @@ public interface UserService {
      * @param new_password
      * @return
      */
-    public Map resetPassword(long userId, String old_password, String new_password);
+    public Map resetPassword(User adminUser,long userId, String old_password, String new_password);
 
     /***
      * 关于用户更多的问题
@@ -157,4 +158,6 @@ public interface UserService {
     public void initSuper();
 
     public Map<String, Object> listUser(int offset, int max);
+
+    public Map<String,Object> modifyUserState(long[] ids, int state);
 }

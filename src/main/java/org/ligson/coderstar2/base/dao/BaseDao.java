@@ -13,9 +13,9 @@ public interface BaseDao<T> {
 
     public void update(T t);
 
-    public void updateProperty(String property, String propertyValue, String id);
+    public void updateProperty(String property, String propertyValue, long id);
 
-    public T getById(String id);
+    public T getById(long id);
 
     public T findBy(String propertyName, Object propertyValue);
 

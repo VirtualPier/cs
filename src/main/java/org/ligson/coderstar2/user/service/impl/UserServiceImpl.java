@@ -12,6 +12,7 @@ import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map login(String name, String password) {
+    public Map<String,Object> login(String name, String password) {
         //相当于java的map定义
         Map<String, Object> result = new HashMap<>();
         EmailValidator validator = EmailValidator.getInstance();
@@ -61,8 +62,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map register(String email, String nickName, String cellphone, String password) {
-        return null;
+    public Map<String,Object> register(String email, String nickName, String cellphone, String password) {
+        Map<String, Object> result = new HashMap<>();
+        User user = new User();
+        user.setCellphone(cellphone);
+        //对密码进行加密
+        user.setPassword(PasswordCodec.encode(password));
+        user.setNickName(nickName);
+        user.setEmail(email);
+        //验证是否保存成功
+        userDao.saveOrUpdate(user);
+        result.put("success", true);
+        result.put("user", user);
+        return result;
     }
 
     @Override
@@ -97,8 +109,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map logout(Map params) {
-        return null;
+    public Map<String,Object> logout(HttpServletRequest request) {
+        request.getSession().setAttribute("user", null);
+        request.getSession().invalidate();
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", true);
+        return result;
     }
 
     @Override
@@ -107,9 +123,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map resetPassword(long userId, String old_password, String new_password) {
-        return null;
+    public Map resetPassword(User user,long userId, String old_password, String new_password) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        User resetUser=null;
+        if(user.getRole()==User.ROLE_SUPER||user.getRole()==User.ROLE_MANAGER){
+            resetUser = userDao.getById(userId);
+        }else if(user.getId()==userId){
+            List<String> props = new ArrayList<>();
+            List<Object> propValues = new ArrayList<>();
+            props.add("id");
+            props.add("password");
+            propValues.add(user.getId());
+            propValues.add(old_password);
+            resetUser=userDao.findByAnd(props,propValues);
+        }
+        if(resetUser!=null) {
+            resetUser.setPassword(PasswordCodec.encode(new_password));
+            userDao.saveOrUpdate(resetUser);
+            result.put("success",true);
+        }else{
+            result.put("success",false);
+            result.put("isExsit",true);
+        }
+        return result;
     }
+
 
     @Override
     public List<Question> myMoreQuestion(User creator, int offset, int max, String actionname) {
@@ -164,6 +202,18 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> result = new HashMap<>();
         result.put("rows", userList);
         result.put("total", total);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> modifyUserState(long[] ids, int state) {
+        for (int i = 0; i < ids.length; i++) {
+            User user =userDao.getById(ids[i]);
+            user.setState(state);
+            userDao.saveOrUpdate(user);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
         return result;
     }
 }
