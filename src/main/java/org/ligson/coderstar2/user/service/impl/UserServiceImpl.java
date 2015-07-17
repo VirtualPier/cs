@@ -1,5 +1,9 @@
 package org.ligson.coderstar2.user.service.impl;
 
+import com.boful.common.codec.utils.PasswordCodec;
+import com.boful.common.date.utils.DateUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.ligson.coderstar2.pay.domains.TradeRecord;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.user.dao.UserDao;
@@ -7,8 +11,7 @@ import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -26,7 +29,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map login(String name, String password) {
-        return null;
+        //相当于java的map定义
+        Map<String, Object> result = new HashMap<>();
+        EmailValidator validator = EmailValidator.getInstance();
+
+        User user = null;
+        List<String> props = new ArrayList<>();
+        List<Object> propValues = new ArrayList<>();
+        if (validator.isValid(name)) {
+            props.add("email");
+        } else {
+            props.add("cellphone");
+        }
+        props.add("password");
+        propValues.add(name);
+        props.add(PasswordCodec.encode(password));
+        user = userDao.findByAnd(props, propValues);
+        if (user != null) {
+            user.setLastLoginDate(DateUtils.format());
+            userDao.saveOrUpdate(user);
+            result.put("success", true);
+            result.put("user", user);
+        } else {
+            result.put("success", false);
+            result.put("msg", "用户账户不正确或者密码错误!");
+        }
+
+        return result;
     }
 
     @Override

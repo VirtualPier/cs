@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.controllers;
 
+import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,9 +47,19 @@ public class IndexController {
         return "index/login";
     }
 
-    @RequestMapping("/login")
-    public String checkLogin(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
-        return "redirect:/index/index";
+    @RequestMapping("/checkLogin")
+    public String checkLogin(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password, HttpServletRequest request) {
+        Map<String, Object> result = userService.login(name, password);
+        boolean success = (boolean) result.get("success");
+        if (success) {
+            User user = (User) result.get("user");
+            request.getSession().setAttribute("user", user);
+            return "redirect:/index/index";
+        } else {
+            String msg = (String) result.get("msg");
+            return "redirect:/index/login?name" + name + "&msg=" + msg;
+        }
+
     }
 
     @RequestMapping("/register")
@@ -65,7 +76,7 @@ public class IndexController {
         return "index/register";
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/saveUser")
     public String saveUser(@RequestParam(value = "nickName") String nickName, @RequestParam(value = "cellphone") String cellphone, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email, HttpServletRequest request) {
         return "login";
     }
