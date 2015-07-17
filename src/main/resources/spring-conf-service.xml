@@ -12,5 +12,17 @@
     <bean id="userService" name="userService" class="org.ligson.coderstar2.user.service.impl.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
+    <bean id="questionService" name="questionService"
+          class="org.ligson.coderstar2.question.service.impl.QuestionServiceImpl">
+        <property name="questionDao" ref="questionDao"/>
+    </bean>
+    <bean id="questionAskService" name="questionAskService"
+          class="org.ligson.coderstar2.question.ask.service.impl.QuestionAskServiceImpl">
+        <property name="askDao" ref="askDao"/>
+    </bean>
+    <bean id="categoryService" name="categoryService"
+          class="org.ligson.coderstar2.system.category.service.impl.CategoryServiceImpl">
+        <property name="categoryDao" ref="categoryDao"/>
+    </bean>
 
 </beans>

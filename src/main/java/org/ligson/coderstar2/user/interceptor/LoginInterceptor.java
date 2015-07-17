@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.user.interceptor;
 
 import org.ligson.coderstar2.controllers.AdminController;
+import org.ligson.coderstar2.question.controllers.QuestionController;
 import org.ligson.coderstar2.user.admin.controllers.UserMgrController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,10 +20,10 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Method method = handlerMethod.getMethod();
+            String methodName = method.getName();
             Object bean = handlerMethod.getBean();
             if (bean instanceof AdminController) {
-                Method method = handlerMethod.getMethod();
-                String methodName = method.getName();
                 String[] uncheckAction = new String[]{"login", "checkLogin"};
                 boolean isExsit = false;
                 for (String actionName : uncheckAction) {
@@ -39,16 +40,38 @@ public class LoginInterceptor implements HandlerInterceptor {
             if (bean instanceof UserMgrController) {
                 return adminLoginCheck(request, response);
             }
+
+            if (bean instanceof QuestionController) {
+                String[] uncheckAction = new String[]{"index", "view"};
+                boolean isExsit = false;
+                for (String actionName : uncheckAction) {
+                    if (actionName.equals(methodName)) {
+                        isExsit = true;
+                        break;
+                    }
+                }
+                if (!isExsit) {
+                    return userLoginCheck(request, response);
+                }
+            }
         }
         return true;
     }
 
     private boolean adminLoginCheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object object = request.getSession().getAttribute("adminUser");
+        return loginCheck(request, response, "adminUser", "/admin/login");
+    }
+
+    private boolean userLoginCheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return loginCheck(request, response, "user", "/index/index");
+    }
+
+    private boolean loginCheck(HttpServletRequest request, HttpServletResponse response, String sessionAttr, String errorUrl) throws Exception {
+        Object object = request.getSession().getAttribute(sessionAttr);
         if (object == null) {
             request.setAttribute("success", false);
             request.setAttribute("msg", "请登录!");
-            request.getRequestDispatcher("/admin/login").forward(request, response);
+            request.getRequestDispatcher(errorUrl).forward(request, response);
             return false;
         } else {
             return true;
