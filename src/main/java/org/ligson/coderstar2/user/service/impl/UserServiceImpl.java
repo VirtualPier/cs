@@ -66,8 +66,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> addUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce) {
-        return null;
+    public Map<String, Object> addUser(String nickName, String cellphone, String password, int state, int role, String birth, String email, int sex, String qq, String web, String introduce) {
+        User user = new User();
+        user.setNickName(nickName);
+        user.setCellphone(cellphone);
+        user.setPassword(PasswordCodec.encode(password));
+        user.setEmail(email);
+        user.setWeb(web);
+        user.setSex(sex);
+        user.setQq(qq);
+        user.setState(state);
+        user.setRole(role);
+        user.setBirth(birth);
+        user.setIntroduce(introduce);
+        userDao.saveOrUpdate(user);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", true);
+        result.put("user", user);
+        return result;
     }
 
     @Override
@@ -131,7 +147,7 @@ public class UserServiceImpl implements UserService {
             int state = User.STATE_NORMAL;
             int role = User.ROLE_SUPER;
             int sex = User.SEX_FEMALE;
-            Map<String, Object> result = addUser(nickName, cellphone, null, state, role, null, email, sex, null, null, null);
+            Map<String, Object> result = addUser(nickName, cellphone, password, state, role, null, email, sex, null, null, null);
             boolean success = (boolean) result.get("success");
             if (success) {
                 logger.info("超级管理员初始化成功！手机：1383838521，email：admin@admin.com,密码:password");
