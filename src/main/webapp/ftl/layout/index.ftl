@@ -13,7 +13,7 @@
     <script type="text/javascript" src="${basePath}js/lib/jquery.cookie.js"></script>
     <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
     <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-select/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-select/css/bootstrap-select.min.css">
     <script type="text/javascript" src="${basePath}js/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
     <!----百度统计---->
     <script type="text/javascript" src="${basePath}js/coderstar/front/baidustatistics.js"></script>
@@ -43,27 +43,31 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class=active>
+            <#if springMacroRequestContext.requestUri?contains("/question")>
+                <li class="active">
                     <a href="/question/index">问答</a>
                 </li>
-                <li class=active>
+            <#else >
+                <li>
+                    <a href="/question/index">问答</a>
+                </li>
+            </#if>
+            <#if springMacroRequestContext.requestUri?contains("/question")>
+                <li class="active">
                     <a href="/article/index">文章</a>
                 </li>
+            <#else >
+                <li>
+                    <a href="/article/index">文章</a>
+                </li>
+            </#if>
+
             </ul>
             <form action="/index/search" class="navbar-form form-inline navbar-left" role="search">
                 <div class="form-group">
                     <select class="form-control selectpicker" name="searchType" data-style="btn-inverse">
-                    <#if springMacroRequestContext.requestUri?contains("/question")>
-                        <option value="1" selected>问答</option>
-                    <#else >
                         <option value="1">问答</option>
-                    </#if>
-
-                    <#if springMacroRequestContext.requestUri?contains("/article")>
-                        <option value="2" selected>文章</option>
-                    <#else >
                         <option value="2">文章</option>
-                    </#if>
                     </select>
                 </div>
 
