@@ -12,4 +12,8 @@ public interface PayService {
     public Map recharge(User currentUser, double money);
 
     public Map trade(User currentUser, int tradeType, long tradeObjId, double money);
+
+    public Map<String, Object> payOrderList(int offset, int max);
+
+    public Map<String, Object> withdrawList(int offset, int max);
 }

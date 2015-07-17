@@ -29,4 +29,10 @@
         <property name="articleDao" ref="articleDao"/>
     </bean>
 
+    <bean id="payService" name="payService"
+          class="org.ligson.coderstar2.pay.service.impl.PayServiceImpl">
+        <property name="withdrawDao" ref="withdrawDao"/>
+        <property name="payOrderDao" ref="payOrderDao"/>
+    </bean>
+
 </beans>
