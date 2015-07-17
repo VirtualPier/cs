@@ -106,7 +106,7 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/*"/>
+            <mvc:mapping path="/**"/>
             <bean class="org.ligson.coderstar2.user.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

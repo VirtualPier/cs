@@ -25,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             String methodName = method.getName();
             Object bean = handlerMethod.getBean();
             if (bean instanceof AdminController) {
-                String[] uncheckAction = new String[]{"login", "checkLogin"};
+                String[] uncheckAction = new String[]{"index", "login", "checkLogin"};
                 boolean isExsit = false;
                 for (String actionName : uncheckAction) {
                     if (actionName.equals(methodName)) {
@@ -63,7 +63,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
 
     private boolean adminLoginCheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return loginCheck(request, response, "adminUser", "/admin/login");
+        return loginCheck(request, response, "adminUser", "/admin/index");
     }
 
     private boolean userLoginCheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
