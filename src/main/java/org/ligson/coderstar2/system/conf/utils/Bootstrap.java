@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.system.conf.utils;
 
 import org.apache.log4j.Logger;
+import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.File;
@@ -12,6 +13,15 @@ import java.io.File;
 public class Bootstrap implements InitializingBean {
     private static Logger logger = Logger.getLogger(Bootstrap.class);
     private static File webRoot = null;
+    private UserService userService;
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public void setWebRootPath() {
         String u = this.getClass().getResource("/").getPath();
@@ -19,10 +29,17 @@ public class Bootstrap implements InitializingBean {
         webRoot = file;
     }
 
+    public void initSuper(){
+        userService.initSuper();
+    }
     @Override
     public void afterPropertiesSet() throws Exception {
         setWebRootPath();
+
+
+        initSuper();
         logger.info("系统启动!");
         logger.info("webRoot" + webRoot.getAbsolutePath());
+
     }
 }

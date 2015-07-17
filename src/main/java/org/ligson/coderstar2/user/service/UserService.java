@@ -154,4 +154,6 @@ public interface UserService {
     public List<Question> myReply(User creator, int max, int offset);
 
 
+    public void initSuper();
+
 }
