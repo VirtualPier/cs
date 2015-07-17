@@ -5,6 +5,7 @@ import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,7 +49,7 @@ public class IndexController {
     }
 
     @RequestMapping("/checkLogin")
-    public String checkLogin(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password, HttpServletRequest request) {
+    public String checkLogin(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password, HttpServletRequest request, Model model) {
         Map<String, Object> result = userService.login(name, password);
         boolean success = (boolean) result.get("success");
         if (success) {
@@ -57,7 +58,9 @@ public class IndexController {
             return "redirect:/index/index";
         } else {
             String msg = (String) result.get("msg");
-            return "redirect:/index/login?name" + name + "&msg=" + msg;
+            model.addAttribute("msg", msg);
+            model.addAttribute("name", name);
+            return "redirect:/index/login";
         }
 
     }

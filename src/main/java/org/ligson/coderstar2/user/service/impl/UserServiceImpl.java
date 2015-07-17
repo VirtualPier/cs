@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         }
         props.add("password");
         propValues.add(name);
-        props.add(PasswordCodec.encode(password));
+        propValues.add(PasswordCodec.encode(password));
         user = userDao.findByAnd(props, propValues);
         if (user != null) {
             user.setLastLoginDate(DateUtils.format());
