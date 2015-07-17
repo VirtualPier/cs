@@ -6,6 +6,8 @@ import org.ligson.coderstar2.question.question.dao.QuestionDao;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.user.domains.User;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,5 +97,15 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Map searchRelatedQuestion(int max, int offset, long questionId) {
         return null;
+    }
+
+    @Override
+    public Map<String, Object> questionList(int offset, int max) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        List<Question> questions = questionDao.list(offset, max);
+        int total = questionDao.countAll();
+        result.put("rows", questions);
+        result.put("total", total);
+        return result;
     }
 }

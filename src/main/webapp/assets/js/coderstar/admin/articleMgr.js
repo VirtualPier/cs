@@ -22,7 +22,11 @@ $(function () {
             {field: 'attentionNum', title: '关注数', width: 25},
             {field: 'replyNum', title: '回复数', width: 25},
             {field: 'viewNum', title: '浏览数', width: 25},
-            {field: 'createDate', title: '创建时间', width: 50}
+            {
+                field: 'createDate', title: '创建时间', width: 50, formatter: function (value) {
+                return Date.convertTxtFormat(value);
+            }
+            }
         ]],
         nowrap: false,
         toolbar: [{

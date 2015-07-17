@@ -9,4 +9,5 @@
 
 <link type="text/css" rel="stylesheet" href="${basePath}css/admin/adminBase.css"/>
 <script type="text/javascript" src="${basePath}js/coderstar/common/baseurl.js"></script>
+<script type="text/javascript" src="${basePath}js/coderstar/common/date.js"></script>
 <script type="text/javascript" src="${basePath}js/coderstar/admin/admin-base.js"></script>

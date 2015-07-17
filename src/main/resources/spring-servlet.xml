@@ -105,6 +105,10 @@
     </bean>
 
     <mvc:interceptors>
+        <!-- 开启openSessionInView -->
+        <bean class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
+            <property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <bean class="org.ligson.coderstar2.user.interceptor.LoginInterceptor"/>
@@ -140,5 +144,6 @@
     <context:component-scan base-package="org.ligson.coderstar2.user.admin.controllers"/>
     <context:component-scan base-package="org.ligson.coderstar2.question.controllers"/>
     <context:component-scan base-package="org.ligson.coderstar2.question.admin.controllers"/>
+    <context:component-scan base-package="org.ligson.coderstar2.article.admin.controllers"/>
 
 </beans>

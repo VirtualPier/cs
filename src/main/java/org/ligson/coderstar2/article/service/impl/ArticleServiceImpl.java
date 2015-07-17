@@ -1,11 +1,13 @@
 package org.ligson.coderstar2.article.service.impl;
 
+import org.ligson.coderstar2.article.article.dao.ArticleDao;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,16 @@ import java.util.Map;
  * 文章服务
  */
 public class ArticleServiceImpl implements ArticleService {
+    private ArticleDao articleDao;
+
+    public ArticleDao getArticleDao() {
+        return articleDao;
+    }
+
+    public void setArticleDao(ArticleDao articleDao) {
+        this.articleDao = articleDao;
+    }
+
     @Override
     public Map attentionArticle(User user, Article article) {
         return null;
@@ -77,5 +89,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Map supportRemark(User currentUser, Remark remark, boolean isSupport) {
         return null;
+    }
+
+    @Override
+    public Map<String, Object> list(int offset, int max) {
+        Map<String, Object> result = new HashMap<>();
+        int total = articleDao.countAll();
+        List<Article> articles = articleDao.list(offset, max);
+        result.put("total", total);
+        result.put("rows", articles);
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.user.interceptor;
 
+import org.ligson.coderstar2.article.admin.controllers.ArticleMgrController;
 import org.ligson.coderstar2.controllers.AdminController;
 import org.ligson.coderstar2.question.admin.controllers.QuestionMgrController;
 import org.ligson.coderstar2.question.controllers.QuestionController;
@@ -56,6 +57,9 @@ public class LoginInterceptor implements HandlerInterceptor {
                 }
             }
             if (bean instanceof QuestionMgrController) {
+                return adminLoginCheck(request, response);
+            }
+            if (bean instanceof ArticleMgrController) {
                 return adminLoginCheck(request, response);
             }
         }

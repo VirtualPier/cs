@@ -24,5 +24,9 @@
           class="org.ligson.coderstar2.system.category.service.impl.CategoryServiceImpl">
         <property name="categoryDao" ref="categoryDao"/>
     </bean>
+    <bean id="articleService" name="articleService"
+          class="org.ligson.coderstar2.article.service.impl.ArticleServiceImpl">
+        <property name="articleDao" ref="articleDao"/>
+    </bean>
 
 </beans>

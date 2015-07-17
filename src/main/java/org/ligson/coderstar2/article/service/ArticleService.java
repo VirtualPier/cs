@@ -147,4 +147,5 @@ public interface ArticleService {
     public Map supportRemark(User currentUser, Remark remark, boolean isSupport);
 
 
+    public Map<String, Object> list(int offset, int max);
 }

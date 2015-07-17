@@ -1,10 +1,12 @@
 package org.ligson.coderstar2.question.domains;
 
 import com.boful.common.date.utils.DateUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -13,7 +15,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "question")
-public class Question {
+public class Question implements Serializable {
     private long id;
     private String title;
     private String description;
@@ -70,6 +72,7 @@ public class Question {
         this.createDate = createDate;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<Ask> getAsks() {
         return asks;
@@ -79,6 +82,7 @@ public class Question {
         this.asks = asks;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<QuestionTag> getTags() {
         return tags;
