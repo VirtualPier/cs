@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.user.interceptor;
 
 import org.ligson.coderstar2.controllers.AdminController;
+import org.ligson.coderstar2.question.admin.controllers.QuestionMgrController;
 import org.ligson.coderstar2.question.controllers.QuestionController;
 import org.ligson.coderstar2.user.admin.controllers.UserMgrController;
 import org.springframework.web.method.HandlerMethod;
@@ -53,6 +54,9 @@ public class LoginInterceptor implements HandlerInterceptor {
                 if (!isExsit) {
                     return userLoginCheck(request, response);
                 }
+            }
+            if (bean instanceof QuestionMgrController) {
+                return adminLoginCheck(request, response);
             }
         }
         return true;
