@@ -27,6 +27,7 @@ public class Article {
     //关注量
     private long attentionNum = 0;
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
