@@ -54,6 +54,10 @@ public class QuestionController {
         int total = (int) map.get("total");
         List<Question> questionList = (List<Question>) map.get("questionList");
         request.setAttribute("total", total);
+        request.setAttribute("offset", offset);
+        request.setAttribute("hasDeal", ((Boolean) hasDeal).toString());
+        request.setAttribute("sort", sort);
+        request.setAttribute("max", max);
         request.setAttribute("questionList", questionList);
         List<Category> categoryList = categoryService.list();
         request.setAttribute("categoryList", categoryList);

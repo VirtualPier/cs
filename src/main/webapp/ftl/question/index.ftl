@@ -1,4 +1,4 @@
-<#import "../includes/pager.ftl" as pager/>
+<#import "includes/pager.ftl" as pager/>
 <@override name="title">问题首页</@override>
 <@override name="header">
 </@override>
@@ -63,7 +63,7 @@
 
             <div class="mod-footer">
                 <div class="page-control pagination pull-right">
-                    <@pager.pagination total=total offset=offset max=10  url="${basePath}question/index?hasDeal=${hasDeal}&sort=${sort}"/>
+                    <@pager.pagination total=total offset=offset max=max  url="${basePath}question/index?hasDeal=${hasDeal}&sort=${sort}"/>
                 </div>
             </div>
         </div>

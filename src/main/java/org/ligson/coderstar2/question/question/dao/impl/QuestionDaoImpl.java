@@ -29,7 +29,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
 
     @Override
     public int countByRightAskIsNullOrderBy(boolean hasDeal, String sort) {
-        StringBuilder sb = new StringBuilder("select count(*) from Question q where ");
+        StringBuilder sb = new StringBuilder("select count(*) from Question q where q.state=" + Question.STATE_PUBLISH + " and ");
         if (hasDeal) {
             sb.append(" q.rightAsk is not null ");
         } else {
