@@ -35,14 +35,27 @@ public class QuestionMgrController {
     }
 
     @RequestMapping("deleteQuestion")
-    public Map<String, Object> deleteQuestion(@RequestParam("id") String id) {
-        String[] idArray = id.split(",");
-        long ids[] = new long[idArray.length];
-        for (int i = 0; i < idArray.length; i++) {
-            ids[i] = Long.parseLong(idArray[i]);
+    @ResponseBody
+    public Map<String,Object> deleteQuestion(@RequestParam("ids") String ids){
+        String[] sIds=ids.split(",");
+        long[] lIds = new long[sIds.length];
+        for (int i=0;i<sIds.length;i++){
+            lIds[i] =Long.parseLong(sIds[i]);
         }
-        return questionService.deleteQuestion(ids);
+        return questionService.deleteQuestion(lIds);
     }
+
+    /*@RequestParam("/editQuestion")
+    @ResponseBody
+    public Map<String,Object> editQuestion(@RequestParam("ids") String ids){
+        String[] sIds=ids.split(",");
+        long[] lIds = new long[sIds.length];
+        for (int i=0;i<sIds.length;i++){
+            lIds[i] =Long.parseLong(sIds[i]);
+        }
+        Map<String, Object> result=questionService.deleteQuestion(lIds);
+        return result;
+    }*/
 
     @RequestMapping("/categoryMgr")
     public String categoryMgr() {

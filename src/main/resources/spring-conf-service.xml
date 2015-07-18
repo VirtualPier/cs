@@ -15,6 +15,11 @@
     <bean id="questionService" name="questionService"
           class="org.ligson.coderstar2.question.service.impl.QuestionServiceImpl">
         <property name="questionDao" ref="questionDao"/>
+        <property name="questionTagDao" ref="questionTagDao"/>
+        <property name="questionCategoryDao" ref="questionCategoryDao"/>
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="askDao" ref="askDao"/>
+        <property name="rateDao" ref="rateDao"/>
     </bean>
     <bean id="questionAskService" name="questionAskService"
           class="org.ligson.coderstar2.question.ask.service.impl.QuestionAskServiceImpl">
