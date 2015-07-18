@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.system.category.service.impl;
 
+import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
@@ -23,5 +24,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> list() {
         return categoryDao.list(0, 100);
+    }
+
+    @Override
+    public List<Category> findQuestionCategoryList(Question question) {
+        return categoryDao.findAllByQuestion(question);
     }
 }

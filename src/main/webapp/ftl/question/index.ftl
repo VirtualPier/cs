@@ -33,7 +33,7 @@
 
                             <div class="cs-question-content">
                                 <h4>
-                                    <a href="/question/view?${question.id}" target="_blank">${question.title}</a>
+                                    <a href="/question/view?id=${question.id}" target="_blank">${question.title}</a>
                                 </h4>
 
                                 <p>

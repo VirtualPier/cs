@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.question.service.impl;
 
 import org.ligson.coderstar2.question.ask.dao.AskDao;
+import org.ligson.coderstar2.question.attentionquestion.dao.AttentionQuestionDao;
 import org.ligson.coderstar2.question.domains.*;
 import org.ligson.coderstar2.question.question.dao.QuestionDao;
 import org.ligson.coderstar2.question.questioncategory.dao.QuestionCategoryDao;
@@ -9,6 +10,8 @@ import org.ligson.coderstar2.question.rate.dao.RateDao;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.user.domains.User;
 
 import java.util.HashMap;
@@ -31,6 +34,29 @@ public class QuestionServiceImpl implements QuestionService {
     private AskDao askDao;
 
     private RateDao rateDao;
+
+    private AttentionQuestionDao attentionQuestionDao;
+    private SysTagDao sysTagDao;
+
+    public SysTagDao getSysTagDao() {
+        return sysTagDao;
+    }
+
+    public void setSysTagDao(SysTagDao sysTagDao) {
+        this.sysTagDao = sysTagDao;
+    }
+
+    public AskDao getAskDao() {
+        return askDao;
+    }
+
+    public AttentionQuestionDao getAttentionQuestionDao() {
+        return attentionQuestionDao;
+    }
+
+    public void setAttentionQuestionDao(AttentionQuestionDao attentionQuestionDao) {
+        this.attentionQuestionDao = attentionQuestionDao;
+    }
 
     public QuestionDao getQuestionDao() {
         return questionDao;
@@ -116,7 +142,7 @@ public class QuestionServiceImpl implements QuestionService {
         Map<String, Object> result = new HashMap<>();
         if (ids.length > 0) {
             for (int i = 0; i < ids.length; i++) {
-                Question question = questionDao.findBy("id",ids[i]);
+                Question question = questionDao.findBy("id", ids[i]);
                 if (question != null) {
                     if (deleteTagByQuestion(question)) {
                         if (deleteCategoryByQuestion(question) && deleteAskByQuestion(question)) {
@@ -156,7 +182,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public boolean deleteCategoryByQuestion(Question question) {
         boolean isFlag = true;
-        if (question!=null) {
+        if (question != null) {
             List<Category> list = categoryDao.findAllByQuestion(question);
             if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
@@ -172,10 +198,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public boolean deleteAskByQuestion(Question question) {
         boolean isFlag = true;
-        if (question!=null) {
-            List<Ask> list =askDao.findAllByQuestion(question);
-            if (list!=null && list.size() > 0) {
-                for(int i=0;i<list.size();i++){
+        if (question != null) {
+            List<Ask> list = askDao.findAllByQuestion(question);
+            if (list != null && list.size() > 0) {
+                for (int i = 0; i < list.size(); i++) {
                     if (deleteRateByAsk(list.get(i))) {
                         try {
                             askDao.delete(list.get(i));
@@ -253,10 +279,25 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
 
-
-
     @Override
     public Question findQuestionById(long id) {
         return questionDao.getById(id);
+    }
+
+    @Override
+    public void viewQuestion(Question question) {
+        question.setViewNum(question.getViewNum() + 1);
+        questionDao.saveOrUpdate(question);
+    }
+
+    @Override
+    public boolean isAttentionQuestion(User user, Question question) {
+        int count = attentionQuestionDao.countByUserAndQuestion(user, question);
+        return count > 0;
+    }
+
+    @Override
+    public List<SysTag> findQuestionTagList(Question question) {
+        return sysTagDao.findAllByQuestion(question);
     }
 }

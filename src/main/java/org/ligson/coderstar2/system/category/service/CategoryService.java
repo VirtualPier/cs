@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.system.category.service;
 
+import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.Category;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
 public interface CategoryService {
     public List<Category> list();
 
+    public List<Category> findQuestionCategoryList(Question question);
 }

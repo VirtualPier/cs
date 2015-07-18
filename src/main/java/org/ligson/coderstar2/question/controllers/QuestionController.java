@@ -5,6 +5,7 @@ import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -95,6 +96,19 @@ public class QuestionController {
     @RequestMapping("/view")
     public String view(@RequestParam("id") long id, HttpServletRequest request) {
         Question question = questionService.findQuestionById(id);
+        List<SysTag> tags = questionService.findQuestionTagList(question);
+        List<Category> categoryList = categoryService.findQuestionCategoryList(question);
+        questionService.viewQuestion(question);
+        Object object = request.getSession().getAttribute("user");
+        boolean isAttention = false;
+        if (object != null) {
+            User user = (User) object;
+            isAttention = questionService.isAttentionQuestion(user, question);
+        }
+        request.setAttribute("question", question);
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("isAttention", isAttention);
+        request.setAttribute("tags", tags);
         return "/question/view";
     }
 

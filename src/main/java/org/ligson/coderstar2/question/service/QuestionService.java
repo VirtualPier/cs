@@ -2,8 +2,10 @@ package org.ligson.coderstar2.question.service;
 
 import org.ligson.coderstar2.question.domains.Ask;
 import org.ligson.coderstar2.question.domains.Question;
+import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -144,4 +146,10 @@ public interface QuestionService {
     public Map<String, Object> searchQuestion(boolean hasDeal, String sort, int max, int offset);
 
     public Question findQuestionById(long id);
+
+    public void viewQuestion(Question question);
+
+    public boolean isAttentionQuestion(User user, Question question);
+
+    public List<SysTag> findQuestionTagList(Question question);
 }
