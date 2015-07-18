@@ -254,4 +254,9 @@ public class QuestionServiceImpl implements QuestionService {
 
 
 
+
+    @Override
+    public Question findQuestionById(long id) {
+        return questionDao.getById(id);
+    }
 }

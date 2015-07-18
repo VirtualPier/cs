@@ -91,4 +91,12 @@ public class QuestionController {
             return "redirect:/question/create";
         }
     }
+
+    @RequestMapping("/view")
+    public String view(@RequestParam("id") long id, HttpServletRequest request) {
+        Question question = questionService.findQuestionById(id);
+        return "/question/view";
+    }
+
+
 }

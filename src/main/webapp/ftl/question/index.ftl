@@ -7,19 +7,20 @@
 <div class="row">
     <div class="col-sm-12 col-md-9 cs-main-content">
         <ul class="nav nav-tabs cs-nav-tabs  hidden-xs">
-            <li>
+            <li ${(hasDeal=="false")?string("class='active'","")}>
+
                 <a href="/question/index?hasDeal=false">待解决</a>
             </li>
-            <li>
+            <li ${(hasDeal=="true")?string("class='active'","")}>
                 <a href="/question/index?hasDeal=true">已解决</a>
             </li>
-            <li>
+            <li ${(sort=="replyNum")?string("class='active'","")}>
                 <a href="/question/index?hasDeal=true&sort=replyNum">热门</a>
             </li>
-            <li>
+            <li ${(sort=="money")?string("class='active'","")}>
                 <a href="/question/index?hasDeal=false&sort=money">悬赏中</a>
             </li>
-            <li>
+            <li ${(sort=="createDate")?string("class='active'","")}>
                 <a href="/question/index?hasDeal=false&sort=createDate">最新提问</a>
             </li>
         </ul>

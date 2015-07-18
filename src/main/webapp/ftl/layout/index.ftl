@@ -52,7 +52,7 @@
                     <a href="/question/index">问答</a>
                 </li>
             </#if>
-            <#if springMacroRequestContext.requestUri?contains("/question")>
+            <#if springMacroRequestContext.requestUri?contains("/article")>
                 <li class="active">
                     <a href="/article/index">文章</a>
                 </li>

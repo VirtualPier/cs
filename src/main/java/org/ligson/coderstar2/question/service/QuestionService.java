@@ -142,4 +142,6 @@ public interface QuestionService {
     public Map<String, Object> questionList(int offset, int max);
 
     public Map<String, Object> searchQuestion(boolean hasDeal, String sort, int max, int offset);
+
+    public Question findQuestionById(long id);
 }
