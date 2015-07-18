@@ -25,43 +25,52 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map createQuestion(User user, String title, String description, String tags, long languageId, double money) {
+    public Map<String,Object> createQuestion(User user, String title, String description, String tags, long languageId, double money) {
         return null;
     }
 
     @Override
-    public Map createLanguage(Map params) {
+    public Map<String,Object> createLanguage(Map params) {
         return null;
     }
 
     @Override
-    public Map modifyLanguage(Map params) {
+    public Map<String,Object> modifyLanguage(Map params) {
         return null;
     }
 
     @Override
-    public Map deleteLanguage(Map params) {
+    public Map<String,Object> deleteLanguage(Map params) {
         return null;
     }
 
     @Override
-    public Map searchQuestion(String sort, String order, long offset, long max, String tagName, long languageId, String title) {
+    public Map<String,Object> searchQuestion(String sort, String order, long offset, long max, String tagName, long languageId, String title) {
         return null;
     }
 
     @Override
-    public Map saveAsk(long questionId, String content) {
+    public Map<String,Object> saveAsk(long questionId, String content) {
         return null;
     }
 
     @Override
-    public Map rateAsk(long askId, String upOrDown) {
+    public Map<String,Object> rateAsk(long askId, String upOrDown) {
         return null;
     }
 
     @Override
-    public Map deleteQuestion(String id) {
-        return null;
+    public Map<String,Object> deleteQuestion(long[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+            Question question = questionDao.getById(ids[i]);
+            deleteTagByQuestion(question);
+            deleteCategoryByQuestion(question);
+            deleteAskByQuestion(question);
+            questionDao.delete(question);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        return result;
     }
 
     @Override
@@ -70,7 +79,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public boolean deleteLanguageByQuestion(Question question) {
+    public boolean deleteCategoryByQuestion(Question question) {
         return false;
     }
 
@@ -85,17 +94,17 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map modifyDescription(long questionId, String description) {
+    public Map<String,Object> modifyDescription(long questionId, String description) {
         return null;
     }
 
     @Override
-    public Map attentionQuestion(User user, long questionId) {
+    public Map<String,Object> attentionQuestion(User user, long questionId) {
         return null;
     }
 
     @Override
-    public Map searchRelatedQuestion(int max, int offset, long questionId) {
+    public Map<String,Object> searchRelatedQuestion(int max, int offset, long questionId) {
         return null;
     }
 

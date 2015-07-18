@@ -17,7 +17,7 @@ public interface QuestionService {
      * @param languageId
      * @return
      */
-    public Map createQuestion(User user,String title,String description,String tags,long languageId,double money);
+    public Map<String,Object> createQuestion(User user,String title,String description,String tags,long languageId,double money);
 
 
     /***
@@ -25,21 +25,21 @@ public interface QuestionService {
      * @param params
      * @return
      */
-    public  Map createLanguage(Map params);
+    public Map<String,Object> createLanguage(Map params);
 
     /***
      * 修改分类
      * @param params
      * @return
      */
-    public Map modifyLanguage(Map params);
+    public Map<String,Object> modifyLanguage(Map params);
 
     /***
      * 删除分类
      * @param params
      * @return
      */
-    public Map deleteLanguage(Map params);
+    public Map<String,Object> deleteLanguage(Map params);
 
     /***
      * 搜索问题
@@ -48,7 +48,7 @@ public interface QuestionService {
      * @param offset
      * @return
      */
-    public Map searchQuestion(String sort,String order,long offset,long max,String tagName,long languageId,String title);
+    public Map<String,Object> searchQuestion(String sort,String order,long offset,long max,String tagName,long languageId,String title);
 
     /***
      * 保存问题回复
@@ -64,14 +64,14 @@ public interface QuestionService {
      * @param upOrDown
      * @return
      */
-    public Map rateAsk(long askId,String upOrDown);
+    public Map<String,Object> rateAsk(long askId,String upOrDown);
 
     /***
      * 删除问题
-     * @param id or ids
+     * @param  ids
      * @return
      */
-    public  Map deleteQuestion(String id);
+    public  Map<String,Object> deleteQuestion(long[] ids);
 
     /***
      * 删除问题标签
@@ -85,7 +85,7 @@ public interface QuestionService {
      * @param question
      * @return
      */
-    public  boolean deleteLanguageByQuestion(Question question);
+    public  boolean deleteCategoryByQuestion(Question question);
 
     /***
      * 删除问题回复相关
@@ -107,7 +107,7 @@ public interface QuestionService {
      * @param description
      * @return
      */
-    public Map modifyDescription(long questionId,String description);
+    public Map<String,Object> modifyDescription(long questionId,String description);
 
     /***
      * 关注问题
@@ -116,7 +116,7 @@ public interface QuestionService {
      * @param questionId 问题id
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map attentionQuestion(User user, long questionId);
+    public Map<String,Object> attentionQuestion(User user, long questionId);
 
     /***
      *
@@ -125,7 +125,7 @@ public interface QuestionService {
      * @param questionId
      * @return
      */
-    public Map searchRelatedQuestion(int max,int offset,long questionId);
+    public Map<String,Object> searchRelatedQuestion(int max,int offset,long questionId);
 
     public Map<String, Object> questionList(int offset, int max);
 }

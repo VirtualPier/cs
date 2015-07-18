@@ -34,6 +34,11 @@ public class QuestionMgrController {
         return questionService.questionList(offset, max);
     }
 
+    @RequestMapping("deleteQuestion")
+    public Map<String,Object> deleteQuestion(@RequestParam("id") String id){
+        return questionService.deleteQuestion(id);
+    }
+
     @RequestMapping("/categoryMgr")
     public String categoryMgr() {
         return prefix + "categoryMgr";
