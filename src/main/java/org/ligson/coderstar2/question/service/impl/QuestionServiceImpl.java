@@ -143,7 +143,7 @@ public class QuestionServiceImpl implements QuestionService {
     public boolean deleteTagByQuestion(Question question) {
         boolean isFlag = true;
         if (question != null) {
-            List<QuestionTag> tagList = questionTagDao.findAllBy("question", question);
+            List<QuestionTag> tagList = questionTagDao.findAllByQuestion(question);
             if (tagList != null && tagList.size() > 0) {
                 for (int i = 0; i < tagList.size(); i++) {
                     questionTagDao.delete(tagList.get(i));
@@ -157,7 +157,7 @@ public class QuestionServiceImpl implements QuestionService {
     public boolean deleteCategoryByQuestion(Question question) {
         boolean isFlag = true;
         if (question!=null) {
-            List<Category> list = categoryDao.findAllBy("question", question);
+            List<Category> list = categoryDao.findAllByQuestion(question);
             if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
                     Category category = list.get(i);
@@ -173,7 +173,7 @@ public class QuestionServiceImpl implements QuestionService {
     public boolean deleteAskByQuestion(Question question) {
         boolean isFlag = true;
         if (question!=null) {
-            List<Ask> list =askDao.findAllBy("question", question);
+            List<Ask> list =askDao.findAllByQuestion(question);
             if (list!=null && list.size() > 0) {
                 for(int i=0;i<list.size();i++){
                     if (deleteRateByAsk(list.get(i))) {
@@ -193,7 +193,7 @@ public class QuestionServiceImpl implements QuestionService {
     public boolean deleteRateByAsk(Ask ask) {
         boolean isFlag = true;
         if (ask != null) {
-            List<Rate> list = rateDao.findAllBy("ask", ask);
+            List<Rate> list = rateDao.findAllByAsk(ask);
             if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
