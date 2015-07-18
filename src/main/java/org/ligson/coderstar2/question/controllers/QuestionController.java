@@ -4,13 +4,16 @@ import org.ligson.coderstar2.question.ask.service.QuestionAskService;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/17.
@@ -44,9 +47,31 @@ public class QuestionController {
         this.questionAskService = questionAskService;
     }
 
-    public String create(HttpServletRequest request) {
+    @RequestMapping("/create")
+    public String create(@RequestParam(value = "title", required = false) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = false) String categoryIds, HttpServletRequest request) {
         List<Category> categoryList = categoryService.list();
-        request.setAttribute("categoryList",categoryList);
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("title", title);
+        request.setAttribute("description", description);
+        request.setAttribute("tags", tags);
+        request.setAttribute("categoryIds", categoryIds);
         return "question/create";
+    }
+
+    @RequestMapping("/saveQuestion")
+    public String saveQuestion(@RequestParam(value = "title", required = true) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, @RequestParam(value = "money", required = false) double money, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        String[] categoryIdStringArray = categoryIds.split(",");
+        long[] categoryIdArray = new long[categoryIdStringArray.length];
+        for (int i = 0; i < categoryIdArray.length; i++) {
+            categoryIdArray[i] = Long.parseLong(categoryIdStringArray[i]);
+        }
+        Map result = questionService.createQuestion(user, title, description, tags, categoryIdArray, money);
+        boolean success = (boolean) result.get("success");
+        if (success) {
+            return "redirect:/index/index";
+        } else {
+            return "redirect:/question/create";
+        }
     }
 }

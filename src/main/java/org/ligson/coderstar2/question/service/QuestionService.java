@@ -14,10 +14,10 @@ public interface QuestionService {
     /***
      * 创建问题
      * @param title
-     * @param languageId
+     * @param categoryIds
      * @return
      */
-    public Map<String,Object> createQuestion(User user,String title,String description,String tags,long languageId,double money);
+    public Map<String,Object> createQuestion(User user,String title,String description,String tags,long[] categoryIds,double money);
 
 
     /***

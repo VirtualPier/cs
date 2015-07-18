@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.base.dao.impl;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class BaseDaoImpl<T> implements BaseDao<T> {
 
+    private static final Logger logger = Logger.getLogger(BaseDaoImpl.class);
     private SessionFactory sessionFactory;
 
     @Transactional("transactionManager")
@@ -127,7 +129,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
                     }
                 }
             }
-            System.out.println(hql);
+            logger.debug(hql);
             Query query = getCurrentSession().createQuery(hql);
             return (long) query.uniqueResult();
         } else {
@@ -218,7 +220,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
                     }
                 }
             }
-            System.out.println(hql);
+            logger.debug(hql);
             Query query = getCurrentSession().createQuery(hql);
             query.setFirstResult(0);
             query.setMaxResults(1);
@@ -260,7 +262,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
                     }
                 }
             }
-            System.out.println(hql);
+            logger.debug(hql);
             Query query = getCurrentSession().createQuery(hql);
             query.setFirstResult(offset);
             query.setMaxResults(max);
