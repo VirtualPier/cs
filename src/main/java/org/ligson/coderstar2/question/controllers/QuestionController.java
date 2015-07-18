@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.question.controllers;
 
 import org.ligson.coderstar2.question.ask.service.QuestionAskService;
+import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
@@ -45,6 +46,18 @@ public class QuestionController {
 
     public void setQuestionAskService(QuestionAskService questionAskService) {
         this.questionAskService = questionAskService;
+    }
+
+    @RequestMapping("/index")
+    public String index(@RequestParam(value = "hasDeal", defaultValue = "false", required = false) boolean hasDeal, @RequestParam(value = "sort", defaultValue = "money", required = false) String sort, @RequestParam(value = "max", defaultValue = "15", required = false) int max, @RequestParam(value = "offset", defaultValue = "0", required = false) int offset, HttpServletRequest request) {
+        Map<String, Object> map = questionService.searchQuestion(hasDeal, sort, max, offset);
+        int total = (int) map.get("total");
+        List<Question> questionList = (List<Question>) map.get("questionList");
+        request.setAttribute("total", total);
+        request.setAttribute("questionList", questionList);
+        List<Category> categoryList = categoryService.list();
+        request.setAttribute("categoryList", categoryList);
+        return "question/index";
     }
 
     @RequestMapping("/create")

@@ -117,4 +117,24 @@ public class QuestionServiceImpl implements QuestionService {
         result.put("total", total);
         return result;
     }
+
+    /***
+     * 前台搜索
+     *
+     * @param hasDeal 是否已解决
+     * @param sort    排序字段可是:createDate,viewNum,money,replyNum,attentionNum
+     * @param max     每页大小
+     * @param offset  开始位置
+     * @return 格式:[success:true/false,questionList:questionList,total:total]
+     */
+    @Override
+    public Map<String, Object> searchQuestion(boolean hasDeal, String sort, int max, int offset) {
+        Map<String, Object> result = new HashMap<>();
+        System.out.println(questionDao.getById(10));
+        List<Question> questionList = questionDao.findByRightAskIsNullOrderBy(hasDeal, sort, max, offset);
+        int total = questionDao.countByRightAskIsNullOrderBy(hasDeal, sort);
+        result.put("questionList", questionList);
+        result.put("total", total);
+        return result;
+    }
 }

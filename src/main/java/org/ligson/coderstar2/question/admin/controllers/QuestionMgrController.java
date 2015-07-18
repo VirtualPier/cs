@@ -35,8 +35,13 @@ public class QuestionMgrController {
     }
 
     @RequestMapping("deleteQuestion")
-    public Map<String,Object> deleteQuestion(@RequestParam("id") String id){
-        return questionService.deleteQuestion(id);
+    public Map<String, Object> deleteQuestion(@RequestParam("id") String id) {
+        String[] idArray = id.split(",");
+        long ids[] = new long[idArray.length];
+        for (int i = 0; i < idArray.length; i++) {
+            ids[i] = Long.parseLong(idArray[i]);
+        }
+        return questionService.deleteQuestion(ids);
     }
 
     @RequestMapping("/categoryMgr")

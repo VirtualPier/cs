@@ -73,7 +73,8 @@ public class Question implements Serializable {
     }
 
     @JsonIgnore
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
     public Set<Ask> getAsks() {
         return asks;
     }
@@ -120,7 +121,7 @@ public class Question implements Serializable {
         this.state = state;
     }
 
-    @Column(name = "replay_num", nullable = false)
+    @Column(name = "reply_num", nullable = false)
     public long getReplyNum() {
         return replyNum;
     }
@@ -147,8 +148,8 @@ public class Question implements Serializable {
         this.attentionNum = attentionNum;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "right_ask_id", referencedColumnName = "id", nullable = true)
+    @ManyToOne
+    @JoinColumn(name = "right_ask_id", nullable = true)
     public Ask getRightAsk() {
         return rightAsk;
     }
