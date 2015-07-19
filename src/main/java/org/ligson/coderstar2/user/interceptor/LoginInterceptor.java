@@ -71,7 +71,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
 
     private boolean userLoginCheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return loginCheck(request, response, "user", "/index/index");
+        return loginCheck(request, response, "user", "/index/nologin");
     }
 
     private boolean loginCheck(HttpServletRequest request, HttpServletResponse response, String sessionAttr, String errorUrl) throws Exception {

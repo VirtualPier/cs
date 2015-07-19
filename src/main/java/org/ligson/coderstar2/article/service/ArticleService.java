@@ -3,6 +3,7 @@ package org.ligson.coderstar2.article.service;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
@@ -148,4 +149,10 @@ public interface ArticleService {
 
 
     public Map<String, Object> list(int offset, int max);
+
+    public List<SysTag> hotsTag(int limit);
+
+    public List<List> hotAuthors(int day);
+
+    public Map<String,Object> findAllByCategoryIdAndTagIdOrderBy(long categoryId, long tagId, String order,int max,int offset);
 }

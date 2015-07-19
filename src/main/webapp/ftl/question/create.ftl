@@ -6,20 +6,20 @@
 <link rel="stylesheet" type="text/css" charset="UTF-8"
       href="${basePath}js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
 <script type="text/javascript" src="${basePath}js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
-<script type="text/javascript" src="${basePath}lib/bootstrap-validator/js/language/zh_CN.js"></script>
+<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/language/zh_CN.js"></script>
 
 <script type="text/javascript">
     var CKEDITOR_BASEPATH = "/js/lib/ckeditor/";
-    var maxMoney = ${session.user.balance};
+    var maxMoney = ${user.balance};
 </script>
 <script type="text/javascript" src="${basePath}js/lib/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="${basePath}js/coderstar/common/ckconfig.js"></script>
-<script type="text/javascript" src="${basePath}js/front/createQuestion.js"></script>
+<script type="text/javascript" src="${basePath}js/coderstar/front/createQuestion.js"></script>
 </@override>
 <@override name="body">
 <div class="col-sm-12 col-md-9 cs-main-content">
 
-    <form action="/question/saveQuestion" class="form-horizontal" name="createQuestionForm" id="createQuestionForm">
+    <form method="post" action="/question/saveQuestion" class="form-horizontal" name="createQuestionForm" id="createQuestionForm">
 
         <div class="cs-mod">
             <div class="mod-body">
@@ -107,7 +107,7 @@
                         <div class="col-md-10">
                             <#list categoryList as category>
                                 <label>
-                                    <input type="checkbox" name="categoryId" value="${category.id}"/> ${category.name}
+                                    <input type="checkbox" name="categoryIds" value="${category.id}"/> ${category.name}
                                 </label>
                             </#list>
                         </div>

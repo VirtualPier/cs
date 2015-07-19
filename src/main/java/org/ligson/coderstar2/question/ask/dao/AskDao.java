@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface AskDao extends BaseDao<Ask> {
     public List<Ask> findAllByQuestion(Question question);
+
+    public List<Ask> findAllByQuestionOrder(Question question, String askSort);
 }

@@ -9,11 +9,35 @@ import java.util.Map;
  */
 public interface PayService {
 
-    public Map recharge(User currentUser, double money);
+    public Map<String, Object> recharge(User currentUser, double money);
 
-    public Map trade(User currentUser, int tradeType, long tradeObjId, double money);
+    public Map<String, Object> trade(User currentUser, int tradeType, long tradeObjId, double money, boolean isBlocked);
 
     public Map<String, Object> payOrderList(int offset, int max);
 
     public Map<String, Object> withdrawList(int offset, int max);
+
+    /***
+     * 转账
+     *
+     * @param fromUser
+     * @param toUser
+     * @param money
+     * @param tradeType
+     * @param tradeObjId
+     * @return
+     */
+    public Map<String, Object> transfer(User fromUser, User toUser, double money, int tradeType, long tradeObjId);
+
+    /***
+     * 冻结资金
+     *
+     * @param user
+     * @param money
+     * @param comments
+     * @param objType
+     * @param objId
+     * @return
+     */
+    public Map<String, Object> blockedMoney(User user, double money, String comments, int objType, long objId);
 }

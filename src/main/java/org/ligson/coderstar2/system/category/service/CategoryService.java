@@ -12,4 +12,6 @@ public interface CategoryService {
     public List<Category> list();
 
     public List<Category> findQuestionCategoryList(Question question);
+
+    public List<List<Category>> findQuestionCategoryListByQuestionList(List<Question> questionList);
 }

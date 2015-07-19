@@ -19,7 +19,16 @@ public class AskDaoImpl extends BaseDaoImpl<Ask> implements AskDao {
         Session session = getCurrentSession();
         Query query = session.createQuery("from Ask a where a.question.id=:qid");
         query.setLong("qid", question.getId());
-        List<Ask> asks = (List<Ask>)query.list();
+        List<Ask> asks = (List<Ask>) query.list();
+        return asks;
+    }
+
+    @Override
+    public List<Ask> findAllByQuestionOrder(Question question, String askSort) {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Ask a where a.question.id=:qid order by " + askSort + " desc");
+        query.setLong("qid", question.getId());
+        List<Ask> asks = (List<Ask>) query.list();
         return asks;
     }
 }

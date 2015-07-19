@@ -20,7 +20,7 @@ public interface QuestionService {
      * @param categoryIds
      * @return
      */
-    public Map<String, Object> createQuestion(User user, String title, String description, String tags, long[] categoryIds, double money);
+    public Map<String, Object> createQuestion(User user, String title, String description, String[] tags, long[] categoryIds, double money);
 
 
     /***
@@ -64,7 +64,7 @@ public interface QuestionService {
      * @param content
      * @return
      */
-    public Map saveAsk(long questionId, String content);
+    public Map saveAsk(User user, long questionId, String content);
 
     /***
      * 评价
@@ -73,7 +73,7 @@ public interface QuestionService {
      * @param upOrDown
      * @return
      */
-    public Map<String, Object> rateAsk(long askId, String upOrDown);
+    public Map<String, Object> rateAsk(User user, long askId, String upOrDown);
 
     /***
      * 删除问题
@@ -152,4 +152,10 @@ public interface QuestionService {
     public boolean isAttentionQuestion(User user, Question question);
 
     public List<SysTag> findQuestionTagList(Question question);
+
+    public List<Ask> findQuestionAskList(Question question, String askSort);
+
+    public Map<String, Object> selectRightAsk(long askId);
+
+    public List<List<SysTag>> findQuestionTagsByQuestionList(List<Question> questionList);
 }

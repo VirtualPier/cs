@@ -9,7 +9,7 @@ import javax.persistence.*;
  * 问题分类对应
  */
 @Entity
-@Table(name = "question_categroy")
+@Table(name = "question_category")
 public class QuestionCategory {
     private long id;
     private Question question;

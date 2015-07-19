@@ -1,4 +1,5 @@
-<@override name="title">提问问题</@override>
+<#import "includes/date.ftl" as df/>
+<@override name="title">${question.title}</@override>
 <@override name="header">
 <title>${question.title}</title>
 <link rel="stylesheet" charset="UTF-8" href="/js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
@@ -7,6 +8,7 @@
 <script type="text/javascript" src="/js/lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
     var CKEDITOR_BASEPATH = "/js/lib/ckeditor/";
+    var rightAskId = ${question.rightAsk???string(question.rightAsk.id,"-1")};
 </script>
 <script src="/js/lib/ckeditor/ckeditor.js" type="text/javascript"></script>
 <script src="/js/coderstar/common/ckconfig.js" type="text/javascript"></script>
@@ -52,119 +54,97 @@
 
         <div class="mod-footer">
             <div class="meta">
-                <span class="text-color-999">${question.createDate}
-                    发布</span>
-
-
-                <div class="pull-right">
-                    <input type="button" value="完善问题描述" class="btn btn-default" id="editDescBtn"
-                           style="padding:2px;">
-                </div>
-
+                <span class="text-color-999"><@df.dateFormat question.createDate/>发布</span>
             </div>
         </div>
     </div>
-
-    <div class="cs-mod cs-question-description-editor hide">
-        <div class="mod-body">
-            <div class="content markitup-box">
-                <textarea rows="5" name="content" id="ckeditor02">${question.description}</textarea>
-            </div>
-        </div>
-
-        <div class="mod-footer">
-            <div class="meta pull-right">
-                <div class="pull-right">
-                    <input type="button" value="确认修改" class="btn btn-default" id="modifySbtBtn">
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="cs-mod cs-question-comment">
         <div class="mod-head">
             <ul class="nav nav-tabs cs-nav-tabs active">
                 <li>
-                    <a href="/question/view">时间</a>
+                    <a href="/question/view?id=${question.id}&askSort=createDate">最新</a>
                 </li>
                 <li>
-                    <a href="/question/view">关注的人</a>
+                    <a href="/question/view?id=${question.id}&askSort=supportNum">热赞</a>
                 </li>
-
-                <li>
-                    <a href="/question/view">票数</a>
-                </li>
-
                 <h2 class="hidden-xs">${question.replyNum} 个回复</h2>
             </ul>
         </div>
 
         <div class="mod-body cs-feed-list">
 
-            <div class="cs-item" uninterested_count="0" force_fold="0" id="answer_list_11">
-                <div class="mod-head">
-                    <!-- 用户头像 -->
-                    <a class="cs-user-img cs-border-radius-5 pull-right"
-                       href=""
-                       data-id="2"><img
-                            src="" alt=""
-                            onerror="javascript:this.src='/images/pic_user.gif'">
-                    </a> <!-- end 用户头像 -->
-                    <div class="title">
-                        <p>
-                            <a class="cs-user-name"
-                               href=""
-                               data-id="2">user name</a>
-                            <a controller="question" action="deleteAsk" params="[id: ask.id]"
-                               class="btn btn-success pull-right" style="margin-left:10px;">删除
-                            </a>
+            <#list asks as ask>
+                <div class="cs-item" uninterested_count="0" force_fold="0" id="answer_list_${ask.id}">
+                    <div class="mod-head">
+                        <!-- 用户头像 -->
+                        <a class="cs-user-img cs-border-radius-5 pull-right"
+                           href=""
+                           data-id="2"><img
+                                src="${ask.user.photo}" alt=""
+                                onerror="javascript:this.src='/images/pic_user.gif'">
+                        </a> <!-- end 用户头像 -->
+                        <div class="title">
+                            <p>
+                                <a class="cs-user-name"
+                                   href="/user/view?id=${ask.user.id}"
+                                   data-id="2">${ask.user.nickName}</a>
+                                <#if user??>
+                                    <#if (user.id==question.creator.id)||(user.id==ask.user.id)>
+                                        <a href="/question/deleteAsk?id=${ask.id}"
+                                           class="btn btn-success pull-right" style="margin-left:10px;">删除
+                                        </a>
+                                    </#if>
+                                </#if>
+
+                                <#if question.rightAsk??>
+                                    <button class="btn btn-success pull-right">最佳答案</button>
+                                <#else>
+                                    <#if user??>
+                                        <#if user.id==question.creator.id>
+                                            <button class="btn btn-success pull-right" name="selectRightAskBtn"
+                                                    onclick="selectRightAsk(1)">设为最佳答案
+                                            </button>
+                                        </#if>
+                                    </#if>
+                                </#if>
 
 
-                            <button class="btn btn-success pull-right" name="selectRightAskBtn"
-                                    onclick="selectRightAsk(1)">设为满意答案
-                            </button>
-                            <button class="btn btn-success pull-right">已选为最佳答案</button>
-                        </p>
-
-                    </div>
-                </div>
-
-                <div class="mod-body clearfix">
-                    <!-- 评论内容 -->
-                    <div class="markitup-box">
-                    ${ask.content}
-                    </div>
-                    <!-- end 评论内容 -->
-                </div>
-
-                <div class="mod-footer">
-                    <!-- 社交操作 -->
-                    <div class="meta clearfix">
-                        <span class="text-color-999 pull-right">yearym</span>
-                        <!-- 投票栏 -->
-                            <span class="operate">
-                                <a class="agree" onclick="javascript:support('1', 'up')">
-                                    <i class="glyphicon glyphicon-thumbs-up"></i> <b class="count"
-                                                                                     id="1up">1</b>
-                                </a>
-                            </span>
-                        <!-- end 投票栏 -->
-                            <span class="operate" id="1" count="0">
-                                <a class="agree" onclick="javascript:support('1', 'down')"><i
-                                        class="glyphicon glyphicon-thumbs-down"></i> <b
-                                        class="count" id="2down">1</b>
-                                </a>
-                            </span>
-                        <!-- 可显示/隐藏的操作box -->
-                        <div class="more-operate">
+                            </p>
 
                         </div>
-                        <!-- end 可显示/隐藏的操作box -->
-
                     </div>
-                    <!-- end 社交操作 -->
+
+                    <div class="mod-body clearfix">
+                        <!-- 评论内容 -->
+                        <div class="markitup-box">
+                        ${ask.content}
+                        </div>
+                        <!-- end 评论内容 -->
+                    </div>
+
+                    <div class="mod-footer">
+                        <!-- 社交操作 -->
+                        <div class="meta clearfix">
+                            <span class="text-color-999 pull-right"><@df.dateFormat ask.createDate/></span>
+                            <!-- 投票栏 -->
+                            <span class="operate">
+                                <a class="agree" onclick="javascript:support('${ask.id}', 'up')">
+                                    <i class="glyphicon glyphicon-thumbs-up"></i> <b class="count"
+                                                                                     id="${ask.id}up">${ask.supportNum}</b>
+                                </a>
+                            </span>
+                            <!-- end 投票栏 -->
+                            <span class="operate" id="1" count="0">
+                                <a class="agree" onclick="javascript:support('${ask.id}', 'down')"><i
+                                        class="glyphicon glyphicon-thumbs-down"></i> <b
+                                        class="count" id="${ask.id}down">${ask.opposeNum}</b>
+                                </a>
+                            </span>
+                        </div>
+                        <!-- end 社交操作 -->
+                    </div>
                 </div>
-            </div>
+            </#list>
         </div>
 
     </div>
@@ -174,29 +154,15 @@
     <div class="cs-mod cs-replay-box question">
         <a name="answer_form"></a>
 
-        <form controller="question" action="saveAsk" name="answer_form" class="question_answer_form">
+        <form action="/question/saveAsk" name="answer_form" class="question_answer_form" id="answer_form">
             <div class="mod-head">
-
-                <a controller="user" action="home" class="cs-user-name">
-                    <img alt="${user.nickName}"
-                         src="${user.photo}"
-                         onerror="javascript:this.src='/images/pic_user.gif'">
-                </a>
-
-                <p>${user.nickName}
-                </p>
-
-
             </div>
-
             <div class="mod-body">
-
                 <input type="hidden" name="questionId" value="${question.id}"/>
 
                 <div class="cs-mod cs-editor-box">
                     <textarea rows="5" name="content" id="ckeditor01"></textarea>
                 </div>
-
                 <div class="text-right">
                     <br/>
                     <input type="submit" value="回复" class="btn btn-default"/>
@@ -218,14 +184,12 @@
         <div class="mod-body">
             <dl>
                 <dt class="pull-left cs-border-radius-5">
-                    <a controller="user" action="view" params="[id: question.creator.id]"><img alt="软爷"
-                                                                                               src="${question.creator.photo}"
-                                                                                               onerror="javascript:this.src='/images/pic_user.gif'">
-                    </a>
+                    <a href="/question/view?id=${question.creator.id}"><img alt="软爷" src="${question.creator.photo}"
+                                                                            onerror="javascript:this.src='/images/pic_user.gif'"/></a>
                 </dt>
                 <dd class="pull-left">
-                    <a class="cs-user-name" controller="user" action="view"
-                       params="[id: question.creator.id]">${question.creator.nickName}</a>
+                    <a class="cs-user-name"
+                       href="/question/view?id=${question.creator.id}">${question.creator.nickName}</a>
 
                     <p></p>
                 </dd>
@@ -244,6 +208,11 @@
             <ul>
                 <li>
                     <a>XXXXXXXXXXXX</a>
+                </li>
+                <li>
+                    <a>XXXXXXXXXXXX</a>
+                </li>
+                <li>
                     <a>XXXXXXXXXXXX</a>
                 </li>
             </ul>

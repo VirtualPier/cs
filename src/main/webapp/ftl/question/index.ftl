@@ -1,4 +1,5 @@
 <#import "includes/pager.ftl" as pager/>
+<#import "includes/date.ftl" as df/>
 <@override name="title">问题首页</@override>
 <@override name="header">
 </@override>
@@ -40,11 +41,15 @@
                                     <label>提问人:</label>
                                     <a href="/user/view?id=${question.creator.id}">${question.creator.nickName}</a>
                                     <label>分类:</label>
-                                    <a>22</a><a>22</a><a>22</a>
+                                    <#list questionCategoryList[question_index] as category>
+                                        <a>${category.name}</a>
+                                    </#list>
                                 </p>
 
                                 <p>
-                                    <a href="/question/index" class="cs-question-tags">111111</a>
+                                    <#list questionTagList[question_index] as tag>
+                                        <a href="/question/index" class="cs-question-tags">${tag.name}</a>
+                                    </#list>
                                 </p>
 
                                 <p>
@@ -53,7 +58,7 @@
                                             悬赏:${question.money}MB •
                                         </#if>
                                     ${question.attentionNum}人关注 • ${question.replyNum} 个回复 • ${question.viewNum}
-                                        次浏览 • ${question.createDate}</span>
+                                        次浏览 • <@df.dateFormat question.createDate/></span>
                                 </p>
 
                             </div>

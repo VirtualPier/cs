@@ -3,10 +3,10 @@
        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                     http://www.springframework.org/schema/beans/spring-beans.xsd  
-                     http://www.springframework.org/schema/tx  
-                     http://www.springframework.org/schema/tx/spring-tx.xsd  
-                     http://www.springframework.org/schema/aop  
+                     http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://www.springframework.org/schema/tx
+                     http://www.springframework.org/schema/tx/spring-tx.xsd
+                     http://www.springframework.org/schema/aop
                      http://www.springframework.org/schema/aop/spring-aop.xsd ">
 
     <bean id="userService" name="userService" class="org.ligson.coderstar2.user.service.impl.UserServiceImpl">
@@ -22,10 +22,15 @@
         <property name="rateDao" ref="rateDao"/>
         <property name="attentionQuestionDao" ref="attentionQuestionDao"/>
         <property name="sysTagDao" ref="sysTagDao"/>
+        <property name="payService" ref="payService"/>
+        <property name="userDao" ref="userDao"/>
     </bean>
     <bean id="questionAskService" name="questionAskService"
           class="org.ligson.coderstar2.question.ask.service.impl.QuestionAskServiceImpl">
         <property name="askDao" ref="askDao"/>
+        <property name="questionDao" ref="questionDao"/>
+        <property name="askReplyDao" ref="askReplyDao"/>
+        <property name="rateDao" ref="rateDao"/>
     </bean>
     <bean id="categoryService" name="categoryService"
           class="org.ligson.coderstar2.system.category.service.impl.CategoryServiceImpl">
@@ -34,12 +39,16 @@
     <bean id="articleService" name="articleService"
           class="org.ligson.coderstar2.article.service.impl.ArticleServiceImpl">
         <property name="articleDao" ref="articleDao"/>
+        <property name="articleTagDao" ref="articleTagDao"/>
     </bean>
 
     <bean id="payService" name="payService"
           class="org.ligson.coderstar2.pay.service.impl.PayServiceImpl">
         <property name="withdrawDao" ref="withdrawDao"/>
         <property name="payOrderDao" ref="payOrderDao"/>
+        <property name="tradeRecordDao" ref="tradeRecordDao"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="blockedFundDao" ref="blockedFundDao"/>
     </bean>
 
 </beans>

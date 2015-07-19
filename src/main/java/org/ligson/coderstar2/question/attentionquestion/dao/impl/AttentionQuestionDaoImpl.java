@@ -14,6 +14,8 @@ public class AttentionQuestionDaoImpl extends BaseDaoImpl<AttentionQuestion> imp
     @Override
     public int countByUserAndQuestion(User user, Question question) {
         Query query = getCurrentSession().createQuery("select count(*) from AttentionQuestion aq where aq.question.id=:qId and aq.user.id=:userId");
+        query.setLong("qId", question.getId());
+        query.setLong("userId", user.getId());
         Long count = (Long) query.uniqueResult();
         return count.intValue();
     }

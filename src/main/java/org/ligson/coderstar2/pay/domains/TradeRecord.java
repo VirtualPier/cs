@@ -5,6 +5,8 @@ import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -86,4 +88,14 @@ public class TradeRecord {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public static final int Type_PAY = 1;
+    public static final int Type_INCOME = 2;
+    public static final Map<Integer, String> typeCnName = new HashMap();
+
+    static {
+        typeCnName.put(Type_PAY, "支出");
+        typeCnName.put(Type_INCOME, "收入");
+    }
+
 }

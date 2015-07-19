@@ -92,9 +92,12 @@ function selectRightAsk(askId) {
     });
 }
 function support(askId, upOrDown) {
-
+    if (!pageConfig.isLogin) {
+        BootstrapDialog.alert({title: '提示信息', message: '您没有登录吧?请登录！'});
+        return false;
+    }
     $.ajax({
-        url: '/question/updateAsk',
+        url: '/question/rateAsk',
         data: {'askId': askId, 'upOrDown': upOrDown},
         dateType: 'json',
         type: 'post',

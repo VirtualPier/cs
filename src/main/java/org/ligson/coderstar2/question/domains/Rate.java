@@ -53,7 +53,6 @@ public class Rate {
     }
 
     @Column(name = "is_support", nullable = false)
-    @Type(type = "byte")
     public boolean isSupport() {
         return isSupport;
     }

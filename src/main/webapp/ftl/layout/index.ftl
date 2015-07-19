@@ -8,6 +8,7 @@
     <META name="Description" content="关注程序员的职业生涯，即使的解决各种问题，纯干货！">
     <script type="text/javascript">
         var pageConfig = {};
+        pageConfig.isLogin = ${user???string("true","false")};
     </script>
     <script type="text/javascript" src="${basePath}js/lib/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="${basePath}js/lib/jquery.cookie.js"></script>

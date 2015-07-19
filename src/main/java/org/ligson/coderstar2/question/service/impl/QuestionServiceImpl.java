@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.service.impl;
 
+import org.ligson.coderstar2.pay.service.PayService;
 import org.ligson.coderstar2.question.ask.dao.AskDao;
 import org.ligson.coderstar2.question.attentionquestion.dao.AttentionQuestionDao;
 import org.ligson.coderstar2.question.domains.*;
@@ -12,12 +13,10 @@ import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
+import org.ligson.coderstar2.user.dao.UserDao;
 import org.ligson.coderstar2.user.domains.User;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by ligson on 2015/7/17.
@@ -34,9 +33,28 @@ public class QuestionServiceImpl implements QuestionService {
     private AskDao askDao;
 
     private RateDao rateDao;
+    private UserDao userDao;
+
 
     private AttentionQuestionDao attentionQuestionDao;
     private SysTagDao sysTagDao;
+    private PayService payService;
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public PayService getPayService() {
+        return payService;
+    }
+
+    public void setPayService(PayService payService) {
+        this.payService = payService;
+    }
 
     public SysTagDao getSysTagDao() {
         return sysTagDao;
@@ -103,8 +121,63 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map<String, Object> createQuestion(User user, String title, String description, String tags, long[] languageIds, double money) {
-        return null;
+    public Map<String, Object> createQuestion(User user, String title, String description, String[] tags, long[] languageIds, double money) {
+
+        user = userDao.getById(user.getId());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if (money > 0) {
+            if (user.getBalance() < money) {
+                result.put("success", false);
+                result.put("msg", "您的余额不足，请先充值后再提问！");
+                return result;
+            }
+        }
+
+        Question question = new Question();
+        question.setTitle(title);
+        question.setDescription(description);
+        question.setCreator(user);
+        question.setMoney(money);
+        questionDao.saveOrUpdate(question);
+
+        for (long categoryId : languageIds) {
+            Category category = categoryDao.getById(categoryId);
+            QuestionCategory questionCategory = new QuestionCategory();
+            questionCategory.setCategory(category);
+            questionCategory.setQuestion(question);
+            questionCategoryDao.saveOrUpdate(questionCategory);
+            category.setQuestionNum(category.getQuestionNum() + 1);
+            categoryDao.saveOrUpdate(category);
+        }
+
+        if (money > 0) {
+            Map<String, Object> result2 = payService.trade(user, 1, question.getId(), money, true);
+            boolean success = (boolean) result2.get("success");
+            if (!success) {
+                return result2;
+            }
+        }
+
+        for (String tag : tags) {
+            SysTag sysTag = sysTagDao.findBy("name", tag);
+            if (sysTag == null) {
+                sysTag = new SysTag();
+                sysTag.setCreator(user);
+                sysTag.setName(tag);
+                sysTagDao.saveOrUpdate(sysTag);
+            }
+            QuestionTag questionTag = new QuestionTag();
+            questionTag.setQuestion(question);
+            questionTag.setTag(sysTag);
+            questionTagDao.saveOrUpdate(questionTag);
+        }
+        user.setQuestionNum(user.getQuestionNum() + 1);
+        userDao.saveOrUpdate(user);
+        result.put("success", true);
+        result.put("question", question);
+        return result;
     }
 
     @Override
@@ -128,13 +201,42 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map<String, Object> saveAsk(long questionId, String content) {
-        return null;
+    public Map<String, Object> saveAsk(User user, long questionId, String content) {
+        Question question = questionDao.getById(questionId);
+        Ask ask = new Ask();
+        ask.setContent(content);
+        ask.setQuestion(question);
+        ask.setUser(user);
+        askDao.add(ask);
+        Map<String, Object> map = new HashMap<>();
+        map.put("ask", ask);
+        map.put("success", true);
+        return map;
     }
 
     @Override
-    public Map<String, Object> rateAsk(long askId, String upOrDown) {
-        return null;
+    public Map<String, Object> rateAsk(User user, long askId, String upOrDown) {
+        Map<String, Object> result = new HashMap<>();
+        Ask ask = askDao.getById(askId);
+        Rate rate = rateDao.findByAskAndUser(ask, user);
+        if (rate == null) {
+            if ("up".equals(upOrDown)) {
+                ask.setSupportNum(ask.getSupportNum() + 1);
+            } else {
+                ask.setOpposeNum(ask.getOpposeNum() + 1);
+            }
+            askDao.saveOrUpdate(ask);
+            rate = new Rate();
+            rate.setAsk(ask);
+            rate.setUser(user);
+            rate.setSupport("up".equals(upOrDown));
+            rateDao.saveOrUpdate(rate);
+            result.put("success", true);
+        } else {
+            result.put("success", false);
+            result.put("msg", "您已经评价过了!");
+        }
+        return result;
     }
 
     @Override
@@ -240,7 +342,23 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Map<String, Object> attentionQuestion(User user, long questionId) {
-        return null;
+        Map<String, Object> result = new HashMap();
+        Question question = questionDao.getById(questionId);
+        int count = attentionQuestionDao.countByUserAndQuestion(user, question);
+        if (count > 0) {
+            result.put("success", false);
+            result.put("msg", "已经关注");
+        } else {
+            AttentionQuestion attentionQuestion = new AttentionQuestion();
+            attentionQuestion.setUser(user);
+            attentionQuestion.setQuestion(question);
+            attentionQuestionDao.saveOrUpdate(attentionQuestion);
+
+            question.setAttentionNum(question.getAttentionNum() + 1);
+            questionDao.saveOrUpdate(question);
+            result.put("success", true);
+        }
+        return result;
     }
 
     @Override
@@ -270,7 +388,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Map<String, Object> searchQuestion(boolean hasDeal, String sort, int max, int offset) {
         Map<String, Object> result = new HashMap<>();
-        System.out.println(questionDao.getById(10));
         List<Question> questionList = questionDao.findByRightAskIsNullOrderBy(hasDeal, sort, max, offset);
         int total = questionDao.countByRightAskIsNullOrderBy(hasDeal, sort);
         result.put("questionList", questionList);
@@ -299,5 +416,48 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<SysTag> findQuestionTagList(Question question) {
         return sysTagDao.findAllByQuestion(question);
+    }
+
+    @Override
+    public List<Ask> findQuestionAskList(Question question, String askSort) {
+        return askDao.findAllByQuestionOrder(question, askSort);
+    }
+
+    @Override
+    public Map<String, Object> selectRightAsk(long askId) {
+        Map<String, Object> result = new HashMap<>();
+        Ask ask = askDao.getById(askId);
+        Question question = ask.getQuestion();
+        if (question.getRightAsk() != null) {
+            result.put("success", false);
+            result.put("msg", "已经选择最佳答案");
+        } else {
+            User user = question.getCreator();
+            if (user == ask.getUser()) {
+                result.put("success", false);
+                result.put("msg", "不能选择自己的答案!");
+            }
+            if (question.getMoney() > 0) {
+                Map<String, Object> isOk = payService.transfer(user, ask.getUser(), question.getMoney(), 1, question.getId());
+                boolean success = (boolean) isOk.get("success");
+                if (!success) {
+                    return isOk;
+                }
+            }
+            question.setRightAsk(ask);
+            questionDao.saveOrUpdate(question);
+            result.put("success", true);
+        }
+        return result;
+    }
+
+    @Override
+    public List<List<SysTag>> findQuestionTagsByQuestionList(List<Question> questionList) {
+        List<List<SysTag>> lists = new ArrayList<>();
+        for (Question question : questionList) {
+            List<SysTag> sysTags = findQuestionTagList(question);
+            lists.add(sysTags);
+        }
+        return lists;
     }
 }
