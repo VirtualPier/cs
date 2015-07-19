@@ -10,9 +10,11 @@ import org.ligson.coderstar2.question.questiontag.dao.QuestionTagDao;
 import org.ligson.coderstar2.question.rate.dao.RateDao;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.dao.CategoryDao;
+import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
+import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.dao.UserDao;
 import org.ligson.coderstar2.user.domains.User;
 
@@ -34,11 +36,28 @@ public class QuestionServiceImpl implements QuestionService {
 
     private RateDao rateDao;
     private UserDao userDao;
-
+    private CategoryService categoryService;
 
     private AttentionQuestionDao attentionQuestionDao;
     private SysTagDao sysTagDao;
     private PayService payService;
+    private SysTagService sysTagService;
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public SysTagService getSysTagService() {
+        return sysTagService;
+    }
+
+    public void setSysTagService(SysTagService sysTagService) {
+        this.sysTagService = sysTagService;
+    }
 
     public UserDao getUserDao() {
         return userDao;
@@ -143,13 +162,7 @@ public class QuestionServiceImpl implements QuestionService {
         questionDao.saveOrUpdate(question);
 
         for (long categoryId : languageIds) {
-            Category category = categoryDao.getById(categoryId);
-            QuestionCategory questionCategory = new QuestionCategory();
-            questionCategory.setCategory(category);
-            questionCategory.setQuestion(question);
-            questionCategoryDao.saveOrUpdate(questionCategory);
-            category.setQuestionNum(category.getQuestionNum() + 1);
-            categoryDao.saveOrUpdate(category);
+            categoryService.addQuestionToCategory(question, categoryId);
         }
 
         if (money > 0) {
@@ -161,17 +174,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         for (String tag : tags) {
-            SysTag sysTag = sysTagDao.findBy("name", tag);
-            if (sysTag == null) {
-                sysTag = new SysTag();
-                sysTag.setCreator(user);
-                sysTag.setName(tag);
-                sysTagDao.saveOrUpdate(sysTag);
-            }
-            QuestionTag questionTag = new QuestionTag();
-            questionTag.setQuestion(question);
-            questionTag.setTag(sysTag);
-            questionTagDao.saveOrUpdate(questionTag);
+            sysTagService.addQuestionTag(user, question, tag);
         }
         user.setQuestionNum(user.getQuestionNum() + 1);
         userDao.saveOrUpdate(user);

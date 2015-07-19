@@ -38,11 +38,11 @@ public class ArticleCategory {
 
     @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    public Category getLanguage() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setLanguage(Category category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }

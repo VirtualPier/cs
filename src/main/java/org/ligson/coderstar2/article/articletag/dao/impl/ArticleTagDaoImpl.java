@@ -2,6 +2,7 @@ package org.ligson.coderstar2.article.articletag.dao.impl;
 
 import org.hibernate.Query;
 import org.ligson.coderstar2.article.articletag.dao.ArticleTagDao;
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.ArticleTag;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.system.domains.SysTag;
@@ -19,5 +20,13 @@ public class ArticleTagDaoImpl extends BaseDaoImpl<ArticleTag> implements Articl
         query.setMaxResults(limit);
         List<SysTag> sysTags = (List<SysTag>) query.list();
         return sysTags;
+    }
+
+    @Override
+    public List<SysTag> findAllByArticle(Article article) {
+        Query query = getCurrentSession().createQuery("select at.tag from ArticleTag at where at.article.id=:articleId");
+        query.setLong("articleId", article.getId());
+        List<SysTag> list = (List<SysTag>) query.list();
+        return list;
     }
 }

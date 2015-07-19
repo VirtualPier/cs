@@ -42,7 +42,7 @@ public interface ArticleService {
      * @param categroyIds 分类id
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map createArticle(String title, String content, User creator, String[] tags, Long[] categroyIds);
+    public Map createArticle(String title, String content, User creator, String[] tags, long[] categroyIds);
 
     /****
      * 删除文章
@@ -154,5 +154,9 @@ public interface ArticleService {
 
     public List<List> hotAuthors(int day);
 
-    public Map<String,Object> findAllByCategoryIdAndTagIdOrderBy(long categoryId, long tagId, String order,int max,int offset);
+    public Map<String, Object> findAllByCategoryIdAndTagIdOrderBy(long categoryId, long tagId, String order, int max, int offset);
+
+    public List<List<SysTag>> findAllArticleTagList(List<Article> articleList);
+
+    public List<List<Category>> findCategoryByArticleList(List<Article> articleList);
 }

@@ -1,5 +1,7 @@
 package org.ligson.coderstar2.controllers;
 
+import org.ligson.coderstar2.question.domains.Question;
+import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String index() {
+
         return "index/index";
     }
 
@@ -67,7 +70,7 @@ public class IndexController {
     }
 
     @RequestMapping("/register")
-    public String register(@RequestParam(value = "nickName", required = false) String nickName, @RequestParam(value = "cellphone",required = false) String cellphone, @RequestParam(value = "email", required = false) String email, HttpServletRequest request) {
+    public String register(@RequestParam(value = "nickName", required = false) String nickName, @RequestParam(value = "cellphone", required = false) String cellphone, @RequestParam(value = "email", required = false) String email, HttpServletRequest request) {
         if (nickName != null) {
             request.setAttribute("nickName", nickName);
         }
@@ -82,7 +85,7 @@ public class IndexController {
 
     @RequestMapping("/saveUser")
     public String saveUser(@RequestParam(value = "nickName") String nickName, @RequestParam(value = "cellphone") String cellphone, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email, HttpServletRequest request) {
-        Map<String, Object> result = userService.register(email,nickName,cellphone,password);
+        Map<String, Object> result = userService.register(email, nickName, cellphone, password);
         boolean success = (boolean) result.get("success");
         if (success) {
             return "redirect:/index/login";

@@ -1,19 +1,22 @@
 package org.ligson.coderstar2.article.service.impl;
 
 import com.boful.common.date.utils.DateUtils;
+import org.apache.commons.lang.StringUtils;
 import org.ligson.coderstar2.article.article.dao.ArticleDao;
 import org.ligson.coderstar2.article.articletag.dao.ArticleTagDao;
 import org.ligson.coderstar2.article.domains.Article;
+import org.ligson.coderstar2.article.domains.ArticleCategory;
+import org.ligson.coderstar2.article.domains.ArticleTag;
 import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.article.service.ArticleService;
+import org.ligson.coderstar2.system.category.dao.CategoryDao;
+import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -22,6 +25,25 @@ import java.util.Map;
 public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
     private ArticleTagDao articleTagDao;
+    private CategoryDao categoryDao;
+    private SysTagService sysTagService;
+    private CategoryService categoryService;
+
+    public SysTagService getSysTagService() {
+        return sysTagService;
+    }
+
+    public void setSysTagService(SysTagService sysTagService) {
+        this.sysTagService = sysTagService;
+    }
+
+    public CategoryDao getCategoryDao() {
+        return categoryDao;
+    }
+
+    public void setCategoryDao(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
 
     public ArticleTagDao getArticleTagDao() {
         return articleTagDao;
@@ -50,8 +72,27 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Map createArticle(String title, String content, User creator, String[] tags, Long[] categroyIds) {
-        return null;
+    public Map createArticle(String title, String content, User creator, String[] tags, long[] categroyIds) {
+        //保存文章
+        Article article = new Article();
+        article.setTitle(title);
+        article.setDescription(content);
+        article.setCreator(creator);
+        article.setState(Article.STATE_APPLY);
+        articleDao.saveOrUpdate(article);
+        for (String tag : tags) {
+            if (StringUtils.isNotEmpty(tag)) {
+                sysTagService.addArticleTag(creator, article, tag);
+            }
+        }
+
+        for (long categoryId : categroyIds) {
+            ArticleCategory articleCategory = categoryService.addArticleToCategory(article, categoryId);
+        }
+
+        Map result = new HashMap();
+        result.put("success", true);
+        return result;
     }
 
     @Override
@@ -139,5 +180,25 @@ public class ArticleServiceImpl implements ArticleService {
         result.put("total", total);
         result.put("articleList", articles);
         return result;
+    }
+
+    @Override
+    public List<List<SysTag>> findAllArticleTagList(List<Article> articleList) {
+        List<List<SysTag>> lists = new ArrayList<>();
+        for (Article article : articleList) {
+            List<SysTag> articleTags = articleTagDao.findAllByArticle(article);
+            lists.add(articleTags);
+        }
+        return lists;
+    }
+
+    @Override
+    public List<List<Category>> findCategoryByArticleList(List<Article> articleList) {
+        List<List<Category>> categoryList = new ArrayList<>();
+        for (Article article : articleList) {
+            List<Category> articles = categoryDao.findAllByArticle(article);
+            categoryList.add(articles);
+        }
+        return categoryList;
     }
 }

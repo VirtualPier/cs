@@ -24,6 +24,8 @@
         <property name="sysTagDao" ref="sysTagDao"/>
         <property name="payService" ref="payService"/>
         <property name="userDao" ref="userDao"/>
+        <property name="sysTagService" ref="sysTagService"/>
+
     </bean>
     <bean id="questionAskService" name="questionAskService"
           class="org.ligson.coderstar2.question.ask.service.impl.QuestionAskServiceImpl">
@@ -35,11 +37,14 @@
     <bean id="categoryService" name="categoryService"
           class="org.ligson.coderstar2.system.category.service.impl.CategoryServiceImpl">
         <property name="categoryDao" ref="categoryDao"/>
+        <property name="articleCategoryDao" ref="articleCategoryDao"/>
+        <property name="questionCategoryDao" ref="questionCategoryDao"/>
     </bean>
     <bean id="articleService" name="articleService"
           class="org.ligson.coderstar2.article.service.impl.ArticleServiceImpl">
         <property name="articleDao" ref="articleDao"/>
         <property name="articleTagDao" ref="articleTagDao"/>
+        <property name="categoryDao" ref="categoryDao"/>
     </bean>
 
     <bean id="payService" name="payService"
@@ -49,6 +54,12 @@
         <property name="tradeRecordDao" ref="tradeRecordDao"/>
         <property name="userDao" ref="userDao"/>
         <property name="blockedFundDao" ref="blockedFundDao"/>
+    </bean>
+    <bean name="sysTagService"
+          class="org.ligson.coderstar2.system.systag.service.impl.SysTagServiceImpl">
+        <property name="sysTagDao" ref="sysTagDao"/>
+        <property name="questionTagDao" ref="questionTagDao"/>
+        <property name="articleTagDao" ref="articleTagDao"/>
     </bean>
 
 </beans>

@@ -2,6 +2,7 @@ package org.ligson.coderstar2.system.category.dao.impl;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.domains.QuestionCategory;
@@ -21,7 +22,17 @@ public class CategoryDaoImpl extends BaseDaoImpl<Category> implements CategoryDa
         String hql = "select qc.category from QuestionCategory qc where qc.question.id=:qId";
         Query query = session.createQuery(hql);
         query.setLong("qId", question.getId());
-        List<Category> categories = (List<Category>)query.list();
+        List<Category> categories = (List<Category>) query.list();
+        return categories;
+    }
+
+    @Override
+    public List<Category> findAllByArticle(Article article) {
+        Session session = getCurrentSession();
+        String hql = "select ac.category from ArticleCategory ac where ac.article.id=:aId";
+        Query query = session.createQuery(hql);
+        query.setLong("aId", article.getId());
+        List<Category> categories = (List<Category>) query.list();
         return categories;
     }
 }
