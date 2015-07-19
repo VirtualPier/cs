@@ -4,6 +4,7 @@ import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.ArticleTag;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.domains.QuestionTag;
+import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface SysTagService {
     public QuestionTag addQuestionTag(User creator, Question question, String tagName);
 
     public List<List> hotsTag(int max);
+
+    public List<SysTag> findByArticle(Article article);
 }

@@ -4,6 +4,8 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.article.service.ArticleService;
+import org.ligson.coderstar2.question.domains.Ask;
+import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
@@ -142,6 +144,28 @@ public class ArticleController {
         User user = (User) request.getSession().getAttribute("user");
         Article article = articleService.findArticleById(id);
         return articleService.rewardArticle(user, article, money);
+    }
+
+
+    @RequestMapping("/view")
+    public String view(@RequestParam("id") long id, @RequestParam(value = "remarkSort", defaultValue = "supportNum", required = false) String remarkSort, HttpServletRequest request) {
+        Article article = articleService.findArticleById(id);
+        List<Remark> asks = articleService.findAllRemarkByArticle(article, remarkSort);
+        List<SysTag> tags = articleService.findArticleTagList(article);
+        List<Category> categoryList = categoryService.findArticleCategoryList(article);
+        articleService.viewArticle(article);
+        Object object = request.getSession().getAttribute("user");
+        boolean isAttention = false;
+        if (object != null) {
+            User user = (User) object;
+            isAttention = articleService.isAttentionArticle(user, article);
+        }
+        request.setAttribute("article", article);
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("isAttention", isAttention);
+        request.setAttribute("tags", tags);
+        request.setAttribute("remark", asks);
+        return "/article/view";
     }
 
 

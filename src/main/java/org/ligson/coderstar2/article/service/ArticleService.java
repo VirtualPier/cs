@@ -169,4 +169,12 @@ public interface ArticleService {
     public List<Article> newestArticle(int max);
 
     public List<Article> findAllArticleByCategory(Category category, int offset, int max);
+
+    public List<Remark> findAllRemarkByArticle(Article article, String remarkSort);
+
+    public List<SysTag> findArticleTagList(Article article);
+
+    public void viewArticle(Article article);
+
+    public boolean isAttentionArticle(User user, Article article);
 }

@@ -344,4 +344,26 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> findAllArticleByCategory(Category category, int offset, int max) {
         return articleDao.findAllByStateAndCategoryOrderBy(Article.STATE_PUBLISH, category, "createDate", "desc", offset, max);
     }
+
+    @Override
+    public List<Remark> findAllRemarkByArticle(Article article, String remarkSort) {
+        return remarkDao.findAllByArticleOrderBy(article, remarkSort, "desc");
+    }
+
+    @Override
+    public List<SysTag> findArticleTagList(Article article) {
+        return sysTagService.findByArticle(article);
+    }
+
+    @Override
+    public void viewArticle(Article article) {
+        article.setViewNum(article.getViewNum() + 1);
+        articleDao.saveOrUpdate(article);
+    }
+
+    @Override
+    public boolean isAttentionArticle(User user, Article article) {
+        AttentionArticle attentionArticle = attentionArticleDao.findByUserAndArticle(user, article);
+        return attentionArticle != null;
+    }
 }

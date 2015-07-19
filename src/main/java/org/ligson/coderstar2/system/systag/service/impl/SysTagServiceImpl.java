@@ -85,4 +85,9 @@ public class SysTagServiceImpl implements SysTagService {
     public List<List> hotsTag(int max) {
         return sysTagDao.findHotTag(max);
     }
+
+    @Override
+    public List<SysTag> findByArticle(Article article) {
+        return sysTagDao.findAllByArticle(article);
+    }
 }

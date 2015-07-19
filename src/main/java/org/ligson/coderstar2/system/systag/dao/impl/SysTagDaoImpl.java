@@ -1,6 +1,8 @@
 package org.ligson.coderstar2.system.systag.dao.impl;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.SysTag;
@@ -38,5 +40,13 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
             tagCount.add(list2);
         }
         return tagCount;
+    }
+
+    @Override
+    public List<SysTag> findAllByArticle(Article article) {
+        Query query = getCurrentSession().createQuery("select at.tag from ArticleTag at where at.article.id=:articleId ");
+        query.setLong("articleId", article.getId());
+        List<SysTag> sysTags = (List<SysTag>) query.list();
+        return sysTags;
     }
 }

@@ -23,4 +23,6 @@ public interface CategoryService {
     public QuestionCategory addQuestionToCategory(Question question, long categoryId);
 
     public Category findCategoryById(long categoryId);
+
+    public List<Category> findArticleCategoryList(Article article);
 }
