@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.service.impl;
 
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.pay.service.PayService;
 import org.ligson.coderstar2.question.ask.dao.AskDao;
 import org.ligson.coderstar2.question.attentionquestion.dao.AttentionQuestionDao;
@@ -462,5 +463,25 @@ public class QuestionServiceImpl implements QuestionService {
             lists.add(sysTags);
         }
         return lists;
+    }
+
+    @Override
+    public List<Question> findHotQuestion(int max) {
+        return questionDao.findAllByStateOrderBy(Article.STATE_PUBLISH, "viewNum", "desc", 0, max);
+    }
+
+    @Override
+    public List<Question> findOfferQuesiton(int max) {
+        return questionDao.findAllByRightAskIsNullAndMoneyGreaterThan(0, "createDate", "desc", 5);
+    }
+
+    @Override
+    public List<Question> newestQuestion(int max) {
+        return questionDao.findAllByStateOrderBy(Question.STATE_PUBLISH, "createDate", "desc", 0, max);
+    }
+
+    @Override
+    public List<Question> findAllQuestionByCategory(Category category, int offset, int max) {
+        return questionDao.findAllByStateAndCategoryOrderBy(Question.STATE_PUBLISH, category, "createDate", "desc", offset, max);
     }
 }

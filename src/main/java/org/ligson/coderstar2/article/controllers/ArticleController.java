@@ -2,6 +2,7 @@ package org.ligson.coderstar2.article.controllers;
 
 import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.article.domains.Article;
+import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
@@ -12,9 +13,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,4 +103,46 @@ public class ArticleController {
             return "redirect:/article/create";
         }
     }
+
+    @RequestMapping("/article/saveRemark")
+    @ResponseBody
+    public Map<String, Object> saveRemark(long articleId, String content, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Article article = articleService.findArticleById(articleId);
+        return articleService.saveRemark(user, article, content);
+    }
+
+    @RequestMapping("/article/supportRemark")
+    @ResponseBody
+    public Map<String, Object> supportRemark(long remarkId, boolean isSupport, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Remark remark = articleService.findRemarkById(remarkId);
+        return articleService.supportRemark(user, remark, isSupport);
+    }
+
+    @RequestMapping("/article/supportArticle")
+    @ResponseBody
+    public Map<String, Object> supportArticle(long articleId, boolean isSupport, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Article article = articleService.findArticleById(articleId);
+        return articleService.supportArticle(user, article, isSupport);
+    }
+
+    @RequestMapping("/article/attentionArticle")
+    @ResponseBody
+    public Map<String, Object> attentionArticle(long id, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Article article = articleService.findArticleById(id);
+        return articleService.attentionArticle(user, article);
+    }
+
+    @RequestMapping("/article/rewardArticle")
+    @ResponseBody
+    public Map<String, Object> rewardArticle(@RequestParam("id") long id, @RequestParam("money") int money, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Article article = articleService.findArticleById(id);
+        return articleService.rewardArticle(user, article, money);
+    }
+
+
 }

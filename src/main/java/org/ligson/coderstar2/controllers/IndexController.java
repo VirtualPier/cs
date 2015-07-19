@@ -1,7 +1,12 @@
 package org.ligson.coderstar2.controllers;
 
+import org.ligson.coderstar2.article.domains.Article;
+import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
+import org.ligson.coderstar2.system.category.service.CategoryService;
+import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +33,50 @@ public class IndexController {
     @Autowired
     @Qualifier("userService")
     private UserService userService;
+    @Autowired
+    @Qualifier("questionService")
+    private QuestionService questionService;
+    @Autowired
+    @Qualifier("articleService")
+    private ArticleService articleService;
+    @Autowired
+    @Qualifier("sysTagService")
+    private SysTagService sysTagService;
+    @Autowired
+    @Qualifier("categoryService")
+    private CategoryService categoryService;
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public SysTagService getSysTagService() {
+        return sysTagService;
+    }
+
+    public void setSysTagService(SysTagService sysTagService) {
+        this.sysTagService = sysTagService;
+    }
+
+    public QuestionService getQuestionService() {
+        return questionService;
+    }
+
+    public void setQuestionService(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
+    public ArticleService getArticleService() {
+        return articleService;
+    }
+
+    public void setArticleService(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     public UserService getUserService() {
         return userService;
@@ -36,7 +87,33 @@ public class IndexController {
     }
 
     @RequestMapping("/index")
-    public String index() {
+    public String index(HttpServletRequest request) {
+        List<Question> questionList = questionService.findHotQuestion(5);
+        List<Article> articleList = articleService.findHotArticle(5);
+        List<List> tagCount = sysTagService.hotsTag(5);
+        List<Question> offerQuestionList = questionService.findOfferQuesiton(5);
+        List<Question> newQuestionList = questionService.newestQuestion(5);
+        List<Article> newArticleList = articleService.newestArticle(5);
+        List<Category> categoryList = categoryService.list();
+        List<List<Question>> questionCategoryList = new ArrayList<>();
+        List<List<Article>> articleCategoryList = new ArrayList<>();
+        for (Category category : categoryList) {
+            List<Question> questionList1 = questionService.findAllQuestionByCategory(category, 0, 5);
+            List<Article> articleList1 = articleService.findAllArticleByCategory(category, 0, 5);
+
+            questionCategoryList.add(questionList1);
+            articleCategoryList.add(articleList1);
+        }
+
+        request.setAttribute("questionList", questionList);
+        request.setAttribute("articleList", articleList);
+        request.setAttribute("tagCount", tagCount);
+        request.setAttribute("offerQuestionList", offerQuestionList);
+        request.setAttribute("newQuestionList", newQuestionList);
+        request.setAttribute("newArticleList", newArticleList);
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("questionCategoryList", questionCategoryList);
+        request.setAttribute("articleCategoryList", articleCategoryList);
 
         return "index/index";
     }

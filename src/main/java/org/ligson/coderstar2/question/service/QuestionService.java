@@ -2,6 +2,7 @@ package org.ligson.coderstar2.question.service;
 
 import org.ligson.coderstar2.question.domains.Ask;
 import org.ligson.coderstar2.question.domains.Question;
+import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
 
@@ -158,4 +159,12 @@ public interface QuestionService {
     public Map<String, Object> selectRightAsk(long askId);
 
     public List<List<SysTag>> findQuestionTagsByQuestionList(List<Question> questionList);
+
+    public List<Question> findHotQuestion(int max);
+
+    public List<Question> findOfferQuesiton(int max);
+
+    public List<Question> newestQuestion(int max);
+
+    public List<Question> findAllQuestionByCategory(Category category, int offset, int max);
 }

@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface SysTagDao extends BaseDao<SysTag> {
     public List<SysTag> findAllByQuestion(Question question);
+
+    public List<List> findHotTag(int max);
 }

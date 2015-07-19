@@ -7,9 +7,9 @@
 
             <p>利用您的闲暇时间帮助别人解决问题,改变您的生活和赚钱方式!</p>
 
-            <p><a class="btn btn-primary btn-lg" href="${createLink(controller: 'question', action: 'index')}"
+            <p><a class="btn btn-primary btn-lg" href="/question/index"
                   role="button">开始回答问题</a>&nbsp;&nbsp;<a class="btn btn-primary btn-lg"
-                                                         href="${createLink(controller: 'article', action: 'create')}"
+                                                         href="/article/create"
                                                          role="button">开始发表文章</a>
             </p>
         </div>
@@ -25,11 +25,11 @@
 
             <div class="panel-body">
                 <ul class="list-group">
-                    <g:each in="${questionList}" var="q">
+                    <#list questionList as q>
                         <li class="list-group-item text-nowrap" style="overflow: hidden">
-                            <g:link controller="question" action="view" params="[id: q.id]">${q.title}</g:link>
+                            <a href="/question/view?id=${q.id}">${q.title}</a>
                         </li>
-                    </g:each>
+                    </#list>
                 </ul>
             </div>
         </div>
@@ -44,11 +44,11 @@
 
             <div class="panel-body">
                 <ul class="list-group">
-                    <g:each in="${articleList}" var="a">
+                    <#list articleList as a>
                         <li class="list-group-item text-nowrap" style="overflow: hidden">
-                            <g:link controller="article" action="view" params="[id: a.id]">${a.title}</g:link>
+                            <a href="/article/view?id=${a.id}">${a.title}</a>
                         </li>
-                    </g:each>
+                    </#list>
                 </ul>
             </div>
         </div>
@@ -63,20 +63,14 @@
 
             <div class="panel-body">
                 <ul class="list-group">
-                    <g:each in="${tagList}" var="tag">
+                    <#list tagCount as tag>
                         <li class="list-group-item">${tag[0].name}(共${tag[1]}个, 相关
-                            <g:link controller="index"
-                                    action="search"
-                                    params="[searchType: 1, tagName: tag[0].name]">问题
-                            </g:link>
+                            <a href="/question/index?tagId=${tag[0].id}">问题</a>
                             、
-                            <g:link
-                                    controller="index" action="search"
-                                    params="[searchType: 1, tagName: tag[0].name]">文章
-                            </g:link>
+                            <a href="/article/index?tagId=${tag[0].id}">文章</a>
                             )
                         </li>
-                    </g:each>
+                    </#list>
                 </ul>
             </div>
         </div>
@@ -92,12 +86,12 @@
 
             <div class="panel-body">
                 <ul class="list-group">
-                    <g:each in="${offerQuestionList}" var="q">
+                    <#list offerQuestionList as q>
                         <li class="list-group-item text-nowrap" style="overflow:hidden;"><span
                                 class="badge pull-left">${q.money}&nbsp;MB</span>&nbsp;&nbsp;
-                            <g:link controller="question" action="view" params="[id: q.id]">${q.title}</g:link>
+                            <a href="/question/view?id=${q.id}">${q.title}</a>
                         </li>
-                    </g:each>
+                    </#list>
                 </ul>
             </div>
         </div>
@@ -111,13 +105,11 @@
 
             <div class="panel-body">
                 <ul class="list-group">
-                    <g:each in="${newQuestionList}" var="q">
+                    <#list newQuestionList as q>
                         <li class="list-group-item text-nowrap" style="overflow:hidden;">
-                            <g:link controller="question"
-                                    action="view"
-                                    params="[id: q.id]">${q.title}</g:link>
+                            <a href="/question/view?id=${q.id}">${q.title}</a>
                         </li>
-                    </g:each>
+                    </#list>
                 </ul>
             </div>
         </div>
@@ -131,13 +123,11 @@
 
             <div class="panel-body">
                 <ul class="list-group">
-                    <g:each in="${newArticleList}" var="a">
+                    <#list newArticleList as a>
                         <li class="list-group-item text-nowrap" style="overflow:hidden;">
-                            <g:link controller="article"
-                                    action="view"
-                                    params="[id: a.id]">${a.title}</g:link>
+                            <a href="/article/view?id=${a.id}">${a.title}</a>
                         </li>
-                    </g:each>
+                    </#list>
                 </ul>
             </div>
         </div>
@@ -145,11 +135,11 @@
 </div>
 
 <div class="rows">
-    <g:each in="${languageList}" var="lan" status="st">
+    <#list categoryList as category>
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading activate">
-                    <h3 class="panel-title">${lan.name}</h3>
+                    <h3 class="panel-title">${category.name}</h3>
                 </div>
 
                 <div class="panel-body">
@@ -158,10 +148,9 @@
                             <a class="list-group-item disabled">
                                 问题
                             </a>
-                            <g:each in="${questionLanguageList.get(st)}" var="ql">
-                                <g:link controller="question" action="view" params="[id: ql.question.id]"
-                                        class="list-group-item">${ql.question.title}</g:link>
-                            </g:each>
+                            <#list questionCategoryList[category_index] as ql>
+                                <a href="/question/view?id=${ql.id}" class="list-group-item">${ql.title}</a>
+                            </#list>
                         </div>
                     </div>
 
@@ -170,16 +159,15 @@
                             <a href="#" class="list-group-item disabled">
                                 文章
                             </a>
-                            <g:each in="${articleLanguageList.get(st)}" var="al">
-                                <g:link controller="article" action="view" params="[id: al.article.id]"
-                                        class="list-group-item">${al.article.title}</g:link>
-                            </g:each>
+                            <#list articleCategoryList[category_index] as al>
+                                <a href="/article/view?id=${al.id}" class="list-group-item">${al.title}</a>
+                            </#list>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </g:each>
+    </#list>
 
 </div>
 </@override>

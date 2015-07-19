@@ -11,6 +11,8 @@ import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 
+import java.util.List;
+
 /**
  * Created by ligson on 2015/7/20.
  */
@@ -77,5 +79,10 @@ public class SysTagServiceImpl implements SysTagService {
         questionTag.setTag(sysTag);
         questionTagDao.saveOrUpdate(questionTag);
         return questionTag;
+    }
+
+    @Override
+    public List<List> hotsTag(int max) {
+        return sysTagDao.findHotTag(max);
     }
 }

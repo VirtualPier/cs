@@ -5,6 +5,7 @@ import org.hibernate.Query;
 import org.ligson.coderstar2.article.article.dao.ArticleDao;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
+import org.ligson.coderstar2.system.domains.Category;
 
 import java.util.List;
 
@@ -64,5 +65,26 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         Query query = getCurrentSession().createQuery(hql);
         List<Article> articles = (List<Article>) query.list();
         return articles.size();
+    }
+
+    @Override
+    public List<Article> findAllByStateOrderBy(int statePublish, String sort, String order, int offset, int max) {
+        Query query = getCurrentSession().createQuery("from Article a where a.state=:state order by " + sort + " " + order);
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        query.setInteger("state", statePublish);
+        List<Article> articles = (List<Article>) query.list();
+        return articles;
+    }
+
+    @Override
+    public List<Article> findAllByStateAndCategoryOrderBy(int statePublish, Category category, String sort, String order, int offset, int max) {
+        Query query = getCurrentSession().createQuery("select distinct(ac.article) from ArticleCategory ac where ac.article.state=:state and ac.category.id=:categoryId order by ac.article." + sort + " " + order);
+        query.setInteger("state", statePublish);
+        query.setLong("categoryId", category.getId());
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Article> articles = (List<Article>) query.list();
+        return articles;
     }
 }

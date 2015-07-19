@@ -21,7 +21,7 @@ public interface ArticleService {
      * @param article 文章
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map attentionArticle(User user, Article article);
+    public Map<String, Object> attentionArticle(User user, Article article);
 
     /***
      * 审批文章
@@ -30,7 +30,7 @@ public interface ArticleService {
      * @param article 文章
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map auditArticle(User user, Article article);
+    public Map<String, Object> auditArticle(User user, Article article);
 
     /***
      * 创建文章
@@ -42,7 +42,7 @@ public interface ArticleService {
      * @param categroyIds 分类id
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map createArticle(String title, String content, User creator, String[] tags, long[] categroyIds);
+    public Map<String, Object> createArticle(String title, String content, User creator, String[] tags, long[] categroyIds);
 
     /****
      * 删除文章
@@ -51,7 +51,7 @@ public interface ArticleService {
      * @param articleId 文章id
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map deleteArticle(User user, long articleId);
+    public Map<String, Object> deleteArticle(User user, long articleId);
 
     /***
      * @param user       当前用户
@@ -71,7 +71,7 @@ public interface ArticleService {
      * @param categoryIds 分类id
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map modifyArticle(User user, Article article, String title, String content, String[] tags, List<Long> categoryIds);
+    public Map<String, Object> modifyArticle(User user, Article article, String title, String content, String[] tags, List<Long> categoryIds);
 
     /***
      * 取消文章关注
@@ -80,7 +80,7 @@ public interface ArticleService {
      * @param article 文章
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map removeAttention(User user, Article article);
+    public Map<String, Object> removeAttention(User user, Article article);
 
     /***
      * 打赏文章
@@ -90,7 +90,7 @@ public interface ArticleService {
      * @param money       钱
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map rewardArticle(User currentUser, Article article, double money);
+    public Map<String, Object> rewardArticle(User currentUser, Article article, double money);
 
     /***
      * 评论保存
@@ -100,7 +100,7 @@ public interface ArticleService {
      * @param comment 评论内容
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map saveRemark(User creator, Article article, String comment);
+    public Map<String, Object> saveRemark(User creator, Article article, String comment);
 
     /****
      * 搜索文章
@@ -113,7 +113,7 @@ public interface ArticleService {
      * @param offset      开始记录
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map searchArticle(String title, String description, String tagName, Category category, int max, int offset, String sort, String orderr);
+    public Map<String, Object> searchArticle(String title, String description, String tagName, Category category, int max, int offset, String sort, String orderr);
 
     /***
      * 搜索我的文章
@@ -125,7 +125,7 @@ public interface ArticleService {
      * @param orderr      顺序
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map searchMyArticle(User currentUser, int offset, int max, String sort, String orderr);
+    public Map<String, Object> searchMyArticle(User currentUser, int offset, int max, String sort, String orderr);
 
     /***
      * 文章投票
@@ -135,7 +135,7 @@ public interface ArticleService {
      * @param isSupport   是否支持
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map supportArticle(User currentUser, Article article, boolean isSupport);
+    public Map<String, Object> supportArticle(User currentUser, Article article, boolean isSupport);
 
     /***
      * 评论投票
@@ -145,7 +145,7 @@ public interface ArticleService {
      * @param isSupport   是否支持
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map supportRemark(User currentUser, Remark remark, boolean isSupport);
+    public Map<String, Object> supportRemark(User currentUser, Remark remark, boolean isSupport);
 
 
     public Map<String, Object> list(int offset, int max);
@@ -159,4 +159,14 @@ public interface ArticleService {
     public List<List<SysTag>> findAllArticleTagList(List<Article> articleList);
 
     public List<List<Category>> findCategoryByArticleList(List<Article> articleList);
+
+    public Article findArticleById(long articleId);
+
+    public Remark findRemarkById(long remarkId);
+
+    public List<Article> findHotArticle(int max);
+
+    public List<Article> newestArticle(int max);
+
+    public List<Article> findAllArticleByCategory(Category category, int offset, int max);
 }
