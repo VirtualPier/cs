@@ -25,6 +25,8 @@
         <property name="payService" ref="payService"/>
         <property name="userDao" ref="userDao"/>
         <property name="sysTagService" ref="sysTagService"/>
+        <property name="categoryService" ref="categoryService"/>
+
 
     </bean>
     <bean id="questionAskService" name="questionAskService"

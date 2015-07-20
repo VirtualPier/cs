@@ -16,6 +16,8 @@ public class QuestionCategoryDaoImpl extends BaseDaoImpl<QuestionCategory> imple
     @Override
     public QuestionCategory findByQuestionAndCategory(Question question, Category category) {
         Query query = getCurrentSession().createQuery("from QuestionCategory qc where qc.question.id=:qId and qc.category.id=:cId");
+        query.setParameter("qId",question.getId());
+        query.setParameter("cId",category.getId());
         List<QuestionCategory> questionCategories = query.list();
         if (questionCategories.size() > 0) {
             return questionCategories.get(0);

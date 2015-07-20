@@ -79,6 +79,7 @@
         <property name="exposeSessionAttributes" value="true"/>
         <property name="exposeSpringMacroHelpers" value="true"/>
         <property name="requestContextAttribute" value="request"/>
+        <property name="allowSessionOverride" value="true"/>
     </bean>
 
     <bean id="mappingJacksonHttpMessageConverter"

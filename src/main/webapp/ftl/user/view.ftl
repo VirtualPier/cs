@@ -52,7 +52,7 @@
                                             <div class="cs-mod">
                                                 <div class="mod-head">
                                                     <h4 class="cs-hide-txt">
-                                                        <a href="/quesiton/view?id=${question.id}">${question.title}</a>
+                                                        <a href="/question/view?id=${question.id}">${question.title}</a>
                                                     </h4>
                                                 </div>
 
