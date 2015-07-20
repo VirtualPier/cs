@@ -48,7 +48,7 @@ public class ArticleMgrController {
         return  articleService.auditArticle(user,ids);
     }
 
-    @RequestMapping("/auditArticle")
+    @RequestMapping("/deleteArticle")
     @ResponseBody
     public Map<String,Object> deleteArticle(@RequestParam("ids") String ids, HttpServletRequest request){
         String[] sIds=ids.split(",");
