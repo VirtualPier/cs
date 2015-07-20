@@ -41,14 +41,14 @@
                                     <label>提问人:</label>
                                     <a href="/user/view?id=${question.creator.id}">${question.creator.nickName}</a>
                                     <label>分类:</label>
-                                    <#list questionCategoryList[question_index] as category>
-                                        <a>${category.name}</a>
+                                    <#list question.questionCategories as category>
+                                        <a>${category.category.name}</a>
                                     </#list>
                                 </p>
 
                                 <p>
-                                    <#list questionTagList[question_index] as tag>
-                                        <a href="/question/index" class="cs-question-tags">${tag.name}</a>
+                                    <#list question.tags as tag>
+                                        <a href="/question/index" class="cs-question-tags">${tag.tag.name}</a>
                                     </#list>
                                 </p>
 
@@ -69,7 +69,7 @@
 
             <div class="mod-footer">
                 <div class="page-control pagination pull-right">
-                    <@pager.pagination total=total offset=offset max=max  url="${basePath}question/index?hasDeal=${hasDeal}&sort=${sort}"/>
+                    <@pager.pagination total=total offset=offset max=max  url="${basePath}question/index?hasDeal=${hasDeal}&sort=${sort}&categoryId=${categoryId}"/>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
                 <ul>
                     <#list categoryList as category>
                         <li>
-                            <a href="/question/search">${category.name}</a>
+                            <a href="/question/index?categoryId=${category.id}">${category.name}</a>
                         </li>
                     </#list>
                 </ul>

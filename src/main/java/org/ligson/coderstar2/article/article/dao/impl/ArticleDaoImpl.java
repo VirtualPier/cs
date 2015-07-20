@@ -47,6 +47,9 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         query.setFirstResult(offset);
         query.setMaxResults(max);
         List<Article> articles = (List<Article>) query.list();
+
+
+
         return articles;
     }
 

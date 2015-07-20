@@ -14,14 +14,26 @@ import java.util.List;
  */
 public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDao {
     @Override
-    public List<Question> findByRightAskIsNullOrderBy(boolean hasDeal, String sort, int max, int offset) {
-        StringBuilder sb = new StringBuilder("from Question q where q.state=" + Question.STATE_PUBLISH + " and ");
-        if (hasDeal) {
-            sb.append(" q.rightAsk is not null ");
+    public List<Question> findByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort, long categoryId, int max, int offset) {
+        StringBuilder sb = null;
+        if (categoryId >= 0) {
+            sb = new StringBuilder("select distinct(qc.question) from QuestionCategory qc where qc.question.state=" + Question.STATE_PUBLISH + " and  qc.category.id=" + categoryId + " and ");
+            if (hasDeal) {
+                sb.append(" qc.question.rightAsk is not null ");
+            } else {
+                sb.append(" qc.question.rightAsk is null ");
+            }
+            sb.append(" order by qc.question.").append(sort).append(" desc ");
         } else {
-            sb.append(" q.rightAsk is null ");
+            sb = new StringBuilder("from Question q where q.state=" + Question.STATE_PUBLISH + " and ");
+            if (hasDeal) {
+                sb.append(" q.rightAsk is not null ");
+            } else {
+                sb.append(" q.rightAsk is null ");
+            }
+            sb.append(" order by q.").append(sort).append(" desc ");
         }
-        sb.append(" order by ").append(sort).append(" desc ");
+
         Query query = getCurrentSession().createQuery(sb.toString());
         query.setFirstResult(offset);
         query.setMaxResults(max);
@@ -30,14 +42,26 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     }
 
     @Override
-    public int countByRightAskIsNullOrderBy(boolean hasDeal, String sort) {
-        StringBuilder sb = new StringBuilder("select count(*) from Question q where q.state=" + Question.STATE_PUBLISH + " and ");
-        if (hasDeal) {
-            sb.append(" q.rightAsk is not null ");
+    public int countByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort, long categoryId) {
+        StringBuilder sb = null;
+        if (categoryId >= 0) {
+            sb = new StringBuilder("select count(qc.question) from QuestionCategory qc where qc.question.state=" + Question.STATE_PUBLISH + " and  qc.category.id=" + categoryId + " and ");
+            if (hasDeal) {
+                sb.append(" qc.question.rightAsk is not null ");
+            } else {
+                sb.append(" qc.question.rightAsk is null ");
+            }
+            sb.append(" order by ").append(sort).append(" desc ");
         } else {
-            sb.append(" q.rightAsk is null ");
+            sb = new StringBuilder("select count(*) from Question q where q.state=" + Question.STATE_PUBLISH + " and ");
+            if (hasDeal) {
+                sb.append(" q.rightAsk is not null ");
+            } else {
+                sb.append(" q.rightAsk is null ");
+            }
+            sb.append(" order by ").append(sort).append(" desc ");
         }
-        sb.append(" order by ").append(sort).append(" desc ");
+
         Query query = getCurrentSession().createQuery(sb.toString());
         query.setCacheable(true);
         Long tatal = (Long) query.uniqueResult();

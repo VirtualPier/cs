@@ -380,6 +380,7 @@ public class QuestionServiceImpl implements QuestionService {
         return result;
     }
 
+
     /***
      * 前台搜索
      *
@@ -390,10 +391,10 @@ public class QuestionServiceImpl implements QuestionService {
      * @return 格式:[success:true/false,questionList:questionList,total:total]
      */
     @Override
-    public Map<String, Object> searchQuestion(boolean hasDeal, String sort, int max, int offset) {
+    public Map<String, Object> searchQuestion(long categoryId,boolean hasDeal, String sort, int max, int offset) {
         Map<String, Object> result = new HashMap<>();
-        List<Question> questionList = questionDao.findByRightAskIsNullOrderBy(hasDeal, sort, max, offset);
-        int total = questionDao.countByRightAskIsNullOrderBy(hasDeal, sort);
+        List<Question> questionList = questionDao.findByRightAskIsNullAndCategoryIdOrderBy(hasDeal, sort,categoryId, max, offset);
+        int total = questionDao.countByRightAskIsNullAndCategoryIdOrderBy(hasDeal, sort,categoryId);
         result.put("questionList", questionList);
         result.put("total", total);
         return result;

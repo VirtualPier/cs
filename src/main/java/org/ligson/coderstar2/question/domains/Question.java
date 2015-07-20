@@ -3,6 +3,7 @@ package org.ligson.coderstar2.question.domains;
 import com.boful.common.date.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
+import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Question implements Serializable {
     private String createDate = DateUtils.format();
     private Set<Ask> asks = new HashSet<>();
     private Set<QuestionTag> tags = new HashSet<QuestionTag>();
+    private Set<QuestionCategory> questionCategories = new HashSet<>();
     private User creator;
     private double money = 0.0;
     private int state = 1;
@@ -148,6 +150,18 @@ public class Question implements Serializable {
         this.attentionNum = attentionNum;
     }
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id")
+    public Set<QuestionCategory> getQuestionCategories() {
+        return questionCategories;
+    }
+
+    public void setQuestionCategories(Set<QuestionCategory> questionCategories) {
+        this.questionCategories = questionCategories;
+    }
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "right_ask_id", nullable = true)
     public Ask getRightAsk() {

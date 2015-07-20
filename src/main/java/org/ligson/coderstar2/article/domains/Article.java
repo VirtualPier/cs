@@ -16,6 +16,8 @@ import java.util.*;
 public class Article {
     private long id;
     private Set<Remark> remarks = new HashSet<>();
+    private Set<ArticleTag> tags = new HashSet<>();
+    private Set<ArticleCategory> articleCategories = new HashSet<>();
     private String title;
     private String description;
     private String createDate = DateUtils.format();
@@ -47,6 +49,28 @@ public class Article {
 
     public void setRemarks(Set<Remark> remarks) {
         this.remarks = remarks;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "article_id")
+    public Set<ArticleTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<ArticleTag> tags) {
+        this.tags = tags;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "article_id")
+    public Set<ArticleCategory> getArticleCategories() {
+        return articleCategories;
+    }
+
+    public void setArticleCategories(Set<ArticleCategory> articleCategories) {
+        this.articleCategories = articleCategories;
     }
 
     @Column(name = "title", length = 255, nullable = false)

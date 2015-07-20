@@ -53,18 +53,19 @@ public class QuestionController {
     }
 
     @RequestMapping("/index")
-    public String index(@RequestParam(value = "hasDeal", defaultValue = "false", required = false) boolean hasDeal, @RequestParam(value = "sort", defaultValue = "money", required = false) String sort, @RequestParam(value = "max", defaultValue = "15", required = false) int max, @RequestParam(value = "offset", defaultValue = "0", required = false) int offset, HttpServletRequest request) {
-        Map<String, Object> map = questionService.searchQuestion(hasDeal, sort, max, offset);
+    public String index(@RequestParam(value = "categoryId", required = false, defaultValue = "-1") long categoryId, @RequestParam(value = "hasDeal", defaultValue = "false", required = false) boolean hasDeal, @RequestParam(value = "sort", defaultValue = "money", required = false) String sort, @RequestParam(value = "max", defaultValue = "15", required = false) int max, @RequestParam(value = "offset", defaultValue = "0", required = false) int offset, HttpServletRequest request) {
+        Map<String, Object> map = questionService.searchQuestion(categoryId, hasDeal, sort, max, offset);
         int total = (int) map.get("total");
         List<Question> questionList = (List<Question>) map.get("questionList");
-        List<List<SysTag>> questionTagList = questionService.findQuestionTagsByQuestionList(questionList);
-        List<List<Category>> questionCategoryList = categoryService.findQuestionCategoryListByQuestionList(questionList);
-        request.setAttribute("questionTagList", questionTagList);
-        request.setAttribute("questionCategoryList", questionCategoryList);
+        //List<List<SysTag>> questionTagList = questionService.findQuestionTagsByQuestionList(questionList);
+        //List<List<Category>> questionCategoryList = categoryService.findQuestionCategoryListByQuestionList(questionList);
+        //request.setAttribute("questionTagList", questionTagList);
+        //request.setAttribute("questionCategoryList", questionCategoryList);
         request.setAttribute("total", total);
         request.setAttribute("offset", offset);
         request.setAttribute("hasDeal", ((Boolean) hasDeal).toString());
         request.setAttribute("sort", sort);
+        request.setAttribute("categoryId", categoryId);
         request.setAttribute("max", max);
         request.setAttribute("questionList", questionList);
         List<Category> categoryList = categoryService.list();

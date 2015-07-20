@@ -49,16 +49,16 @@
                                     <label>作者:</label>
                                     <a href="/user/view?id=${article.creator.id}">${article.creator.nickName}</a>
                                     <label>分类:</label>
-                                    <#list articleCategoryList[article_index] as category>
-                                        <a href="/article/index?categoryId=${category.id}">${category.name}</a>
+                                    <#list article.articleCategories as category>
+                                        <a href="/article/index?categoryId=${category.category.id}">${category.category.name}</a>
                                     </#list>
 
                                 </p>
 
                                 <p>
-                                    <#list articleTagList[article_index] as tag>
+                                    <#list article.tags as tag>
                                         <a class="cs-question-tags"
-                                           href="/article/index?tagId=${tag.id}">${tag.name}</a>
+                                           href="/article/index?tagId=${tag.tag.id}">${tag.tag.name}</a>
                                     </#list>
                                 </p>
 

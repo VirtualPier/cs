@@ -105,7 +105,9 @@
                                         </#if>
                                     </#if>
                                 <#else>
-                                    <button class="btn btn-success pull-right">最佳答案</button>
+                                    <#if question.rightAsk.id==ask.id>
+                                        <button class="btn btn-success pull-right">最佳答案</button>
+                                    </#if>
                                 </#if>
 
 

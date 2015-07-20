@@ -57,8 +57,8 @@ public class ArticleController {
         List<List> allCount = articleService.hotAuthors(-1);
         Map<String, Object> result = articleService.findAllByCategoryIdAndTagIdOrderBy(categoryId, tagId, order, max, offset);
         List<Article> articleList = (List<Article>) result.get("articleList");
-        List<List<Category>> articleCategoryList = articleService.findCategoryByArticleList(articleList);
-        List<List<SysTag>> articleTagList = articleService.findAllSysTagLists(articleList);
+        //List<List<Category>> articleCategoryList = articleService.findCategoryByArticleList(articleList);
+        //List<List<SysTag>> articleTagList = articleService.findAllSysTagLists(articleList);
 
         int total = (int) result.get("total");
         request.setAttribute("categoryId", categoryId);
@@ -66,8 +66,8 @@ public class ArticleController {
         request.setAttribute("max", max);
         request.setAttribute("offset", offset);
         request.setAttribute("order", order);
-        request.setAttribute("articleTagList", articleTagList);
-        request.setAttribute("articleCategoryList", articleCategoryList);
+        //request.setAttribute("articleTagList", articleTagList);
+        //request.setAttribute("articleCategoryList", articleCategoryList);
         request.setAttribute("articleList", articleList);
         request.setAttribute("total", total);
         request.setAttribute("categoryList", categoryList);

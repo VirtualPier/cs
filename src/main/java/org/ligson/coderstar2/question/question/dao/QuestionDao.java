@@ -11,9 +11,9 @@ import java.util.List;
  * Created by ligson on 2015/7/16.
  */
 public interface QuestionDao extends BaseDao<Question> {
-    public List<Question> findByRightAskIsNullOrderBy(boolean hasDeal, String sort, int max, int offset);
+    public List<Question> findByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort, long categoryId, int max, int offset);
 
-    public int countByRightAskIsNullOrderBy(boolean hasDeal, String sort);
+    public int countByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort,long categoryId);
 
     public List<Question> findAllByStateOrderBy(int statePublish, String sort, String order, int offset, int max);
 
