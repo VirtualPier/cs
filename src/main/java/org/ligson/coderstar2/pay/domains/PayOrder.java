@@ -110,11 +110,11 @@ public class PayOrder {
 
     public static final Map<Integer, String> stateCnName = new HashMap<>();
     public static final Map<Integer, String> typeCnName = new HashMap<>();
-    static final int STATE_PAYING = 1;
-    static final int STATE_SUCEESS = 2;
-    static final int STATE_FAIL = 3;
-    static final int TYPE_ALIPAY = 1;
-    static final int TYPE_WEIXIN = 2;
+    public static final int STATE_PAYING = 1;
+    public static final int STATE_SUCEESS = 2;
+    public static final int STATE_FAIL = 3;
+    public static final int TYPE_ALIPAY = 1;
+    public static final int TYPE_WEIXIN = 2;
 
     static {
         stateCnName.put(STATE_PAYING, "正在充值");

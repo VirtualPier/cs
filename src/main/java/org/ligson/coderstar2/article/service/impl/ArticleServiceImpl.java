@@ -207,7 +207,18 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Map<String, Object> removeAttention(User user, Article article) {
-        return null;
+        Map<String, Object> result = new HashMap<>();
+        AttentionArticle attentionArticle = attentionArticleDao.findByUserAndArticle(user, article);
+        if (attentionArticle != null) {
+            attentionArticleDao.delete(attentionArticle);
+            article.setAttentionNum(article.getAttentionNum() - 1);
+            articleDao.saveOrUpdate(article);
+            result.put("success", true);
+        } else {
+            result.put("success", false);
+            result.put("msg", "用户未关注!");
+        }
+        return result;
     }
 
     @Override

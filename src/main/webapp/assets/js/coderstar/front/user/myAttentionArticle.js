@@ -40,7 +40,7 @@ function loadQuestion(question) {
     htmlString += question.replyNum + "&nbsp个回复";
     htmlString += "</span>";
     htmlString += "•";
-    htmlString += "<a href=\"  " + baseUrl + "question/view/" + question.id + "\" class=\" cs-topic-name\">";
+    htmlString += "<a href=\"  " + baseUrl + "article/view?id" + question.id + "\" class=\" cs-topic-name\">";
     htmlString += question.title;
     htmlString += "</a>";
     htmlString += "<a href='" + baseUrl + "user/deleteArticleAttention?id=" + question.id + "' class='pull-right'>取消关注</a>"

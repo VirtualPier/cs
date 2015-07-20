@@ -7,6 +7,8 @@ import org.ligson.coderstar2.question.domains.AttentionQuestion;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.user.domains.User;
 
+import java.util.List;
+
 /**
  * Created by ligson on 2015/7/16.
  */
@@ -18,5 +20,18 @@ public class AttentionQuestionDaoImpl extends BaseDaoImpl<AttentionQuestion> imp
         query.setLong("userId", user.getId());
         Long count = (Long) query.uniqueResult();
         return count.intValue();
+    }
+
+    @Override
+    public AttentionQuestion findByUserAndQuestion(User user, Question question) {
+        Query query = getCurrentSession().createQuery("from AttentionQuestion aq where aq.user.id=:userId and aq.question.id=:questionId");
+        query.setLong("userId", user.getId());
+        query.setLong("questionId", question.getId());
+        List<AttentionQuestion> attentionQuestions = (List<AttentionQuestion>) query.list();
+        if (attentionQuestions.size() > 0) {
+            return attentionQuestions.get(0);
+        } else {
+            return null;
+        }
     }
 }

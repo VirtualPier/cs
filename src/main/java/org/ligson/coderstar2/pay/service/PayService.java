@@ -2,6 +2,7 @@ package org.ligson.coderstar2.pay.service;
 
 import org.ligson.coderstar2.user.domains.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -40,4 +41,8 @@ public interface PayService {
      * @return
      */
     public Map<String, Object> blockedMoney(User user, double money, String comments, int objType, long objId);
+
+    public Map<String,Object> findAllPayOrderByUser(User user, int offset, int max);
+
+    public Map<String,Object> payResult(HttpServletRequest request);
 }

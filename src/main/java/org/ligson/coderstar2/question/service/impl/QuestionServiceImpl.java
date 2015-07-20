@@ -524,4 +524,21 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> findAllAttentionQuestion(User user, int offset, int max) {
         return questionDao.findAllByAttentionQuestion(user, offset, max);
     }
+
+    @Override
+    public Map<String, Object> removeAttention(User user, Question question) {
+        Map<String, Object> result = new HashMap<>();
+        AttentionQuestion attentionQuestion = attentionQuestionDao.findByUserAndQuestion(user, question);
+        if (attentionQuestion != null) {
+            attentionQuestionDao.delete(attentionQuestion);
+
+            question.setAttentionNum(question.getAttentionNum() - 1);
+            questionDao.saveOrUpdate(question);
+            result.put("success", true);
+        } else {
+            result.put("success", false);
+            result.put("msg", "用户未关注问题" + question.getTitle());
+        }
+        return result;
+    }
 }

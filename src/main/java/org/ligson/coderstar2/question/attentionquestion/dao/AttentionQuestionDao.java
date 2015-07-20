@@ -10,4 +10,6 @@ import org.ligson.coderstar2.user.domains.User;
  */
 public interface AttentionQuestionDao extends BaseDao<AttentionQuestion> {
     public int countByUserAndQuestion(User user, Question question);
+
+    public AttentionQuestion findByUserAndQuestion(User user, Question question);
 }

@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.user.controllers;
 
+import com.alipay.util.AlipaySubmit;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.pay.service.PayService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,5 +204,91 @@ public class UserController {
         return result;
     }
 
+    @RequestMapping("/deleteArticleAttention")
+    public String deleteArticleAttention(@RequestParam("id") long id, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Article article = articleService.findArticleById(id);
+        articleService.removeAttention(user, article);
+        return "redirect:/user/myAttentionArticle";
+    }
+
+
+    @RequestMapping("/deleteQuestionAttention")
+    public String deleteQuestionAttention(@RequestParam("id") long id, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Question question = questionService.findQuestionById(id);
+        Map<String, Object> map = questionService.removeAttention(user, question);
+        return "redirect:/user/myAttention";
+    }
+
+    @RequestMapping("/deleteQuestion")
+    public String deleteQuestion(@RequestParam("ids") String ids, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        String[] idString = ids.split(",");
+        long[] idArray = new long[idString.length];
+        for (int i = 0; i < idArray.length; i++) {
+            idArray[i] = Long.parseLong(idString[i]);
+        }
+        Map<String, Object> result = questionService.deleteQuestion(idArray);
+        return "redirect:/user/myPublish";
+    }
+
+    @RequestMapping("/deleteArticle")
+    public String deleteArticle(@RequestParam("id") long id, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        articleService.deleteArticle(user, id);
+        return "redirect:/user/myArticle";
+    }
+
+    @RequestMapping("/myRechangeLog")
+    public String myRechangeLog() {
+        return "user/myRechangeLog";
+    }
+
+    @RequestMapping("/loadMyRechangeLog")
+    @ResponseBody
+    public Map<String, Object> loadMyRechangeLog(int offset, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        return payService.findAllPayOrderByUser(user, offset, 10);
+    }
+
+    public String myWithdrawLog() {
+        return null;
+    }
+
+    @RequestMapping("/rechange")
+    public String rechange() {
+        return "user/rechange";
+    }
+
+    @RequestMapping("/alipay")
+    public void alipay(@RequestParam("money") int money, HttpServletRequest request, HttpServletResponse response) {
+        User user = (User) request.getSession().getAttribute("user");
+        Map<String, Object> map = payService.recharge(user, 0.01);
+        Map map1 = (Map) map.get("requestMap");
+        String html = AlipaySubmit.buildRequest(map1, "post", "确认");
+        try {
+            response.setContentType("text/html");
+            response.getWriter().print(html);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("/alipay_notify")
+    public String alipay_notify(HttpServletRequest request) {
+        //获取支付宝POST过来反馈信息
+        Map result = payService.payResult(request);
+        request.setAttribute("msg", result.get("msg"));
+        return "user/alipay_notify";
+    }
+
+    @RequestMapping("/alipay_return")
+    public String alipay_return(HttpServletRequest request) {
+        //获取支付宝POST过来反馈信息
+        Map result = payService.payResult(request);
+        request.setAttribute("msg", result.get("msg"));
+        return "user/alipay_notify";
+    }
 
 }

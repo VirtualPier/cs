@@ -177,4 +177,6 @@ public interface QuestionService {
     public Map<String, Object> syncQuestionIndex();
 
     public List<Question> findAllAttentionQuestion(User user, int offset, int max);
+
+    public Map<String, Object> removeAttention(User user, Question question);
 }
