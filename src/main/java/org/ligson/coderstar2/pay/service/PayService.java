@@ -1,8 +1,11 @@
 package org.ligson.coderstar2.pay.service;
 
+import org.ligson.coderstar2.pay.domains.TradeRecord;
+import org.ligson.coderstar2.pay.domains.Withdraw;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,7 +45,15 @@ public interface PayService {
      */
     public Map<String, Object> blockedMoney(User user, double money, String comments, int objType, long objId);
 
-    public Map<String,Object> findAllPayOrderByUser(User user, int offset, int max);
+    public Map<String, Object> findAllPayOrderByUser(User user, int offset, int max);
 
-    public Map<String,Object> payResult(HttpServletRequest request);
+    public Map<String, Object> payResult(HttpServletRequest request);
+
+    public List<TradeRecord> loadMyTradeLog(User user, int offset, int i, String sort, String order);
+
+    public List<Withdraw> loadMyWithdrawLogList(User user, int offset, int max, String sort, String order);
+
+    public Withdraw findWithDrawByStateAndUser(int state, User user1);
+
+    public Map<String, Object> withdraw(User user, double money, String comments, String payAccount);
 }

@@ -4,6 +4,8 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -89,7 +91,7 @@ public class Withdraw {
         this.payAccount = payAccount;
     }
 
-    @Column(name = "allow_date", nullable = false)
+    @Column(name = "allow_date", nullable = true)
     public String getAllowDate() {
         return allowDate;
     }
@@ -105,5 +107,17 @@ public class Withdraw {
 
     public void setTrueMoney(double trueMoney) {
         this.trueMoney = trueMoney;
+    }
+
+    public static final Map<Integer, String> stateCnName = new HashMap<>();
+
+    public static final int STATE_APPLY = 1;
+    public static final int STATE_APPROVED = 2;
+    public static final int STATE_REJECT = 3;
+
+    static {
+        stateCnName.put(STATE_APPLY, "申请");
+        stateCnName.put(STATE_APPROVED, "批准");
+        stateCnName.put(STATE_REJECT, "拒绝");
     }
 }

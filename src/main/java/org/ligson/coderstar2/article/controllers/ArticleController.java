@@ -173,5 +173,12 @@ public class ArticleController {
         return "/article/view";
     }
 
+    @RequestMapping("/create")
+    public String create(HttpServletRequest request) {
+        List<Category> categoryList = categoryService.list();
+        request.setAttribute("categoryList", categoryList);
+        return "/article/create";
+    }
+
 
 }

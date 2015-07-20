@@ -18,28 +18,36 @@
         <div class="mod-body">
             <ul>
                 <li>
-                    <a href="/user/myAttention" rel="all__focus" class="active"><i class="glyphicon glyphicon-star"></i>我关注的问题</a>
+                    <a href="/user/myAttention"
+                       rel="all__focus" ${(springMacroRequestContext.requestUri==("/user/myAttention"))?string("class='active'","")}><i
+                            class="glyphicon glyphicon-star"></i>我关注的问题</a>
                 </li>
                 <li>
-                    <a href="/user/myPublish" rel="focus_topic__focus" class="active"><i
-                            class="glyphicon glyphicon-check"></i>我提问的问题</a>
+                    <a ${springMacroRequestContext.requestUri?contains("/user/myPublish")?string("class='active'","")}
+                            href="/user/myPublish" rel="focus_topic__focus"><i
+                            class="glyphicon glyphicon-edit"></i>我提问的问题</a>
                 </li>
                 <li>
-                    <a href="/user/myArticle" rel="invite_list__invite" class="active"><i
-                            class="glyphicon glyphicon-edit"></i>我发布的文章</a>
+                    <a ${springMacroRequestContext.requestUri?contains("/user/myArticle")?string("class='active'","")}
+                            href="/user/myArticle" rel="invite_list__invite"><i
+                            class="glyphicon glyphicon-list-alt"></i>我发布的文章</a>
                 </li>
                 <li>
-                    <a href="/user/myAttentionArticle" rel="invite_list__invite" class="active"><i
-                            class="glyphicon glyphicon-edit"></i>我关注的文章</a>
+                    <a href="/user/myAttentionArticle"
+                       rel="invite_list__invite" ${springMacroRequestContext.requestUri?contains("/user/myAttentionArticle")?string("class='active'","")}><i
+                            class="glyphicon glyphicon-heart"></i>我关注的文章</a>
                 </li>
                 <li>
-                    <a href="/user/myRechangeLog"><i class="glyphicon glyphicon-edit"></i>充值记录</a>
+                    <a href="/user/myRechangeLog" ${springMacroRequestContext.requestUri?contains("/user/myRechangeLog")?string("class='active'","")}><i
+                            class="glyphicon glyphicon-usd"></i>充值记录</a>
                 </li>
                 <li>
-                    <a href="/user/myTradeLog"><i class="glyphicon glyphicon-edit"></i>交易记录</a>
+                    <a href="/user/myTradeLog" ${springMacroRequestContext.requestUri?contains("/user/myTradeLog")?string("class='active'","")}><i
+                            class="glyphicon glyphicon-link"></i>交易记录</a>
                 </li>
                 <li>
-                    <a href="/user/myWithdrawLog"><i class="glyphicon glyphicon-edit"></i>提现记录</a>
+                    <a href="/user/myWithdrawLog" ${springMacroRequestContext.requestUri?contains("/user/myWithdrawLog")?string("class='active'","")}><i
+                            class="glyphicon glyphicon-print"></i>提现记录</a>
                 </li>
             </ul>
         </div>

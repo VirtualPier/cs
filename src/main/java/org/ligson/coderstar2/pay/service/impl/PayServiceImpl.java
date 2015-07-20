@@ -276,8 +276,8 @@ public class PayServiceImpl implements PayService {
         Map<String, Object> result = new HashMap<>();
         //获取支付宝POST过来反馈信息
         Map<String, String> params1 = new HashMap<String, String>();
-        Map<String,Object> requestParams = request.getParameterMap();
-        for (String key:requestParams.keySet()) {
+        Map<String, Object> requestParams = request.getParameterMap();
+        for (String key : requestParams.keySet()) {
             String[] values = (String[]) requestParams.get(key);
             StringBuffer buffer = new StringBuffer();
             for (int i = 0; i < values.length; i++) {
@@ -302,8 +302,8 @@ public class PayServiceImpl implements PayService {
             //////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代码
             //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
-            PayOrder payOrder = payOrderDao.findBy("guid",out_trade_no);
-            if (payOrder!=null) {
+            PayOrder payOrder = payOrderDao.findBy("guid", out_trade_no);
+            if (payOrder != null) {
                 if (trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")) {
                     //判断该笔订单是否在商户网站中已经做过处理
                     //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -316,24 +316,70 @@ public class PayServiceImpl implements PayService {
                         user.setBalance(user.getBalance() + payOrder.getMoney());
                         userDao.saveOrUpdate(user);
                     }
-                    result.put("success",true);
-                    result.put("msg","交易成功!");
+                    result.put("success", true);
+                    result.put("msg", "交易成功!");
                 } else {
                     payOrder.setState(PayOrder.STATE_FAIL);
                     payOrder.setComments("支付宝订单号:" + trade_no);
                     payOrderDao.saveOrUpdate(payOrder);
 
-                    result.put("success",false);
-                    result.put("msg","充值失败！");
+                    result.put("success", false);
+                    result.put("msg", "充值失败！");
                 }
             } else {
-                result.put("success",false);
-                result.put("msg","订单不存在!");
+                result.put("success", false);
+                result.put("msg", "订单不存在!");
             }
         } else {
-            result.put("success",false);
-            result.put("msg","你可以买彩票去了,这几率你都能遇到!");
+            result.put("success", false);
+            result.put("msg", "你可以买彩票去了,这几率你都能遇到!");
         }
+        return result;
+    }
+
+    @Override
+    public List<TradeRecord> loadMyTradeLog(User user, int offset, int max, String sort, String order) {
+        return tradeRecordDao.findAllByUser(user, offset, max, sort, order);
+    }
+
+    @Override
+    public List<Withdraw> loadMyWithdrawLogList(User user, int offset, int max, String sort, String order) {
+        List<Withdraw> withdraws = withdrawDao.findAllByUser(user, offset, max, sort, order);
+        return withdraws;
+    }
+
+    @Override
+    public Withdraw findWithDrawByStateAndUser(int state, User user1) {
+        return withdrawDao.findAllByUserAndState(user1, state);
+    }
+
+    @Override
+    public Map<String, Object> withdraw(User currentUser, double money, String comments, String payAccount) {
+        Map<String, Object> result = new HashMap<>();
+        if (money > currentUser.getBalance()) {
+            result.put("success", false);
+            result.put("msg", "超出余额了!");
+            return result;
+        }
+        if (payAccount == null) {
+            result.put("success", false);
+            result.put("msg", "支付账户没有填写");
+            return result;
+        }
+        Withdraw withdraw = new Withdraw();
+        withdraw.setUser(currentUser);
+        withdraw.setComments(comments);
+        withdraw.setMoney(money);
+        withdraw.setState(Withdraw.STATE_APPLY);
+        withdraw.setPayAccount(payAccount);
+        withdrawDao.saveOrUpdate(withdraw);
+
+        Map<String, Object> result2 = blockedMoney(currentUser, money, "用户提现", 3, withdraw.getId());
+        boolean success = (boolean) result2.get("succcess");
+        if (!success) {
+            return result2;
+        }
+        result.put("success", true);
         return result;
     }
 }

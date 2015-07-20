@@ -34,11 +34,11 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     public List<Article> findAllByCategoryIdAndTagIdOrderBy(long categoryId, long tagId, String order, int max, int offset) {
         String hql = "";
         if (categoryId >= 0 && tagId >= 0) {
-            hql = "select DISTINCT(ac.article) from ArticleCategory ac,ArticleTag at where at.article.id=ac.article.id and at.tag.id=" + tagId + " and ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
+            hql = "select DISTINCT(ac.article) from ArticleCategory ac,ArticleTag at where at.article.id=ac.article.id and at.tag.id=" + tagId + " and ac.article.state=0 and ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
         } else if (categoryId < 0 && tagId >= 0) {
-            hql = "select DISTINCT(at.article) from ArticleTag at where at.tag.id=" + tagId + " order by at.article." + order + " desc";
+            hql = "select DISTINCT(at.article) from ArticleTag at where at.article.state=0 and at.tag.id=" + tagId + " order by at.article." + order + " desc";
         } else if (categoryId >= 0 && tagId < 0) {
-            hql = "select DISTINCT(ac.article)  from ArticleCategory ac where  ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
+            hql = "select DISTINCT(ac.article)  from ArticleCategory ac where ac.article.state=0 and ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
         } else {
             //categoryId<0&&tagId<0
             hql = " from Article order by " + order + " desc";

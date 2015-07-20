@@ -4,19 +4,27 @@
 var offset = 0;
 
 function loadMyRechangeLog() {
-    $.post("/user/loadMyTradeLog", {offset: offset}, function (data) {
+    $.post("/user/loadMyWithdrawLog", {offset: offset}, function (data) {
         if (data.success) {
             var html = "";
 
-            for (var i = 0; i < data.tradeRecords.length; i++) {
+            for (var i = 0; i < data.withdrawList.length; i++) {
                 html += "<tr>";
-                var trade = data.tradeRecords[i];
+                var trade = data.withdrawList[i];
                 html += "   <th scope=\"row\">" + trade.id + "</th>";
                 html += "   <td>" + Date.convertTxtFormat(trade.createDate) + "</td>";
-                html += "   <td>" + (trade.type == 1 ? "支出" : "收入") + "</td>";
-                html += "   <td>" + (trade.objType == 1 ? "问题" : "文章") + "</td>";
-                html += "   <td>" + trade.objId + "</td>";
                 html += "   <td>" + trade.money + "</td>";
+                var stateStr = "申请";
+                if (stateStr == 1) {
+                    stateStr = "申请";
+                } else if (stateStr == 2) {
+                    stateStr = "批准";
+                } else {
+                    stateStr = "拒绝";
+                }
+                html += "   <td>" + stateStr + "</td>";
+                html += "   <td>" + trade.payAccount + "</td>";
+                html += "   <td>" + trade.comments + "</td>";
                 html += "</tr>";
             }
 

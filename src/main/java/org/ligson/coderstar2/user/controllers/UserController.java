@@ -3,6 +3,8 @@ package org.ligson.coderstar2.user.controllers;
 import com.alipay.util.AlipaySubmit;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
+import org.ligson.coderstar2.pay.domains.TradeRecord;
+import org.ligson.coderstar2.pay.domains.Withdraw;
 import org.ligson.coderstar2.pay.service.PayService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
@@ -13,6 +15,7 @@ import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -252,8 +255,20 @@ public class UserController {
         return payService.findAllPayOrderByUser(user, offset, 10);
     }
 
+    @RequestMapping("/myWithdrawLog")
     public String myWithdrawLog() {
-        return null;
+        return "user/myWithdrawLog";
+    }
+
+    @RequestMapping("/loadMyWithdrawLog")
+    @ResponseBody
+    public Map<String, Object> loadMyWithdrawLog(@RequestParam("offset") int offset, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+        List<Withdraw> withdraws = payService.loadMyWithdrawLogList(user, offset, 10, "createDate", "desc");
+        result.put("withdrawList", withdraws);
+        result.put("success", true);
+        return result;
     }
 
     @RequestMapping("/rechange")
@@ -289,6 +304,52 @@ public class UserController {
         Map result = payService.payResult(request);
         request.setAttribute("msg", result.get("msg"));
         return "user/alipay_notify";
+    }
+
+    @RequestMapping("/myTradeLog")
+    public String myTradeLog() {
+        return "user/myTradeLog";
+    }
+
+    @RequestMapping("/loadMyTradeLog")
+    @ResponseBody
+    public Map<String, Object> loadMyTradeLog(@RequestParam("offset") int offset, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        List<TradeRecord> tradeRecords = payService.loadMyTradeLog(user, offset, 10, "createDate", "desc");
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        result.put("tradeRecords", tradeRecords);
+        return result;
+    }
+
+    @RequestMapping("/withdraw")
+    public String withdraw(@RequestParam(value = "msg", required = false) String msg, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        User user1 = userService.findUserById(user.getId());
+        Withdraw withdraw = payService.findWithDrawByStateAndUser(1, user1);
+        if (withdraw == null) {
+            request.setAttribute("msg", msg);
+            request.setAttribute("balance", user1.getBalance());
+            return "user/withdraw";
+        } else {
+            request.setAttribute("msg", "您还有一笔提现申请正在处理中,请稍后在提交!");
+            return "user/alipay_notify";
+        }
+    }
+
+    @RequestMapping("/applyWithDraw")
+    public String applyWithDraw(@RequestParam(value = "money") double money, @RequestParam("payAccount") String payAccount, @RequestParam(value = "comments", required = false) String comments, HttpServletRequest request, Model model) {
+        User user = (User) request.getSession().getAttribute("user");
+        User user1 = userService.findUserById(user.getId());
+        Map<String, Object> result = payService.withdraw(user, money, comments, payAccount);
+        boolean success = (boolean) result.get("success");
+        if (success) {
+            return "redirect:/user/myWithdrawLog";
+        } else {
+            String msg = (String) result.get("msg");
+            model.addAttribute("msg", msg);
+            return "redirect:/user/withdraw";
+        }
     }
 
 }

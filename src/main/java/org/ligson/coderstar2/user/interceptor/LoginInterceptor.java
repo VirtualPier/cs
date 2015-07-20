@@ -5,6 +5,7 @@ import org.ligson.coderstar2.controllers.AdminController;
 import org.ligson.coderstar2.question.admin.controllers.QuestionMgrController;
 import org.ligson.coderstar2.question.controllers.QuestionController;
 import org.ligson.coderstar2.user.admin.controllers.UserMgrController;
+import org.ligson.coderstar2.user.controllers.UserController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,6 +39,21 @@ public class LoginInterceptor implements HandlerInterceptor {
                     return adminLoginCheck(request, response);
                 }
             }
+
+            if (bean instanceof UserController) {
+                String[] uncheckAction = new String[]{"view"};
+                boolean isExsit = false;
+                for (String actionName : uncheckAction) {
+                    if (actionName.equals(methodName)) {
+                        isExsit = true;
+                        break;
+                    }
+                }
+                if (!isExsit) {
+                    return userLoginCheck(request, response);
+                }
+            }
+
 
             if (bean instanceof UserMgrController) {
                 return adminLoginCheck(request, response);

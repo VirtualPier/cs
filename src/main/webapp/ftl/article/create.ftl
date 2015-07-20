@@ -17,7 +17,7 @@
 
 <div class="col-sm-12 col-md-9 cs-main-content">
 
-    <form action="/article/save" class="form-horizontal" name="createQuestionForm" id="createQuestionForm">
+    <form action="/article/save" class="form-horizontal" name="createQuestionForm" id="createQuestionForm" method="post">
         <div class="cs-mod">
             <div class="mod-body">
 
