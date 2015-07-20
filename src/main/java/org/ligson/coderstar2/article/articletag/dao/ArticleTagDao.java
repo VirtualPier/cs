@@ -11,7 +11,6 @@ import java.util.List;
  * Created by Ruby on 2015/7/16.
  */
 public interface ArticleTagDao extends BaseDao<ArticleTag> {
-    public List<SysTag> listOrderArticle(int limit);
 
-    public List<SysTag> findAllByArticle(Article article);
+    public List<ArticleTag> findAllByArticle(Article article);
 }

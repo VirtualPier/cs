@@ -1,11 +1,8 @@
 package org.ligson.coderstar2.article.controllers;
 
-import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.article.service.ArticleService;
-import org.ligson.coderstar2.question.domains.Ask;
-import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
@@ -18,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +58,7 @@ public class ArticleController {
         Map<String, Object> result = articleService.findAllByCategoryIdAndTagIdOrderBy(categoryId, tagId, order, max, offset);
         List<Article> articleList = (List<Article>) result.get("articleList");
         List<List<Category>> articleCategoryList = articleService.findCategoryByArticleList(articleList);
-        List<List<SysTag>> articleTagList = articleService.findAllArticleTagList(articleList);
+        List<List<SysTag>> articleTagList = articleService.findAllSysTagLists(articleList);
 
         int total = (int) result.get("total");
         request.setAttribute("categoryId", categoryId);

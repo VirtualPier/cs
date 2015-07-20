@@ -19,4 +19,6 @@ public interface SysTagDao extends BaseDao<SysTag> {
     public List<SysTag> findAllByArticle(Article article);
 
     public List<SysTag> findAllByCreator(User user, int max);
+
+    public List<SysTag> listOrderArticle(int limit);
 }

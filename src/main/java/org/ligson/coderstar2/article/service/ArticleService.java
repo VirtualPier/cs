@@ -14,7 +14,7 @@ import java.util.Map;
  * 文章服务
  */
 public interface ArticleService {
-    /***
+    /**
      * 关注文章
      *
      * @param user    关注用户
@@ -23,16 +23,16 @@ public interface ArticleService {
      */
     public Map<String, Object> attentionArticle(User user, Article article);
 
-    /***
+    /**
      * 审批文章
      *
-     * @param user    操作用户
-     * @param ids 文章Id集合
+     * @param user 操作用户
+     * @param ids  文章Id集合
      * @return [success:true/false,msg:XXXX,...]
      */
     public Map<String, Object> auditArticle(User user, long[] ids);
 
-    /***
+    /**
      * 创建文章
      *
      * @param title       文章标题
@@ -44,7 +44,8 @@ public interface ArticleService {
      */
     public Map<String, Object> createArticle(String title, String content, User creator, String[] tags, long[] categroyIds);
 
-    /****
+    /**
+     * *
      * 删除文章
      *
      * @param user      当前用户
@@ -53,14 +54,14 @@ public interface ArticleService {
      */
     public Map<String, Object> deleteArticle(User user, long articleId);
 
-    /***
+    /**
      * @param user       当前用户
      * @param articleIds 文章id
      * @return [ [success:true/false,msg:XXXX,...], [success:true/false,msg:XXXX,...],...]
      */
-    public List<Map<String, Object>> deleteArticles(User user, long[] articleIds);
+    public Map<String, Object> deleteArticles(User user, long[] articleIds);
 
-    /***
+    /**
      * 修改文章
      *
      * @param user        当前用户
@@ -73,7 +74,7 @@ public interface ArticleService {
      */
     public Map<String, Object> modifyArticle(User user, Article article, String title, String content, String[] tags, List<Long> categoryIds);
 
-    /***
+    /**
      * 取消文章关注
      *
      * @param user    当前用户
@@ -82,7 +83,7 @@ public interface ArticleService {
      */
     public Map<String, Object> removeAttention(User user, Article article);
 
-    /***
+    /**
      * 打赏文章
      *
      * @param currentUser 当前用户
@@ -92,7 +93,7 @@ public interface ArticleService {
      */
     public Map<String, Object> rewardArticle(User currentUser, Article article, double money);
 
-    /***
+    /**
      * 评论保存
      *
      * @param creator 当前用户
@@ -102,7 +103,8 @@ public interface ArticleService {
      */
     public Map<String, Object> saveRemark(User creator, Article article, String comment);
 
-    /****
+    /**
+     * *
      * 搜索文章
      *
      * @param title       标题
@@ -115,7 +117,7 @@ public interface ArticleService {
      */
     public Map<String, Object> searchArticle(String title, String description, String tagName, Category category, int max, int offset, String sort, String orderr);
 
-    /***
+    /**
      * 搜索我的文章
      *
      * @param currentUser 当钱用户
@@ -127,7 +129,7 @@ public interface ArticleService {
      */
     public Map<String, Object> searchMyArticle(User currentUser, int offset, int max, String sort, String orderr);
 
-    /***
+    /**
      * 文章投票
      *
      * @param currentUser 当前用户
@@ -137,7 +139,7 @@ public interface ArticleService {
      */
     public Map<String, Object> supportArticle(User currentUser, Article article, boolean isSupport);
 
-    /***
+    /**
      * 评论投票
      *
      * @param currentUser 当前用户
@@ -156,7 +158,7 @@ public interface ArticleService {
 
     public Map<String, Object> findAllByCategoryIdAndTagIdOrderBy(long categoryId, long tagId, String order, int max, int offset);
 
-    public List<List<SysTag>> findAllArticleTagList(List<Article> articleList);
+    public List<List<SysTag>> findAllSysTagLists(List<Article> articleList);
 
     public List<List<Category>> findCategoryByArticleList(List<Article> articleList);
 
@@ -185,4 +187,12 @@ public interface ArticleService {
     public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max);
 
     public int countByCreatorAndState(User user, int statePublish);
+
+    public boolean deleteTagByArticle(Article article);
+
+    public boolean deleteArticleRateByArticle(Article article);
+
+    public boolean deleteArticleCategoryByArticle(Article article);
+
+    public boolean deleteRemarkRateAndReplyByArticle(Article article);
 }

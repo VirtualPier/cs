@@ -47,4 +47,16 @@ public class ArticleMgrController {
         User user= (User) request.getSession().getAttribute("adminUser");
         return  articleService.auditArticle(user,ids);
     }
+
+    @RequestMapping("/auditArticle")
+    @ResponseBody
+    public Map<String,Object> deleteArticle(@RequestParam("ids") String ids, HttpServletRequest request){
+        String[] sIds=ids.split(",");
+        long[] lIds = new long[sIds.length];
+        for (int i=0;i<sIds.length;i++){
+            lIds[i] =Long.parseLong(sIds[i]);
+        }
+        User user= (User) request.getSession().getAttribute("adminUser");
+        return  articleService.deleteArticles(user, lIds);
+    }
 }

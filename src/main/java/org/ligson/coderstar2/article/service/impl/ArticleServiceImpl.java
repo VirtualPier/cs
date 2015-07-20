@@ -16,6 +16,7 @@ import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 
@@ -37,6 +38,15 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleRateDao articleRateDao;
     private AttentionArticleDao attentionArticleDao;
     private PayService payService;
+    private SysTagDao sysTagDao;
+
+    public SysTagDao getSysTagDao() {
+        return sysTagDao;
+    }
+
+    public void setSysTagDao(SysTagDao sysTagDao) {
+        this.sysTagDao = sysTagDao;
+    }
 
     public PayService getPayService() {
         return payService;
@@ -186,7 +196,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Map<String, Object>> deleteArticles(User user, long[] articleIds) {
+    public Map<String, Object> deleteArticles(User user, long[] articleIds) {
         return null;
     }
 
@@ -282,7 +292,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<SysTag> hotsTag(int limit) {
-        return articleTagDao.listOrderArticle(limit);
+        return sysTagDao.listOrderArticle(limit);
     }
 
     @Override
@@ -308,10 +318,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<List<SysTag>> findAllArticleTagList(List<Article> articleList) {
+    public List<List<SysTag>> findAllSysTagLists(List<Article> articleList) {
         List<List<SysTag>> lists = new ArrayList<>();
         for (Article article : articleList) {
-            List<SysTag> articleTags = articleTagDao.findAllByArticle(article);
+            List<SysTag> articleTags = sysTagDao.findAllByArticle(article);
             lists.add(articleTags);
         }
         return lists;
@@ -397,5 +407,34 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int countByCreatorAndState(User user, int statePublish) {
         return articleDao.countByCreatorAndState(user, statePublish);
+    }
+
+    @Override
+    public boolean deleteTagByArticle(Article article) {
+        boolean isFlag = true;
+        if (article != null) {
+            List<ArticleTag> tagList =articleTagDao.findAllByArticle(article);
+            if (tagList != null && tagList.size() > 0) {
+                for (int i = 0; i < tagList.size(); i++) {
+                    articleTagDao.delete(tagList.get(i));
+                }
+            }
+        }
+        return isFlag;
+    }
+
+    @Override
+    public boolean deleteArticleRateByArticle(Article article) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteArticleCategoryByArticle(Article article) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteRemarkRateAndReplyByArticle(Article article) {
+        return false;
     }
 }

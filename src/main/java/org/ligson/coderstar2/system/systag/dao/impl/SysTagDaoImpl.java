@@ -59,4 +59,14 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
         List<SysTag> sysTags = (List<SysTag>) query.list();
         return sysTags;
     }
+
+    @Override
+    public List<SysTag> listOrderArticle(int limit) {
+        Query query = getCurrentSession().createQuery("select ta.tag from ArticleTag ta group by ta.tag order by count(ta.article) desc");
+        query.setFirstResult(0);
+        query.setMaxResults(limit);
+        List<SysTag> sysTags = (List<SysTag>) query.list();
+        return sysTags;
+    }
+
 }
