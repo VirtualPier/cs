@@ -53,6 +53,7 @@
         <property name="remarkDao" ref="remarkDao"/>
         <property name="remarkRate" ref="remarkRate"/>
         <property name="remarkRateDao" ref="remarkRateDao"/>
+        <property name="sysTagDao" ref="sysTagDao"/>
     </bean>
 
     <bean id="payService" name="payService"

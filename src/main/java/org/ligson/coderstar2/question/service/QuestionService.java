@@ -172,8 +172,9 @@ public interface QuestionService {
 
     public int countByCreatorAndState(User user, int statePublish);
 
-    public Map<String,Object> modifyQuestionState(long[] ids,int state);
+    public Map<String, Object> modifyQuestionState(long[] ids, int state);
 
-    public Map<String,Object> syncQuestionIndex();
+    public Map<String, Object> syncQuestionIndex();
 
+    public List<Question> findAllAttentionQuestion(User user, int offset, int max);
 }

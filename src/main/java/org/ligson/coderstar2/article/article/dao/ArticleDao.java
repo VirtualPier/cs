@@ -24,4 +24,6 @@ public interface ArticleDao extends BaseDao<Article> {
     public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max);
 
     public int countByCreatorAndState(User user, int statePublish);
+
+    public List<Article> findAllAttentionArticle(User user, int offset, int max);
 }

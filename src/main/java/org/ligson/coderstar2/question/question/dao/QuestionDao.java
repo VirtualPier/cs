@@ -24,4 +24,6 @@ public interface QuestionDao extends BaseDao<Question> {
     public List<Question> findAllQuestionByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max);
 
     public int countByUserAndState(User user, int statePublish);
+
+    public List<Question> findAllByAttentionQuestion(User user, int offset, int max);
 }

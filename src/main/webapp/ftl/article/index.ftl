@@ -42,16 +42,12 @@
 
                             <div class="cs-question-content">
                                 <h4>
-                                    <a controller='article'
-                                       action='view'
-                                       target="_blank" params="[id: article.id]">${article.title}</a>
+                                    <a href="/article/view?id=${article.id}" target="_blank">${article.title}</a>
                                 </h4>
 
                                 <p>
-
                                     <label>作者:</label>
-                                    <a controller="user" action="view"
-                                       params="[id: article.creator.id]">${article.creator.nickName}</a>
+                                    <a href="/user/view?id=${article.creator.id}">${article.creator.nickName}</a>
                                     <label>分类:</label>
                                     <#list articleCategoryList[article_index] as category>
                                         <a href="/article/index?categoryId=${category.id}">${category.name}</a>

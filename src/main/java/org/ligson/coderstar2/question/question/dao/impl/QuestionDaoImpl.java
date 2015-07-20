@@ -79,9 +79,16 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
 
     @Override
     public List<Question> findAllQuestionByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
-        Query query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId and q.state=:state order by " + sort + " " + order);
-        query.setLong("userId", user.getId());
-        query.setInteger("state", user.getState());
+        Query query = null;
+        if (statePublish >= 0) {
+            query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId and q.state=:state order by " + sort + " " + order);
+            query.setLong("userId", user.getId());
+            query.setInteger("state", user.getState());
+        } else {
+            query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId  order by " + sort + " " + order);
+            query.setLong("userId", user.getId());
+        }
+
         List<Question> questionList = (List<Question>) query.list();
         return questionList;
     }
@@ -93,5 +100,15 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         query.setInteger("state", statePublish);
         Long count = (Long) query.uniqueResult();
         return count.intValue();
+    }
+
+    @Override
+    public List<Question> findAllByAttentionQuestion(User user, int offset, int max) {
+        Query query = getCurrentSession().createQuery("select aq.question from AttentionQuestion aq where aq.user.id=:userId order by aq.createDate desc");
+        query.setLong("userId", user.getId());
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Question> questionList = (List<Question>) query.list();
+        return questionList;
     }
 }

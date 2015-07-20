@@ -102,10 +102,26 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
 
     @Override
     public int countByCreatorAndState(User user, int statePublish) {
-        Query query = getCurrentSession().createQuery("select count(*) from Article a where a.creator.id=:userId and a.state=:state");
-        query.setLong("userId", user.getId());
-        query.setInteger("state", statePublish);
+        Query query = null;
+        if (statePublish >= 0) {
+            query = getCurrentSession().createQuery("select count(*) from Article a where a.creator.id=:userId and a.state=:state");
+            query.setLong("userId", user.getId());
+            query.setInteger("state", statePublish);
+        } else {
+            query = getCurrentSession().createQuery("select count(*) from Article a where a.creator.id=:userId");
+            query.setLong("userId", user.getId());
+        }
         Long count = (Long) query.uniqueResult();
         return count.intValue();
+    }
+
+    @Override
+    public List<Article> findAllAttentionArticle(User user, int offset, int max) {
+        Query query = getCurrentSession().createQuery("select aa.article from AttentionArticle aa where aa.user.id=:userId order by aa.createDate desc");
+        query.setLong("userId", user.getId());
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Article> articles = (List<Article>) query.list();
+        return articles;
     }
 }

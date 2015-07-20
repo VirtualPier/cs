@@ -126,6 +126,7 @@ public class QuestionController {
         request.setAttribute("isAttention", isAttention);
         request.setAttribute("tags", tags);
         request.setAttribute("asks", asks);
+        request.setAttribute("askSort", askSort);
         return "/question/view";
     }
 

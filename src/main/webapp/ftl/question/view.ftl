@@ -29,7 +29,7 @@
             <p>
                 <label>分类:</label>
                 <#list categoryList as category>
-                    <a href="/index/index?categoryId=${category.id}">${category.name}</a>
+                    <a href="/question/index?categoryId=${category.id}">${category.name}</a>
                 </#list>
                 <button id="attentionQuestionBtn" type="button" class="btn btn-info"
                         onclick="attentionQuestion(${question.id})" ${isAttention ?string("disabled","")}><span
@@ -37,8 +37,8 @@
                 </button>
             </p>
             <p><label>标签:</label>
-                <#list question.tags as tag>
-                    <a href="/question/index?tagName=${tag.name}" class="cs-question-tags">${tag.name}</a>
+                <#list tags as tag>
+                    <a href="/question/index?tagId=${tag.id}" class="cs-question-tags">${tag.name}</a>
                 </#list>
             </p>
 
@@ -61,10 +61,10 @@
     <div class="cs-mod cs-question-comment">
         <div class="mod-head">
             <ul class="nav nav-tabs cs-nav-tabs active">
-                <li>
+                <li ${(askSort=='createDate')?string("class='active'","")}>
                     <a href="/question/view?id=${question.id}&askSort=createDate">最新</a>
                 </li>
-                <li>
+                <li ${(askSort=='supportNum')?string("class='active'","")}>
                     <a href="/question/view?id=${question.id}&askSort=supportNum">热赞</a>
                 </li>
                 <h2 class="hidden-xs">${question.replyNum} 个回复</h2>
@@ -97,8 +97,6 @@
                                 </#if>
 
                                 <#if question.rightAsk??>
-                                    <button class="btn btn-success pull-right">最佳答案</button>
-                                <#else>
                                     <#if user??>
                                         <#if user.id==question.creator.id>
                                             <button class="btn btn-success pull-right" name="selectRightAskBtn"
@@ -106,6 +104,8 @@
                                             </button>
                                         </#if>
                                     </#if>
+                                <#else>
+                                    <button class="btn btn-success pull-right">最佳答案</button>
                                 </#if>
 
 
@@ -185,7 +185,7 @@
             <dl>
                 <dt class="pull-left cs-border-radius-5">
                     <a href="/user/view?id=${question.creator.id}"><img alt="软爷" src="${question.creator.photo}"
-                                                                            onerror="javascript:this.src='/images/pic_user.gif'"/></a>
+                                                                        onerror="javascript:this.src='/images/pic_user.gif'"/></a>
                 </dt>
                 <dd class="pull-left">
                     <a class="cs-user-name"

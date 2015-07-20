@@ -7,46 +7,24 @@
  * 我提问的问题
  */
 /*var questionNum = $('#main_contents').children('.cs-item').length;*/
+
+function loadContent() {
+    var questionNum = $('#main_contents').children('.cs-item').length;
+    $.ajax({
+        type: 'POST',
+        url: baseUrl + "user/loadMyCreateQuestion",
+        data: {offset: questionNum},
+        dataType: 'json',
+        success: function (data) {
+            loadAjaxData(data);
+        }
+
+    });
+}
 $(function () {
-
+    loadContent();
     $("#bp_more_publish").click(function () {
-        var questionNum = $('#main_contents').children('.cs-item').length;
-        $.ajax({
-            type: 'POST',
-            url: baseUrl + "user/myMoreQuestion",
-            data: {offset: questionNum, actionname: 'myPublish'},
-            dataType: 'json',
-            success: function (data) {
-                loadAjaxData(data);
-            }
-
-        });
-    });
-    $("#bp_more_attention").click(function () {
-        var questionNum = $('#main_contents').children('.cs-item').length;
-        $.ajax({
-            type: 'POST',
-            url: baseUrl + "user/myMoreQuestion",
-            data: {offset: questionNum, actionname: 'myAttention'},
-            dataType: 'json',
-            success: function (data) {
-                loadAjaxData(data);
-            }
-
-        });
-    });
-    $("#bp_more_reply").click(function () {
-        var questionNum = $('#main_contents').children('.cs-item').length;
-        $.ajax({
-            type: 'POST',
-            url: baseUrl + "user/myMoreQuestion",
-            data: {offset: questionNum, actionname: 'myReply'},
-            dataType: 'json',
-            success: function (data) {
-                loadAjaxData(data);
-            }
-
-        });
+        loadContent();
     });
 });
 
@@ -62,14 +40,14 @@ function loadQuestion(question) {
     htmlString += question.replyNum + "&nbsp个回复";
     htmlString += "</span>";
     htmlString += "•";
-    htmlString += "<a href=\"  " + baseUrl + "question/view/" + question.id + "\" class=\" cs-topic-name\">";
+    htmlString += "<a href=\"  " + baseUrl + "question/view?id=" + question.id + "\" class=\" cs-topic-name\">";
     htmlString += question.title;
     htmlString += "</a>";
     htmlString += "<a href='" + baseUrl + "user/deleteQuestion?ids=" + question.id + "' class='pull-right'>删除</a>"
     htmlString += "</p>";
     htmlString += "<h4>";
     htmlString += "<span>";
-    htmlString += question.description;
+    htmlString += question.description.substring(0, 300);
     htmlString += "</span>";
     htmlString += "</h4>";
     htmlString += "</div>";

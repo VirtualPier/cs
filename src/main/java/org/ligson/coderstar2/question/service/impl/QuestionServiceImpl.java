@@ -496,9 +496,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map<String, Object> modifyQuestionState(long[] ids,int state) {
+    public Map<String, Object> modifyQuestionState(long[] ids, int state) {
         for (int i = 0; i < ids.length; i++) {
-            Question question =questionDao.getById(ids[i]);
+            Question question = questionDao.getById(ids[i]);
             question.setState(state);
             questionDao.saveOrUpdate(question);
         }
@@ -509,14 +509,19 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Map<String, Object> syncQuestionIndex() {
-        List<Question> questionList=questionDao.list(0,Integer.MAX_VALUE);
+        List<Question> questionList = questionDao.list(0, Integer.MAX_VALUE);
         for (Question question : questionList) {
             //searchService.deleteQuestionById(question.getId());
         }
         //searchService.addQuestionToIndex(questionList);
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
-        result.put("msg","同步成功!");
+        result.put("msg", "同步成功!");
         return result;
+    }
+
+    @Override
+    public List<Question> findAllAttentionQuestion(User user, int offset, int max) {
+        return questionDao.findAllByAttentionQuestion(user, offset, max);
     }
 }

@@ -157,7 +157,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Map<String, Object> auditArticle(User user, long[] ids) {
         for (int i = 0; i < ids.length; i++) {
-            Article article =articleDao.getById(ids[i]);
+            Article article = articleDao.getById(ids[i]);
             article.setState(Article.STATE_PUBLISH);
             articleDao.saveOrUpdate(article);
         }
@@ -413,7 +413,7 @@ public class ArticleServiceImpl implements ArticleService {
     public boolean deleteTagByArticle(Article article) {
         boolean isFlag = true;
         if (article != null) {
-            List<ArticleTag> tagList =articleTagDao.findAllByArticle(article);
+            List<ArticleTag> tagList = articleTagDao.findAllByArticle(article);
             if (tagList != null && tagList.size() > 0) {
                 for (int i = 0; i < tagList.size(); i++) {
                     articleTagDao.delete(tagList.get(i));
@@ -436,5 +436,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public boolean deleteRemarkRateAndReplyByArticle(Article article) {
         return false;
+    }
+
+    @Override
+    public List<Article> findAllAttentionArticle(User user, int offset, int max) {
+        return articleDao.findAllAttentionArticle(user, offset, max);
+    }
+
+    @Override
+    public List<Article> findAllArticleByUser(User user, int offset, int max) {
+        return articleDao.findAllArticleByCreatorAndState(user, -1, "createDate", "desc", offset, max);
     }
 }

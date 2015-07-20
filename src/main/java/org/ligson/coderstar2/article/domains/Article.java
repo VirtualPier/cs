@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.article.domains;
 
 import com.boful.common.date.utils.DateUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
@@ -38,6 +39,7 @@ public class Article {
         this.id = id;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<Remark> getRemarks() {
         return remarks;

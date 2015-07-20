@@ -7,19 +7,23 @@
  * 我提问的问题
  */
 /*var questionNum = $('#main_contents').children('.cs-item').length;*/
-$(function () {
-    $("#bp_more_attention").click(function () {
-        var questionNum = $('#main_contents').children('.cs-item').length;
-        $.ajax({
-            type: 'POST',
-            url: baseUrl + "user/myAttentionArticle",
-            data: {offset: questionNum, format: "json"},
-            dataType: 'json',
-            success: function (data) {
-                loadAjaxData(data);
-            }
+function loadContent() {
+    var questionNum = $('#main_contents').children('.cs-item').length;
+    $.ajax({
+        type: 'POST',
+        url: baseUrl + "user/loadMyAttentionArticle",
+        data: {offset: questionNum},
+        dataType: 'json',
+        success: function (data) {
+            loadAjaxData(data);
+        }
 
-        });
+    });
+}
+$(function () {
+    loadContent();
+    $("#bp_more_attention").click(function () {
+        loadContent();
     });
 });
 

@@ -195,4 +195,8 @@ public interface ArticleService {
     public boolean deleteArticleCategoryByArticle(Article article);
 
     public boolean deleteRemarkRateAndReplyByArticle(Article article);
+
+    public List<Article> findAllAttentionArticle(User user, int offset, int max);
+
+    public List<Article> findAllArticleByUser(User user, int offset, int max);
 }
