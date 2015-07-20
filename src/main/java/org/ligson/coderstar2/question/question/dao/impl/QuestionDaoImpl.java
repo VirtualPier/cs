@@ -5,6 +5,7 @@ import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.question.dao.QuestionDao;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
 
@@ -74,5 +75,23 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         query.setMaxResults(max);
         List<Question> questionList = (List<Question>) query.list();
         return questionList;
+    }
+
+    @Override
+    public List<Question> findAllQuestionByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
+        Query query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId and q.state=:state order by " + sort + " " + order);
+        query.setLong("userId", user.getId());
+        query.setInteger("state", user.getState());
+        List<Question> questionList = (List<Question>) query.list();
+        return questionList;
+    }
+
+    @Override
+    public int countByUserAndState(User user, int statePublish) {
+        Query query = getCurrentSession().createQuery("select count(*) from Question q where q.creator.id=:userId and q.state=:state");
+        query.setLong("userId", user.getId());
+        query.setInteger("state", statePublish);
+        Long count = (Long) query.uniqueResult();
+        return count.intValue();
     }
 }

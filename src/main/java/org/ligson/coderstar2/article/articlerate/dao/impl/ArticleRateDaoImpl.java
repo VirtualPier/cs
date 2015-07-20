@@ -25,4 +25,13 @@ public class ArticleRateDaoImpl extends BaseDaoImpl<ArticleRate> implements Arti
             return null;
         }
     }
+
+    @Override
+    public int countByArticleAndIsSupport(Article article, boolean isSupport) {
+        Query query = getCurrentSession().createQuery("select count(*) from ArticleRate ar where ar.article.id=:aId and ar.support=:isSupport");
+        query.setLong("aId", article.getId());
+        query.setBoolean("isSupport", isSupport);
+        Long count = (Long) query.uniqueResult();
+        return count.intValue();
+    }
 }

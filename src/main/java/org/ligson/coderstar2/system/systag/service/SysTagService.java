@@ -20,4 +20,6 @@ public interface SysTagService {
     public List<List> hotsTag(int max);
 
     public List<SysTag> findByArticle(Article article);
+
+    public List<SysTag> findUserGoodTag(User user,int max);
 }

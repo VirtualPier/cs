@@ -6,13 +6,14 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
+
 import java.util.Date;
 
 /**
  * Created by Ruby on 2015/7/16.
  */
 @Entity
-@Table(name="remark_rate")
+@Table(name = "remark_rate")
 public class RemarkRate {
     private long id;
     //评价问题
@@ -53,8 +54,7 @@ public class RemarkRate {
         this.user = user;
     }
 
-    @Column(name="is_support",nullable = false)
-    @Type(type = "byte")
+    @Column(name = "is_support", nullable = false)
     public boolean isSupport() {
         return isSupport;
     }

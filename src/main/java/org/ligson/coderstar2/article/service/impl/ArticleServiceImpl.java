@@ -366,4 +366,29 @@ public class ArticleServiceImpl implements ArticleService {
         AttentionArticle attentionArticle = attentionArticleDao.findByUserAndArticle(user, article);
         return attentionArticle != null;
     }
+
+    @Override
+    public int countByArticleAndUser(Article article, User user) {
+        ArticleRate articleRate = articleRateDao.findByUserAndArticle(user, article);
+        if (articleRate == null) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int countByArticleIsSupport(Article article, boolean isSupport) {
+        return articleRateDao.countByArticleAndIsSupport(article, isSupport);
+    }
+
+    @Override
+    public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
+        return articleDao.findAllArticleByCreatorAndState(user, statePublish, sort, order, offset, max);
+    }
+
+    @Override
+    public int countByCreatorAndState(User user, int statePublish) {
+        return articleDao.countByCreatorAndState(user, statePublish);
+    }
 }

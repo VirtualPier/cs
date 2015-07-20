@@ -6,6 +6,7 @@ import org.ligson.coderstar2.article.article.dao.ArticleDao;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
 
@@ -86,5 +87,25 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         query.setMaxResults(max);
         List<Article> articles = (List<Article>) query.list();
         return articles;
+    }
+
+    @Override
+    public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
+        Query query = getCurrentSession().createQuery("from Article a where a.creator.id=:userId and a.state=:state order by " + sort + " " + order);
+        query.setLong("userId", user.getId());
+        query.setInteger("state", user.getState());
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Article> articles = (List<Article>) query.list();
+        return articles;
+    }
+
+    @Override
+    public int countByCreatorAndState(User user, int statePublish) {
+        Query query = getCurrentSession().createQuery("select count(*) from Article a where a.creator.id=:userId and a.state=:state");
+        query.setLong("userId", user.getId());
+        query.setInteger("state", statePublish);
+        Long count = (Long) query.uniqueResult();
+        return count.intValue();
     }
 }

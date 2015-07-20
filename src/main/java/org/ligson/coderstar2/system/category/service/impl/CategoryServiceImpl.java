@@ -98,4 +98,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findCategoryById(long categoryId) {
         return categoryDao.getById(categoryId);
     }
+
+    @Override
+    public List<Category> findArticleCategoryList(Article article) {
+        return categoryDao.findAllByArticle(article);
+    }
 }

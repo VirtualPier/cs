@@ -45,6 +45,14 @@
         <property name="articleDao" ref="articleDao"/>
         <property name="articleTagDao" ref="articleTagDao"/>
         <property name="categoryDao" ref="categoryDao"/>
+        <property name="sysTagService" ref="sysTagService"/>
+        <property name="articleRateDao" ref="articleRateDao"/>
+        <property name="attentionArticleDao" ref="attentionArticleDao"/>
+        <property name="categoryService" ref="categoryService"/>
+        <property name="payService" ref="payService"/>
+        <property name="remarkDao" ref="remarkDao"/>
+        <property name="remarkRate" ref="remarkRate"/>
+        <property name="remarkRateDao" ref="remarkRateDao"/>
     </bean>
 
     <bean id="payService" name="payService"

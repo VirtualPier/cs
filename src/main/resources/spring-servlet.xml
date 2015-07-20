@@ -142,6 +142,7 @@
     <!-- 设置使用注解的类所在的jar包 -->
     <context:component-scan base-package="org.ligson.coderstar2.controllers"/>
     <context:component-scan base-package="org.ligson.coderstar2.user.admin.controllers"/>
+    <context:component-scan base-package="org.ligson.coderstar2.user.controllers"/>
     <context:component-scan base-package="org.ligson.coderstar2.question.controllers"/>
     <context:component-scan base-package="org.ligson.coderstar2.question.admin.controllers"/>
     <context:component-scan base-package="org.ligson.coderstar2.article.admin.controllers"/>

@@ -3,6 +3,7 @@ package org.ligson.coderstar2.article.article.dao;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.BaseDao;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface ArticleDao extends BaseDao<Article> {
 
     public List<Article> findAllByStateAndCategoryOrderBy(int statePublish, Category category, String sort, String order, int offset, int max);
 
+    public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max);
+
+    public int countByCreatorAndState(User user, int statePublish);
 }

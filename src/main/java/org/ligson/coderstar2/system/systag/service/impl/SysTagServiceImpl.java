@@ -90,4 +90,10 @@ public class SysTagServiceImpl implements SysTagService {
     public List<SysTag> findByArticle(Article article) {
         return sysTagDao.findAllByArticle(article);
     }
+
+    @Override
+    public List<SysTag> findUserGoodTag(User user, int max) {
+        //dianzi
+        return sysTagDao.findAllByCreator(user, max);
+    }
 }

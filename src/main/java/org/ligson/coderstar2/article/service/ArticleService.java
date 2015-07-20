@@ -177,4 +177,12 @@ public interface ArticleService {
     public void viewArticle(Article article);
 
     public boolean isAttentionArticle(User user, Article article);
+
+    public int countByArticleAndUser(Article article, User user);
+
+    public int countByArticleIsSupport(Article article, boolean isSupport);
+
+    public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max);
+
+    public int countByCreatorAndState(User user, int statePublish);
 }

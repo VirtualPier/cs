@@ -484,4 +484,14 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> findAllQuestionByCategory(Category category, int offset, int max) {
         return questionDao.findAllByStateAndCategoryOrderBy(Question.STATE_PUBLISH, category, "createDate", "desc", offset, max);
     }
+
+    @Override
+    public List<Question> findAllQuestionByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
+        return questionDao.findAllQuestionByCreatorAndState(user, statePublish, sort, order, offset, max);
+    }
+
+    @Override
+    public int countByCreatorAndState(User user, int statePublish) {
+        return questionDao.countByUserAndState(user, statePublish);
+    }
 }

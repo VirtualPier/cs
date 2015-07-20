@@ -167,4 +167,8 @@ public interface QuestionService {
     public List<Question> newestQuestion(int max);
 
     public List<Question> findAllQuestionByCategory(Category category, int offset, int max);
+
+    public List<Question> findAllQuestionByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max);
+
+    public int countByCreatorAndState(User user, int statePublish);
 }

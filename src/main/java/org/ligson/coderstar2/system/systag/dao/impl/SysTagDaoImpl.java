@@ -7,6 +7,7 @@ import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
+import org.ligson.coderstar2.user.domains.User;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -46,6 +47,15 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
     public List<SysTag> findAllByArticle(Article article) {
         Query query = getCurrentSession().createQuery("select at.tag from ArticleTag at where at.article.id=:articleId ");
         query.setLong("articleId", article.getId());
+        List<SysTag> sysTags = (List<SysTag>) query.list();
+        return sysTags;
+    }
+
+    @Override
+    public List<SysTag> findAllByCreator(User user, int max) {
+        Query query = getCurrentSession().createQuery("from SysTag st where st.creator.id=:userId");
+        query.setMaxResults(max);
+        query.setLong("userId", user.getId());
         List<SysTag> sysTags = (List<SysTag>) query.list();
         return sysTags;
     }

@@ -4,6 +4,7 @@ import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.BaseDao;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface SysTagDao extends BaseDao<SysTag> {
     public List<List> findHotTag(int max);
 
     public List<SysTag> findAllByArticle(Article article);
+
+    public List<SysTag> findAllByCreator(User user, int max);
 }

@@ -184,12 +184,12 @@
         <div class="mod-body">
             <dl>
                 <dt class="pull-left cs-border-radius-5">
-                    <a href="/question/view?id=${question.creator.id}"><img alt="软爷" src="${question.creator.photo}"
+                    <a href="/user/view?id=${question.creator.id}"><img alt="软爷" src="${question.creator.photo}"
                                                                             onerror="javascript:this.src='/images/pic_user.gif'"/></a>
                 </dt>
                 <dd class="pull-left">
                     <a class="cs-user-name"
-                       href="/question/view?id=${question.creator.id}">${question.creator.nickName}</a>
+                       href="/user/view?id=${question.creator.id}">${question.creator.nickName}</a>
 
                     <p></p>
                 </dd>

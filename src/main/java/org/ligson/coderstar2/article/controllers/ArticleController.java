@@ -83,7 +83,7 @@ public class ArticleController {
         return "article/index";
     }
 
-    @RequestMapping("/article/save")
+    @RequestMapping("/save")
     public String save(@RequestParam(value = "title", required = true) String title, @RequestParam(value = "content", required = false) String content, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, @RequestParam(value = "money", required = false, defaultValue = "0") int money, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         String[] categoryIdStringArray = categoryIds.split(",");
@@ -106,15 +106,15 @@ public class ArticleController {
         }
     }
 
-    @RequestMapping("/article/saveRemark")
-    @ResponseBody
-    public Map<String, Object> saveRemark(long articleId, String content, HttpServletRequest request) {
+    @RequestMapping("/saveRemark")
+    public String saveRemark(long articleId, String content, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         Article article = articleService.findArticleById(articleId);
-        return articleService.saveRemark(user, article, content);
+        articleService.saveRemark(user, article, content);
+        return "redirect:/article/view?id=" + articleId;
     }
 
-    @RequestMapping("/article/supportRemark")
+    @RequestMapping("/supportRemark")
     @ResponseBody
     public Map<String, Object> supportRemark(long remarkId, boolean isSupport, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -122,7 +122,7 @@ public class ArticleController {
         return articleService.supportRemark(user, remark, isSupport);
     }
 
-    @RequestMapping("/article/supportArticle")
+    @RequestMapping("/supportArticle")
     @ResponseBody
     public Map<String, Object> supportArticle(long articleId, boolean isSupport, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -130,7 +130,7 @@ public class ArticleController {
         return articleService.supportArticle(user, article, isSupport);
     }
 
-    @RequestMapping("/article/attentionArticle")
+    @RequestMapping("/attentionArticle")
     @ResponseBody
     public Map<String, Object> attentionArticle(long id, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -138,7 +138,7 @@ public class ArticleController {
         return articleService.attentionArticle(user, article);
     }
 
-    @RequestMapping("/article/rewardArticle")
+    @RequestMapping("/rewardArticle")
     @ResponseBody
     public Map<String, Object> rewardArticle(@RequestParam("id") long id, @RequestParam("money") int money, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -156,15 +156,25 @@ public class ArticleController {
         articleService.viewArticle(article);
         Object object = request.getSession().getAttribute("user");
         boolean isAttention = false;
+        boolean isDisabled = false;
         if (object != null) {
             User user = (User) object;
             isAttention = articleService.isAttentionArticle(user, article);
+            int count = articleService.countByArticleAndUser(article, user);
+            isDisabled = count > 0;
         }
+        int supportNum = articleService.countByArticleIsSupport(article, true);
+        int opposeNum = articleService.countByArticleIsSupport(article, false);
+
+        request.setAttribute("isDisabled", isDisabled);
+        request.setAttribute("supportNum", supportNum);
+        request.setAttribute("opposeNum", opposeNum);
         request.setAttribute("article", article);
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("isAttention", isAttention);
         request.setAttribute("tags", tags);
-        request.setAttribute("remark", asks);
+        request.setAttribute("remarkList", asks);
+        request.setAttribute("remarkSort", remarkSort);
         return "/article/view";
     }
 

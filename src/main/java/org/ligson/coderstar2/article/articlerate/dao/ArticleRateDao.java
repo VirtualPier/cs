@@ -10,4 +10,6 @@ import org.ligson.coderstar2.user.domains.User;
  */
 public interface ArticleRateDao extends BaseDao<ArticleRate> {
     public ArticleRate findByUserAndArticle(User currentUser, Article article);
+
+    public int countByArticleAndIsSupport(Article article, boolean isSupport);
 }

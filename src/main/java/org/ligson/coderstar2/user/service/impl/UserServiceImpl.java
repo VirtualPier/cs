@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String,Object> login(String name, String password) {
+    public Map<String, Object> login(String name, String password) {
         //相当于java的map定义
         Map<String, Object> result = new HashMap<>();
         EmailValidator validator = EmailValidator.getInstance();
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String,Object> register(String email, String nickName, String cellphone, String password) {
+    public Map<String, Object> register(String email, String nickName, String cellphone, String password) {
         Map<String, Object> result = new HashMap<>();
         User user = new User();
         user.setCellphone(cellphone);
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String,Object> logout(HttpServletRequest request) {
+    public Map<String, Object> logout(HttpServletRequest request) {
         request.getSession().setAttribute("user", null);
         request.getSession().invalidate();
         Map<String, Object> result = new HashMap<String, Object>();
@@ -123,27 +123,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map resetPassword(User user,long userId, String old_password, String new_password) {
+    public Map resetPassword(User user, long userId, String old_password, String new_password) {
         Map<String, Object> result = new HashMap<String, Object>();
-        User resetUser=null;
-        if(user.getRole()==User.ROLE_SUPER||user.getRole()==User.ROLE_MANAGER){
+        User resetUser = null;
+        if (user.getRole() == User.ROLE_SUPER || user.getRole() == User.ROLE_MANAGER) {
             resetUser = userDao.getById(userId);
-        }else if(user.getId()==userId){
+        } else if (user.getId() == userId) {
             List<String> props = new ArrayList<>();
             List<Object> propValues = new ArrayList<>();
             props.add("id");
             props.add("password");
             propValues.add(user.getId());
             propValues.add(old_password);
-            resetUser=userDao.findByAnd(props,propValues);
+            resetUser = userDao.findByAnd(props, propValues);
         }
-        if(resetUser!=null) {
+        if (resetUser != null) {
             resetUser.setPassword(PasswordCodec.encode(new_password));
             userDao.saveOrUpdate(resetUser);
-            result.put("success",true);
-        }else{
-            result.put("success",false);
-            result.put("isExsit",true);
+            result.put("success", true);
+        } else {
+            result.put("success", false);
+            result.put("isExsit", true);
         }
         return result;
     }
@@ -208,12 +208,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> modifyUserState(long[] ids, int state) {
         for (int i = 0; i < ids.length; i++) {
-            User user =userDao.getById(ids[i]);
+            User user = userDao.getById(ids[i]);
             user.setState(state);
             userDao.saveOrUpdate(user);
         }
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
         return result;
+    }
+
+    @Override
+    public User findUserById(long id) {
+        return userDao.getById(id);
     }
 }

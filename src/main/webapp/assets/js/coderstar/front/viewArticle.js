@@ -23,7 +23,10 @@ $(document).ready(function () {
 });
 
 function supportRemark(remarkId, upOrDown) {
-
+    if (!pageConfig.isLogin) {
+        BootstrapDialog.alert({title: '提示信息', message: '您没有登录吧?请登录！'});
+        return false;
+    }
     $.ajax({
         url: '/article/supportRemark',
         data: {'remarkId': remarkId, isSupport: upOrDown == "up"},
@@ -45,6 +48,10 @@ function supportRemark(remarkId, upOrDown) {
 }
 
 function supportArticle(articleId, isSupport, target) {
+    if (!pageConfig.isLogin) {
+        BootstrapDialog.alert({title: '提示信息', message: '您没有登录吧?请登录！'});
+        return false;
+    }
     var supportBtn = $(target);
     $.ajax({
         url: '/article/supportArticle',

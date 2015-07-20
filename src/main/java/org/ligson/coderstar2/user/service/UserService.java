@@ -160,4 +160,6 @@ public interface UserService {
     public Map<String, Object> listUser(int offset, int max);
 
     public Map<String,Object> modifyUserState(long[] ids, int state);
+
+    public User findUserById(long id);
 }
