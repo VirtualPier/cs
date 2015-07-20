@@ -44,7 +44,7 @@ public class AdminController {
     }
 
     @RequestMapping("/login")
-    public String login(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletRequest request, Model model) {
+    public String login(@RequestParam("name") String name, @RequestParam("password") String password, Model model, HttpServletRequest request) {
         Map<String, Object> result = userService.login(name, password);
         boolean success = (boolean) result.get("success");
         if (success) {

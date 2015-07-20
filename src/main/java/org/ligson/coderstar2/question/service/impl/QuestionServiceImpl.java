@@ -494,4 +494,29 @@ public class QuestionServiceImpl implements QuestionService {
     public int countByCreatorAndState(User user, int statePublish) {
         return questionDao.countByUserAndState(user, statePublish);
     }
+
+    @Override
+    public Map<String, Object> modifyQuestionState(long[] ids,int state) {
+        for (int i = 0; i < ids.length; i++) {
+            Question question =questionDao.getById(ids[i]);
+            question.setState(state);
+            questionDao.saveOrUpdate(question);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> syncQuestionIndex() {
+        List<Question> questionList=questionDao.list(0,Integer.MAX_VALUE);
+        for (Question question : questionList) {
+            //searchService.deleteQuestionById(question.getId());
+        }
+        //searchService.addQuestionToIndex(questionList);
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        result.put("msg","同步成功!");
+        return result;
+    }
 }

@@ -145,8 +145,15 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Map<String, Object> auditArticle(User user, Article article) {
-        return null;
+    public Map<String, Object> auditArticle(User user, long[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+            Article article =articleDao.getById(ids[i]);
+            article.setState(Article.STATE_PUBLISH);
+            articleDao.saveOrUpdate(article);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        return result;
     }
 
     @Override

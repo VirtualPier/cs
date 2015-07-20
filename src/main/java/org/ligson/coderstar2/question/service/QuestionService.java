@@ -171,4 +171,9 @@ public interface QuestionService {
     public List<Question> findAllQuestionByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max);
 
     public int countByCreatorAndState(User user, int statePublish);
+
+    public Map<String,Object> modifyQuestionState(long[] ids,int state);
+
+    public Map<String,Object> syncQuestionIndex();
+
 }

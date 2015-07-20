@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.article.admin.controllers;
 
 import org.ligson.coderstar2.article.service.ArticleService;
+import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -32,5 +34,17 @@ public class ArticleMgrController {
         int max = rows;
         int offset = (page - 1) * max;
         return articleService.list(offset, max);
+    }
+
+    @RequestMapping("/auditArticle")
+    @ResponseBody
+    public Map<String,Object> auditArticle(@RequestParam("id") String id, HttpServletRequest request){
+        String[] sIds=id.split(",");
+        long[] ids = new long[sIds.length];
+        for (int i=0;i<sIds.length;i++){
+            ids[i] =Long.parseLong(sIds[i]);
+        }
+        User user= (User) request.getSession().getAttribute("adminUser");
+        return  articleService.auditArticle(user,ids);
     }
 }

@@ -64,4 +64,6 @@ public class UserMgrController {
         Map<String, Object> result = userService.resetPassword(user, userId, null, new_password);
         return result;
     }
+
+
 }

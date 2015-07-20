@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.admin.controllers;
 
+import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,17 +47,24 @@ public class QuestionMgrController {
         return questionService.deleteQuestion(lIds);
     }
 
-    /*@RequestParam("/editQuestion")
+    @RequestMapping("/editeQuestion")
     @ResponseBody
-    public Map<String,Object> editQuestion(@RequestParam("ids") String ids){
-        String[] sIds=ids.split(",");
+    public Map<String,Object> editeQuestion(@RequestParam("id") String id){
+        String[] sIds=id.split(",");
         long[] lIds = new long[sIds.length];
         for (int i=0;i<sIds.length;i++){
             lIds[i] =Long.parseLong(sIds[i]);
         }
-        Map<String, Object> result=questionService.deleteQuestion(lIds);
+        Map<String, Object> result=questionService.modifyQuestionState(lIds, Question.STATE_PUBLISH);
         return result;
-    }*/
+    }
+
+    @RequestMapping("/syncQuestionIndex")
+    @ResponseBody
+    public Map<String,Object> syncQuestionIndex() {
+        Map<String,Object> result=questionService.syncQuestionIndex();
+        return result;
+    }
 
     @RequestMapping("/categoryMgr")
     public String categoryMgr() {

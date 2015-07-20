@@ -27,10 +27,10 @@ public interface ArticleService {
      * 审批文章
      *
      * @param user    操作用户
-     * @param article 文章
+     * @param ids 文章Id集合
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map<String, Object> auditArticle(User user, Article article);
+    public Map<String, Object> auditArticle(User user, long[] ids);
 
     /***
      * 创建文章
