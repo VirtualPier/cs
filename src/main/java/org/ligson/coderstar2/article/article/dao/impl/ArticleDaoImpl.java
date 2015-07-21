@@ -44,7 +44,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
             hql = "select DISTINCT(ac.article)  from ArticleCategory ac where ac.article.state=0 and ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
         } else {
             //categoryId<0&&tagId<0
-            hql = " from Article order by " + order + " desc";
+            hql = " from Article where state=0 order by " + order + " desc";
         }
         Query query = getCurrentSession().createQuery(hql);
         query.setFirstResult(offset);
@@ -135,14 +135,14 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         Query query = null;
         Query query2 = null;
         if (tagId >= 0 && categoryId >= 0) {
-            query = getCurrentSession().createQuery("select a from Article a,ArticleTag at,ArticleCategory ac where a.id=at.article.id and a.id=ac.article.id and a.title like :title order by a." + sort + " " + orderr);
-            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleTag at,ArticleCategory ac where a.id=at.article.id and a.id=ac.article.id and a.title like :title order by a." + sort + " " + orderr);
+            query = getCurrentSession().createQuery("select a from Article a,ArticleTag at,ArticleCategory ac where a.id=at.article.id and a.id=ac.article.id and a.title like :title and a.state=0 order by a." + sort + " " + orderr);
+            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleTag at,ArticleCategory ac where a.id=at.article.id and a.id=ac.article.id and a.title like :title and a.state=0  order by a." + sort + " " + orderr);
         } else if (tagId < 0 && categoryId >= 0) {
-            query = getCurrentSession().createQuery("select a from Article a,ArticleCategory ac where a.id=ac.article.id  and a.title like :title order by a." + sort + " " + orderr);
-            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleCategory ac where a.id=ac.article.id  and a.title like :title order by a." + sort + " " + orderr);
+            query = getCurrentSession().createQuery("select a from Article a,ArticleCategory ac where a.id=ac.article.id  and a.title like :title and a.state=0  order by a." + sort + " " + orderr);
+            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleCategory ac where a.id=ac.article.id  and a.title like :title and a.state=0  order by a." + sort + " " + orderr);
         } else {
-            query = getCurrentSession().createQuery("select a from Article a,ArticleTag at where a.id=at.article.id  and a.title like :title order by a." + sort + " " + orderr);
-            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleTag at where a.id=at.article.id  and a.title like :title order by a." + sort + " " + orderr);
+            query = getCurrentSession().createQuery("select a from Article a,ArticleTag at where a.id=at.article.id  and a.title like :title and a.state=0  order by a." + sort + " " + orderr);
+            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleTag at where a.id=at.article.id  and a.title like :title and a.state=0  order by a." + sort + " " + orderr);
         }
         query.setString("title", "%" + title + "%");
         query2.setString("title", "%" + title + "%");

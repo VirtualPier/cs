@@ -42,6 +42,8 @@ function loadQuestion(question) {
     htmlString += question.title;
     htmlString += "</a>";
     htmlString += "<a href='" + baseUrl + "user/deleteArticle?ids=" + question.id + "' class='pull-right'>删除</a>"
+    var stateString = question.state == 1 ? "审核" : "发布";
+    htmlString += "&nbsp;&nbsp;<span class=\"label label-info\">" + stateString + "</span>";
     htmlString += "</p>";
     htmlString += "<h4>";
     htmlString += "<span>";

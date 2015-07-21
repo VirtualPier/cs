@@ -95,7 +95,7 @@ public class ArticleController {
         Map result = articleService.createArticle(title, content, user, tagArr, categoryIdArray);
         boolean success = (boolean) result.get("success");
         if (success) {
-            return "redirect:/article/index";
+            return "redirect:/my/myArticle";
         } else {
             return "redirect:/article/create";
         }

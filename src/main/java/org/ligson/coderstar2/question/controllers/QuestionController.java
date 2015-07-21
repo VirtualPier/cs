@@ -103,7 +103,7 @@ public class QuestionController {
         Map result = questionService.createQuestion(user, title, description, tagArr, categoryIdArray, money);
         boolean success = (boolean) result.get("success");
         if (success) {
-            return "redirect:/index/index";
+            return "redirect:/my/myPublish";
         } else {
             return "redirect:/question/create";
         }
@@ -164,6 +164,24 @@ public class QuestionController {
         Ask ask = questionAskService.findAskById(id);
         Map<String, Object> result = questionAskService.deleteAsk(user, ask);
         return "redirect:/question/view?id=" + ask.getQuestion().getId();
+    }
+
+    @RequestMapping("/edit")
+    public String edit(@RequestParam("id") long id, HttpServletRequest request) {
+        Question question = questionService.findQuestionById(id);
+        request.setAttribute("question", question);
+        List<SysTag> sysTags = questionService.findQuestionTagList(question);
+        String tags = "";
+        for (SysTag sysTag : sysTags) {
+            tags += sysTag.getName() + ";";
+        }
+        request.setAttribute("sysTags", sysTags);
+        request.setAttribute("tags", tags);
+        List<Category> categoryList = categoryService.list();
+        request.setAttribute("categoryList", categoryList);
+        List<Category> questionCategoryList = categoryService.findQuestionCategoryList(question);
+        request.setAttribute("questionCategoryList", questionCategoryList);
+        return "question/edit";
     }
 
 
