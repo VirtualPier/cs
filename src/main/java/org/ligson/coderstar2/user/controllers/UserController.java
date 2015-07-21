@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.user.controllers;
 
 import com.alipay.util.AlipaySubmit;
+import org.apache.commons.lang.StringUtils;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.pay.domains.TradeRecord;
@@ -351,5 +352,50 @@ public class UserController {
             return "redirect:/user/withdraw";
         }
     }
+
+    @RequestMapping("/profile")
+    public String profile(HttpServletRequest request) {
+        return "user/profile";
+    }
+
+    @RequestMapping("/updateProfile")
+    @ResponseBody
+    public Map<String, Object> updateProfile(String nickName, int sex, String introduce, String qq, String cellphone, String email, String web, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Map<String, Object> result = userService.updateUser(user, nickName, sex, introduce, qq, cellphone, email, web);
+        boolean success = (boolean) result.get("success");
+        if (success) {
+            User user2 = userService.findUserById(user.getId());
+            request.getSession().setAttribute("user", user2);
+        }
+        return result;
+    }
+
+    @RequestMapping("/security")
+    public String security() {
+        return "user/security";
+    }
+
+    @RequestMapping("/checkUnique")
+    public Map<String, Object> checkUnique(@RequestParam(value = "cellphone", required = false) String cellphone, @RequestParam(value = "email", required = false) String email) {
+        Map<String, Object> result = new HashMap<>();
+        if (StringUtils.isNotBlank(cellphone)) {
+            boolean isUnique = userService.cellphoneIsUnique(cellphone);
+            result.put("success", true);
+            result.put("valid", isUnique);
+            return result;
+        }
+
+        if (StringUtils.isNotBlank(email)) {
+            boolean isUnique = userService.emailIsUnique(email);
+            result.put("success", true);
+            result.put("valid", isUnique);
+            return result;
+        }
+        result.put("success", false);
+        result.put("valid", false);
+        return result;
+    }
+
 
 }

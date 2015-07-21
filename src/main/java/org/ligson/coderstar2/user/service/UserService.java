@@ -32,7 +32,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    public Map<String,Object> register(String email, String nickName, String cellphone, String password);
+    public Map<String, Object> register(String email, String nickName, String cellphone, String password);
 
     /***
      * 新增用户
@@ -84,7 +84,7 @@ public interface UserService {
      * @param
      * @return
      */
-    public Map<String,Object> logout(HttpServletRequest request);
+    public Map<String, Object> logout(HttpServletRequest request);
 
     /***
      * 修改头像
@@ -102,7 +102,7 @@ public interface UserService {
      * @param new_password
      * @return
      */
-    public Map resetPassword(User adminUser,long userId, String old_password, String new_password);
+    public Map resetPassword(User adminUser, long userId, String old_password, String new_password);
 
     /***
      * 关于用户更多的问题
@@ -159,7 +159,13 @@ public interface UserService {
 
     public Map<String, Object> listUser(int offset, int max);
 
-    public Map<String,Object> modifyUserState(long[] ids, int state);
+    public Map<String, Object> modifyUserState(long[] ids, int state);
 
     public User findUserById(long id);
+
+    public Map<String, Object> updateUser(User user, String nickName, int sex, String introduce, String qq, String cellphone, String email, String web);
+
+    public boolean cellphoneIsUnique(String cellphone);
+
+    public boolean emailIsUnique(String email);
 }

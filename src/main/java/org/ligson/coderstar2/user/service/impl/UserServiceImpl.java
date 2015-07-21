@@ -221,4 +221,21 @@ public class UserServiceImpl implements UserService {
     public User findUserById(long id) {
         return userDao.getById(id);
     }
+
+    @Override
+    public Map<String, Object> updateUser(User user, String nickName, int sex, String introduce, String qq, String cellphone, String email, String web) {
+        return null;
+    }
+
+    @Override
+    public boolean cellphoneIsUnique(String cellphone) {
+        long count = userDao.countBy("cellphone", cellphone);
+        return count == 0;
+    }
+
+    @Override
+    public boolean emailIsUnique(String email) {
+        long count = userDao.countBy("email", email);
+        return count == 0;
+    }
 }
