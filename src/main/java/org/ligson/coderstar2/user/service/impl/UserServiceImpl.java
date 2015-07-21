@@ -2,6 +2,8 @@ package org.ligson.coderstar2.user.service.impl;
 
 import com.boful.common.codec.utils.PasswordCodec;
 import com.boful.common.date.utils.DateUtils;
+import com.boful.common.file.utils.FileType;
+import com.boful.common.file.utils.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
@@ -118,7 +120,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map modifyPhoto(CommonsMultipartFile photo) {
+    public Map<String,Object> modifyPhoto(CommonsMultipartFile photo, User user) {
+        String fileType = FileUtils.getFileSufix(photo.getName());
+        if(FileType.isImage(photo.getName())){
+
+        }
         return null;
     }
 

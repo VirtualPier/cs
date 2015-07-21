@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -395,6 +396,13 @@ public class UserController {
         result.put("success", false);
         result.put("valid", false);
         return result;
+    }
+
+    @RequestMapping("/modifyPhoto")
+    @ResponseBody
+    public Map<String, Object> modifyPhoto(@RequestParam("photo") CommonsMultipartFile photo, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        return userService.modifyPhoto(photo, user);
     }
 
 

@@ -50,7 +50,7 @@ public interface UserService {
      * @param introduce
      * @return
      */
-    public Map addUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
+    public Map<String,Object> addUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
 
     /***
      * 更新用户
@@ -68,7 +68,7 @@ public interface UserService {
      * @param introduce
      * @return
      */
-    public Map updateUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
+    public Map<String,Object> updateUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
 
     /***
      * 删除用户
@@ -76,7 +76,7 @@ public interface UserService {
      * @param id
      * @return
      */
-    public Map removeUser(long id);
+    public Map<String,Object> removeUser(long id);
 
     /***
      * 退出
@@ -92,7 +92,7 @@ public interface UserService {
      * @param photo
      * @return
      */
-    public Map modifyPhoto(CommonsMultipartFile photo);
+    public Map modifyPhoto(CommonsMultipartFile photo,User user);
 
     /***
      * 重置密码
