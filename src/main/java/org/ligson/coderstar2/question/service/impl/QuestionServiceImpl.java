@@ -141,7 +141,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map<String, Object> createQuestion(User user, String title, String description, String[] tags, long[] languageIds, double money) {
+    public Map<String, Object> createQuestion(long id, User user, String title, String description, String[] tags, long[] languageIds, double money) {
 
         user = userDao.getById(user.getId());
 
@@ -155,7 +155,14 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
 
-        Question question = new Question();
+        Question question = null;
+        if (id >= 0) {
+            question = findQuestionById(id);
+        }
+        if (question == null) {
+            question = new Question();
+        }
+
         question.setTitle(title);
         question.setDescription(description);
         question.setCreator(user);
@@ -177,7 +184,9 @@ public class QuestionServiceImpl implements QuestionService {
         for (String tag : tags) {
             sysTagService.addQuestionTag(user, question, tag);
         }
-        user.setQuestionNum(user.getQuestionNum() + 1);
+        if (id == -1) {
+            user.setQuestionNum(user.getQuestionNum() + 1);
+        }
         userDao.saveOrUpdate(user);
         result.put("success", true);
         result.put("question", question);

@@ -1,4 +1,4 @@
-<@override name="title">提问问题</@override>
+<@override name="title">编辑问题</@override>
 <@override name="header">
 <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
 <script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
@@ -21,6 +21,7 @@
 
     <form method="post" action="/question/saveQuestion" class="form-horizontal" name="createQuestionForm"
           id="createQuestionForm">
+        <input type="hidden" name="id" value="${question.id}"/>
 
         <div class="cs-mod">
             <div class="mod-body">
@@ -82,7 +83,7 @@
                     <div class="col-md-12 tag-bar" id="tagItems">
                         <#list sysTags as tag>
                             <span title='双击我删除' ondblclick='$(this).remove()' class="cs-question-tags"
-                                  style="display:inline-block;"><i class="icon icon-edit"></i> + ${tag} + </span>
+                                  style="display:inline-block;"><i class="icon icon-edit"></i>${tag.name}</span>
                         </#list>
                     </div>
 

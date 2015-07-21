@@ -21,7 +21,7 @@ public interface QuestionService {
      * @param categoryIds
      * @return
      */
-    public Map<String, Object> createQuestion(User user, String title, String description, String[] tags, long[] categoryIds, double money);
+    public Map<String, Object> createQuestion(long id,User user, String title, String description, String[] tags, long[] categoryIds, double money);
 
 
     /***
