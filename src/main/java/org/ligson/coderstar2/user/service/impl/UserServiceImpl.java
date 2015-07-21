@@ -2,9 +2,7 @@ package org.ligson.coderstar2.user.service.impl;
 
 import com.boful.common.codec.utils.PasswordCodec;
 import com.boful.common.date.utils.DateUtils;
-import com.boful.common.file.utils.FileType;
 import com.boful.common.file.utils.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 import org.ligson.coderstar2.pay.domains.TradeRecord;
@@ -15,6 +13,11 @@ import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -23,6 +26,8 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private static Logger logger = Logger.getLogger(UserServiceImpl.class);
     private UserDao userDao;
+
+    private final String UPLOAD = File.separator+"assets"+File.separator+"images"+File.separator+"upload";
 
     public UserDao getUserDao() {
         return userDao;
@@ -121,11 +126,62 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String,Object> modifyPhoto(CommonsMultipartFile photo, User user) {
-        String fileType = FileUtils.getFileSufix(photo.getName());
-        if(FileType.isImage(photo.getName())){
+        Map<String,Object> map = new HashMap<String,Object>();
+        boolean flag = false;
+        String url = "";
+        String errorMsg = "";
+        String contentType = photo.getContentType();
+        if(contentType.contains("image")){
+            //表明上传文件为img,需要保存到服务器段，数据库关联对应关系
+            try {
+                InputStream in = photo.getInputStream();
+                String webPath = findWebProPath();
+                String webUpload = UPLOAD+File.separator+user.getId()+"_"+photo.getOriginalFilename();
+                String path = webPath+webUpload;
+                File file = new File(path);
+                if(!file.exists()){
+                    file.getParentFile().mkdirs();
+                }
+                if(!webPath.isEmpty()){
+                    FileUtils.copyFile(in,file);
+                    url = ".."+File.separator+".."+webUpload;//文件保存到服务器地址路径
+                    flag = true;
+                    user.setPhoto(url);
+                    userDao.saveOrUpdate(user);
+                }else{
+                    errorMsg = "获取web项目路径是出错了，请重新尝试";
+                }
+            } catch (IOException e) {
+                logger.error("在用户修改上传图像时出错了："+e.getMessage());
+                errorMsg = "保存上传图像时出错了";
+            }
 
+        }else{
+            errorMsg = "上传的文件不是图形文件，请确认";
         }
-        return null;
+        map.put("success",flag);
+        map.put("url",url);
+        map.put("msg",errorMsg);
+        return map;
+    }
+
+    /**
+     * 获取web项目在服务器所在路径
+     * @return
+     */
+    private String findWebProPath(){
+        String classPath = "";
+        String path = this.getClass().getResource("/").getPath();
+        try {
+            classPath = URLDecoder.decode(path, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error("类路径为："+path+",转码码为UTF-8时出错");
+        }
+        if(classPath.isEmpty()){
+            return "";
+        }
+        String webProPath =  new File(classPath).getParentFile().getParent();
+        return webProPath;
     }
 
     @Override
@@ -230,12 +286,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, Object> updateUser(User user, String nickName, int sex, String introduce, String qq, String cellphone, String email, String web) {
-        return null;
+        Map<String,Object> map = new HashMap<>();
+        try {
+            user.setNickName(nickName);
+            user.setSex(sex);
+            user.setIntroduce(introduce);
+            user.setQq(qq);
+            user.setCellphone(cellphone);
+            user.setEmail(email);
+            user.setWeb(web);
+            userDao.saveOrUpdate(user);
+            map.put("success",true);
+        } catch (Exception e) {
+            map.put("success",false);
+            map.put("msg","跟新用户对象时出错了");
+            logger.error("请检查数据结构，更新数据时出错了："+e.getMessage());
+
+        }
+
+        return map;
     }
 
     @Override
-    public boolean cellphoneIsUnique(String cellphone) {
-        long count = userDao.countBy("cellphone", cellphone);
+    public boolean cellphoneIsUnique(String cellphone, User user) {
+        long count = userDao.countExceptUserBy("cellphone", cellphone,user);
         return count == 0;
     }
 

@@ -378,10 +378,12 @@ public class UserController {
     }
 
     @RequestMapping("/checkUnique")
-    public Map<String, Object> checkUnique(@RequestParam(value = "cellphone", required = false) String cellphone, @RequestParam(value = "email", required = false) String email) {
+    @ResponseBody
+    public Map<String, Object> checkUnique(@RequestParam(value = "cellphone", required = false) String cellphone, @RequestParam(value = "email", required = false) String email,HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
         if (StringUtils.isNotBlank(cellphone)) {
-            boolean isUnique = userService.cellphoneIsUnique(cellphone);
+            boolean isUnique = userService.cellphoneIsUnique(cellphone,user);
             result.put("success", true);
             result.put("valid", isUnique);
             return result;

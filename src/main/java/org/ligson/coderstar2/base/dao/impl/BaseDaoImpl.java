@@ -5,6 +5,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.ligson.coderstar2.base.dao.BaseDao;
+import org.ligson.coderstar2.user.domains.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.ParameterizedType;
@@ -86,15 +87,24 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Transactional("transactionManager")
     @Override
     public long countBy(String propertyName, Object propertyValue) {
+        return countExceptUserBy(propertyName,propertyValue,null);
+    }
 
+    @Transactional
+    @Override
+    public long countExceptUserBy(String propertyName, Object propertyValue, User user) {
         String hql;
         if (propertyName != null) {
+            String exceptUser = "";
+            if(user != null){
+                exceptUser = " and id <> " +user.getId();
+            }
             if (propertyValue instanceof String) {
                 hql = "select count(*) from " + this.getGenericTypeName()
-                        + " where " + propertyName + "='" + propertyValue + "'";
+                        + " where " + propertyName + "='" + propertyValue + "'" + exceptUser;
             } else {
                 hql = "select count(*) from " + this.getGenericTypeName()
-                        + " where " + propertyName + "=" + propertyValue;
+                        + " where " + propertyName + "=" + propertyValue + exceptUser;
             }
         } else {
             hql = "select count(*) from " + this.getGenericTypeName();

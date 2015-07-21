@@ -165,7 +165,7 @@ public interface UserService {
 
     public Map<String, Object> updateUser(User user, String nickName, int sex, String introduce, String qq, String cellphone, String email, String web);
 
-    public boolean cellphoneIsUnique(String cellphone);
+    public boolean cellphoneIsUnique(String cellphone, User user);
 
     public boolean emailIsUnique(String email);
 }
