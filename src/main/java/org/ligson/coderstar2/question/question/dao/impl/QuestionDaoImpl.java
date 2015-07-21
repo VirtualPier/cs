@@ -7,7 +7,9 @@ import org.ligson.coderstar2.question.question.dao.QuestionDao;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -134,5 +136,31 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         query.setMaxResults(max);
         List<Question> questionList = (List<Question>) query.list();
         return questionList;
+    }
+
+    @Override
+    public Map<String, Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order) {
+        Query query = null;
+        Query query2 = null;
+        if (tagId >= 0 && categoryId >= 0) {
+            query = getCurrentSession().createQuery("select a from Question a,QuestionTag at,QuestionCategory ac where a.id=at.question.id and a.id=ac.quesiton.id and a.title like :title order by a." + sort + " " + order);
+            query2 = getCurrentSession().createQuery("select count(a) from Question a,QuestionTag at,ArticleCategory ac where a.id=at.question.id and a.id=ac.question.id and a.title like :title order by a." + sort + " " + order);
+        } else if (tagId < 0 && categoryId >= 0) {
+            query = getCurrentSession().createQuery("select a from Question a,QuestionCategory ac where a.id=ac.question.id  and a.title like :title order by a." + sort + " " + order);
+            query2 = getCurrentSession().createQuery("select count(a) from Question a,QuestionCategory ac where a.id=ac.question.id  and a.title like :title order by a." + sort + " " + order);
+        } else {
+            query = getCurrentSession().createQuery("select a from Question a,QuestionTag at where a.id=at.question.id  and a.title like :title order by a." + sort + " " + order);
+            query2 = getCurrentSession().createQuery("select count(a) from Question a,QuestionTag at where a.id=at.question.id  and a.title like :title order by a." + sort + " " + order);
+        }
+        query.setString("title", "%" + title + "%");
+        query2.setString("title", "%" + title + "%");
+        query.setFirstResult((int) offset);
+        query.setMaxResults((int) max);
+        List<Question> questionList = query.list();
+        Map<String, Object> result = new HashMap<>();
+        result.put("questionList", questionList);
+        Long count = (Long) query2.uniqueResult();
+        result.put("total", count.intValue());
+        return result;
     }
 }

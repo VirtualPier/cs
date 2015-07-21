@@ -240,8 +240,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Map<String, Object> searchArticle(String title, String description, String tagName, Category category, int max, int offset, String sort, String orderr) {
-        return null;
+    public Map<String, Object> searchArticle(String title, long tagId, long categoryId, int max, int offset, String sort, String orderr) {
+        return articleDao.searhArticle(title, tagId, categoryId, max, offset, sort, orderr);
     }
 
     @Override

@@ -214,4 +214,37 @@ public class IndexController {
     public String friendLinks() {
         return "index/friendLinks";
     }
+
+
+    @RequestMapping("/search")
+    public String search(@RequestParam(value = "searchType", defaultValue = "1") int searchType, @RequestParam(value = "title", required = false) String title, @RequestParam(value = "categoryId", defaultValue = "-1", required = false) long categoryId, @RequestParam(value = "tagId", defaultValue = "-1", required = false) long tagId, @RequestParam(value = "sort", defaultValue = "createDate", required = false) String sort, @RequestParam(value = "order", defaultValue = "desc", required = false) String order, @RequestParam(value = "offset", required = false, defaultValue = "0") int offset, @RequestParam(value = "max", defaultValue = "15", required = false) int max, HttpServletRequest request) {
+        List modelList = null;
+        int total = 0;
+        if (searchType == 1) {
+            Map<String, Object> result = questionService.searchQuestion(title, tagId, categoryId, max, offset, sort, order);
+            modelList = (List) result.get("questionList");
+            total = (int) result.get("total");
+        } else {
+            Map<String, Object> result = articleService.searchArticle(title, tagId, categoryId, max, offset, sort, order);
+            modelList = (List) result.get("articleList");
+            total = (int) result.get("total");
+        }
+        List<Category> categoryList = categoryService.list();
+        List<List> tagCount = sysTagService.hotsTag(10);
+
+        request.setAttribute("tagCount", tagCount);
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("modelList", modelList);
+        request.setAttribute("sort", sort);
+        request.setAttribute("total", total);
+        request.setAttribute("searchType", searchType);
+        request.setAttribute("order", order);
+        request.setAttribute("categoryId", categoryId);
+        request.setAttribute("tagId", tagId);
+        request.setAttribute("title", title);
+        request.setAttribute("max", max);
+        request.setAttribute("offset", offset);
+        return "index/search";
+
+    }
 }

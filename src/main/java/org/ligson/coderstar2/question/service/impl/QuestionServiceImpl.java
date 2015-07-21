@@ -200,8 +200,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map<String, Object> searchQuestion(String sort, String order, long offset, long max, String tagName, long languageId, String title) {
-        return null;
+    public Map<String, Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order) {
+        return questionDao.searchQuestion(title, tagId, categoryId, max, offset, sort, order);
     }
 
     @Override
@@ -391,10 +391,10 @@ public class QuestionServiceImpl implements QuestionService {
      * @return 格式:[success:true/false,questionList:questionList,total:total]
      */
     @Override
-    public Map<String, Object> searchQuestion(long categoryId,boolean hasDeal, String sort, int max, int offset) {
+    public Map<String, Object> searchQuestion(long categoryId, boolean hasDeal, String sort, int max, int offset) {
         Map<String, Object> result = new HashMap<>();
-        List<Question> questionList = questionDao.findByRightAskIsNullAndCategoryIdOrderBy(hasDeal, sort,categoryId, max, offset);
-        int total = questionDao.countByRightAskIsNullAndCategoryIdOrderBy(hasDeal, sort,categoryId);
+        List<Question> questionList = questionDao.findByRightAskIsNullAndCategoryIdOrderBy(hasDeal, sort, categoryId, max, offset);
+        int total = questionDao.countByRightAskIsNullAndCategoryIdOrderBy(hasDeal, sort, categoryId);
         result.put("questionList", questionList);
         result.put("total", total);
         return result;

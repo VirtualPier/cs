@@ -6,6 +6,7 @@ import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -26,4 +27,6 @@ public interface QuestionDao extends BaseDao<Question> {
     public int countByUserAndState(User user, int statePublish);
 
     public List<Question> findAllByAttentionQuestion(User user, int offset, int max);
+
+    public Map<String,Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order);
 }

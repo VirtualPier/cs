@@ -5,10 +5,13 @@ import org.hibernate.Query;
 import org.ligson.coderstar2.article.article.dao.ArticleDao;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
+import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ruby on 2015/7/16.
@@ -47,7 +50,6 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         query.setFirstResult(offset);
         query.setMaxResults(max);
         List<Article> articles = (List<Article>) query.list();
-
 
 
         return articles;
@@ -126,5 +128,31 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         query.setMaxResults(max);
         List<Article> articles = (List<Article>) query.list();
         return articles;
+    }
+
+    @Override
+    public Map<String, Object> searhArticle(String title, long tagId, long categoryId, int max, int offset, String sort, String orderr) {
+        Query query = null;
+        Query query2 = null;
+        if (tagId >= 0 && categoryId >= 0) {
+            query = getCurrentSession().createQuery("select a from Article a,ArticleTag at,ArticleCategory ac where a.id=at.article.id and a.id=ac.article.id and a.title like :title order by a." + sort + " " + orderr);
+            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleTag at,ArticleCategory ac where a.id=at.article.id and a.id=ac.article.id and a.title like :title order by a." + sort + " " + orderr);
+        } else if (tagId < 0 && categoryId >= 0) {
+            query = getCurrentSession().createQuery("select a from Article a,ArticleCategory ac where a.id=ac.article.id  and a.title like :title order by a." + sort + " " + orderr);
+            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleCategory ac where a.id=ac.article.id  and a.title like :title order by a." + sort + " " + orderr);
+        } else {
+            query = getCurrentSession().createQuery("select a from Article a,ArticleTag at where a.id=at.article.id  and a.title like :title order by a." + sort + " " + orderr);
+            query2 = getCurrentSession().createQuery("select count(a) from Article a,ArticleTag at where a.id=at.article.id  and a.title like :title order by a." + sort + " " + orderr);
+        }
+        query.setString("title", "%" + title + "%");
+        query2.setString("title", "%" + title + "%");
+        query.setFirstResult((int) offset);
+        query.setMaxResults((int) max);
+        List<Article> articleList = query.list();
+        Map<String, Object> result = new HashMap<>();
+        result.put("articleList", articleList);
+        Long count = (Long) query2.uniqueResult();
+        result.put("total", count.intValue());
+        return result;
     }
 }

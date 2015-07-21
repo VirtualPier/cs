@@ -108,14 +108,11 @@ public interface ArticleService {
      * 搜索文章
      *
      * @param title       标题
-     * @param description 描述
-     * @param tagName     标签名
-     * @param category    语言
      * @param max         每页记录数
      * @param offset      开始记录
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map<String, Object> searchArticle(String title, String description, String tagName, Category category, int max, int offset, String sort, String orderr);
+    public Map<String, Object> searchArticle(String title, long tagId, long categoryId, int max, int offset, String sort, String orderr);
 
     /**
      * 搜索我的文章

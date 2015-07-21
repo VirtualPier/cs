@@ -51,12 +51,12 @@ public interface QuestionService {
     /***
      * 搜索问题
      *
+     * @param offset
      * @param sort
      * @param order
-     * @param offset
      * @return
      */
-    public Map<String, Object> searchQuestion(String sort, String order, long offset, long max, String tagName, long languageId, String title);
+    public Map<String, Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order);
 
     /***
      * 保存问题回复

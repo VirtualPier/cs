@@ -6,6 +6,7 @@ import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ruby on 2015/7/16.
@@ -26,4 +27,7 @@ public interface ArticleDao extends BaseDao<Article> {
     public int countByCreatorAndState(User user, int statePublish);
 
     public List<Article> findAllAttentionArticle(User user, int offset, int max);
+
+    public Map<String, Object> searhArticle(String title, long tagId, long categoryId, int max, int offset, String sort, String orderr);
+
 }

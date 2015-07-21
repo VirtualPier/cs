@@ -67,13 +67,13 @@
             <form action="/index/search" class="navbar-form form-inline navbar-left" role="search">
                 <div class="form-group">
                     <select class="form-control selectpicker" name="searchType" data-style="btn-inverse">
-                        <option value="1">问答</option>
-                        <option value="2">文章</option>
+                        <option value="1" ${(searchType=="1")?string("selected","")}>问答</option>
+                        <option value="2" ${(searchType=="2")?string("selected","")}>文章</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="输入搜索内容" name="key" value=""/>
+                    <input type="text" class="form-control" placeholder="输入搜索内容" name="title" value="${title}"/>
                 </div>
 
                 <div class="form-group">
