@@ -63,7 +63,7 @@ public class Article {
     }
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "article_id")
     public Set<ArticleCategory> getArticleCategories() {
         return articleCategories;

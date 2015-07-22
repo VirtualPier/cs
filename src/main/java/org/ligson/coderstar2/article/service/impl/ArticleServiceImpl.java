@@ -4,6 +4,7 @@ import com.boful.common.date.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.ligson.coderstar2.article.arrentionarticle.dao.AttentionArticleDao;
 import org.ligson.coderstar2.article.article.dao.ArticleDao;
+import org.ligson.coderstar2.article.articlecategory.dao.ArticleCategoryDao;
 import org.ligson.coderstar2.article.articlerate.dao.ArticleRateDao;
 import org.ligson.coderstar2.article.articletag.dao.ArticleTagDao;
 import org.ligson.coderstar2.article.domains.*;
@@ -19,6 +20,7 @@ import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -28,6 +30,7 @@ import java.util.*;
  */
 public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
+    private ArticleCategoryDao articleCategoryDao;
     private ArticleTagDao articleTagDao;
     private CategoryDao categoryDao;
     private SysTagService sysTagService;
@@ -199,8 +202,29 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public Map<String, Object> deleteArticle(User user, long articleId) {
-        return null;
+        //需要删除article
+        Map<String,Object> map = new HashMap<>();
+        List<String> pros = new ArrayList<>();
+        pros.add("id");
+        pros.add("creator.id");
+        List<Object> vals = new ArrayList<>();
+        vals.add(articleId);
+        vals.add(user.getId());
+        Article article = articleDao.findByAnd(pros,vals);
+        boolean flag = false;
+        String msg = "";
+        if(article == null){
+            msg = "根据用户："+user.getCreateName()+",没有找到文章，主键为："+articleId;
+        }else{
+            articleDao.delete(article);
+            flag = true;
+            msg = "文章删除成功";
+        }
+        map.put("success",flag);
+        map.put("msg",msg);
+        return map;
     }
 
     @Override
@@ -466,5 +490,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> findAllArticleByUser(User user, int offset, int max) {
         return articleDao.findAllArticleByCreatorAndState(user, -1, "createDate", "desc", offset, max);
+    }
+
+    public ArticleCategoryDao getArticleCategoryDao() {
+        return articleCategoryDao;
+    }
+
+    public void setArticleCategoryDao(ArticleCategoryDao articleCategoryDao) {
+        this.articleCategoryDao = articleCategoryDao;
     }
 }
