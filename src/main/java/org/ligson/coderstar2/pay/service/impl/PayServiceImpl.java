@@ -3,6 +3,7 @@ package org.ligson.coderstar2.pay.service.impl;
 import com.alipay.config.AlipayConfig;
 import com.alipay.util.AlipayNotify;
 import com.alipay.util.AlipaySubmit;
+import com.boful.common.date.utils.DateUtils;
 import org.dom4j.DocumentException;
 import org.ligson.coderstar2.pay.blockedfund.dao.BlockedFundDao;
 import org.ligson.coderstar2.pay.domains.BlockedFund;
@@ -18,9 +19,7 @@ import org.ligson.coderstar2.user.domains.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -250,6 +249,9 @@ public class PayServiceImpl implements PayService {
             blockedFundDao.saveOrUpdate(blockedFund);
 
             user.setBlockedFund(user.getBlockedFund() + money);
+            if (user.getBalance() - money >= 0) {
+                user.setBalance(user.getBalance() - money);
+            }
             userDao.saveOrUpdate(user);
 
             result.put("success", true);
@@ -356,7 +358,7 @@ public class PayServiceImpl implements PayService {
     @Override
     public Map<String, Object> withdraw(User currentUser, double money, String comments, String payAccount) {
         Map<String, Object> result = new HashMap<>();
-        if (money > currentUser.getBalance()) {
+        if (money >= currentUser.getBalance()) {
             result.put("success", false);
             result.put("msg", "超出余额了!");
             return result;
@@ -375,7 +377,7 @@ public class PayServiceImpl implements PayService {
         withdrawDao.saveOrUpdate(withdraw);
 
         Map<String, Object> result2 = blockedMoney(currentUser, money, "用户提现", 3, withdraw.getId());
-        boolean success = (boolean) result2.get("succcess");
+        boolean success = (boolean) result2.get("success");
         if (!success) {
             return result2;
         }
@@ -384,8 +386,41 @@ public class PayServiceImpl implements PayService {
     }
 
     @Override
-    public Map<String, Object> allowWithDraw(Withdraw withdraw) {
-        return null;
+    public Map<String, Object> allowWithDraw(User operator, long withdrawId, double money) {
+        Map<String, Object> result = new HashMap<>();
+        List<String> propList = new ArrayList<>();
+        List<Object> propValues = new ArrayList<>();
+        propList.add("objType");
+        propList.add("objId");
+        propValues.add(3);
+        propValues.add(withdrawId);
+        BlockedFund blockedFund = blockedFundDao.findByAnd(propList, propValues);
+        if (blockedFund != null) {
+            Withdraw withdraw = withdrawDao.getById(withdrawId);
+            //用户实际提现金额
+            double trueMoney = money > 0 ? money : withdraw.getMoney();
+            User user = withdraw.getUser();
+            double userBlockedFundMoney = user.getBlockedFund() - trueMoney;
+            if (userBlockedFundMoney >= 0.0) {
+                user.setBlockedFund(userBlockedFundMoney);
+                userDao.saveOrUpdate(user);
+                blockedFund.setState(BlockedFund.STATE_UNLOCK);
+                blockedFundDao.saveOrUpdate(blockedFund);
+                withdraw.setState(Withdraw.STATE_APPROVED);
+                withdraw.setAllowDate(DateUtils.format());
+                withdraw.setTrueMoney(trueMoney);
+                withdrawDao.saveOrUpdate(withdraw);
+                result.put("success", true);
+            } else {
+                result.put("success", false);
+                result.put("msg", "冻结资金不存在!");
+            }
+        } else {
+            result.put("success", false);
+            result.put("msg", "冻结资金不存在!");
+            result.put("id", withdrawId);
+        }
+        return result;
     }
 
 }

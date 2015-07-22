@@ -15,9 +15,9 @@ function loadMyRechangeLog() {
                 html += "   <td>" + Date.convertTxtFormat(trade.createDate) + "</td>";
                 html += "   <td>" + trade.money + "</td>";
                 var stateStr = "申请";
-                if (stateStr == 1) {
+                if (trade.state == 1) {
                     stateStr = "申请";
-                } else if (stateStr == 2) {
+                } else if (trade.state == 2) {
                     stateStr = "批准";
                 } else {
                     stateStr = "拒绝";

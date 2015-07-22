@@ -21,7 +21,7 @@ public interface PayService {
 
     public Map<String, Object> withdrawList(int offset, int max);
 
-    /***
+    /**
      * 转账
      *
      * @param fromUser
@@ -33,7 +33,7 @@ public interface PayService {
      */
     public Map<String, Object> transfer(User fromUser, User toUser, double money, int tradeType, long tradeObjId);
 
-    /***
+    /**
      * 冻结资金
      *
      * @param user
@@ -57,6 +57,6 @@ public interface PayService {
 
     public Map<String, Object> withdraw(User user, double money, String comments, String payAccount);
 
-    public Map<String, Object> allowWithDraw(Withdraw withdraw);
+    public Map<String, Object> allowWithDraw(User operator, long withrawId, double money);
 
 }

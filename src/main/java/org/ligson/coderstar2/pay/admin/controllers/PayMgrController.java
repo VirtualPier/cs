@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.pay.admin.controllers;
 
 import org.ligson.coderstar2.pay.service.PayService;
+import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -52,8 +54,8 @@ public class PayMgrController {
 
     @RequestMapping("/withdraw")
     @ResponseBody
-    public Map<String, Object> withdraw(String ids) {
-        String[] widthDrawIds = ids.split(",");
-        return payService.allowWithDraw(null);
+    public Map<String, Object> withdraw(@RequestParam("id") long id, @RequestParam("money") double money, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        return payService.allowWithDraw(user, id, money);
     }
 }

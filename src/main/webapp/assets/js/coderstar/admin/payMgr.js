@@ -51,9 +51,21 @@ $(function () {
 
         ]]
     });
+
+    $("#ff").form({
+        success: function (data) {
+            var result = eval("(" + data + ")");
+            if (result.success) {
+                $("#withdrawDlg").dialog("close");
+            } else {
+                alert(result.msg);
+            }
+        }
+    });
 });
 
 function allowWithdraw(withdrawId) {
+    $("#ff").find("input[name='id']").val(withdrawId);
     $("#withdrawDlg").dialog("open");
 }
 function allowWithdraw1() {

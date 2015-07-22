@@ -39,7 +39,7 @@ $(function () {
     $.extend($.fn.validatebox.defaults.rules, {
         number: {
             validator: function (value, param) {
-                return /^[0-9]*$/.test(value);
+                return /^[0-9]+(.[0-9]{1,3})?$/.test(value);
             },
             message: '请输入数字类型'
         }

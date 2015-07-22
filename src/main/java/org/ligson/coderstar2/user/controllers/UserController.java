@@ -343,9 +343,11 @@ public class UserController {
     public String applyWithDraw(@RequestParam(value = "money") double money, @RequestParam("payAccount") String payAccount, @RequestParam(value = "comments", required = false) String comments, HttpServletRequest request, Model model) {
         User user = (User) request.getSession().getAttribute("user");
         User user1 = userService.findUserById(user.getId());
-        Map<String, Object> result = payService.withdraw(user, money, comments, payAccount);
+        Map<String, Object> result = payService.withdraw(user1, money, comments, payAccount);
         boolean success = (boolean) result.get("success");
         if (success) {
+            User user2 = userService.findUserById(user1.getId());
+            request.getSession().setAttribute("user", user2);
             return "redirect:/user/myWithdrawLog";
         } else {
             String msg = (String) result.get("msg");
