@@ -4,19 +4,26 @@
 </@override>
 <@override name="body">
 <table id="tt" title="申请列表" class="easyui-datagrid" style="height:500px; width: 100%;"
-       data-options="singleSelect:false,fix:true" toolbar="#toolbar" pagination="true" rownumbers="true"
+       data-options="singleSelect:true,fix:true" pagination="true" rownumbers="true"
        fitColumns="true"
        url="/payMgr/withdrawList" iconCls="icon-save" pagination="true">
     <thead>
     </thead>
 </table>
 
-<div id="toolbar">
-    <div style="margin: 5px 5px;">
-        语言名称：<input type="text" class="easyui-textbox" style="height: 18px;" name="name"/>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-search">查询</a>
-    </div>
-</div>
 
+<div id="withdrawDlg" class="easyui-dialog" title="提现" data-options="iconCls:'icon-save',closed:true,modal:true"
+     style="width:400px;height:200px;padding:10px">
+    <form method="post" id="ff">
+        <table>
+            <tr>
+                <td>批准金额:</td>
+                <td><input class="easyui-textbox" type="text" name="money"
+                           data-options="required:true,validType:'number',toolbar:[{text:'提交',iconClas:'icon-add',handler:function(){$('#ff').form('submit');},{text:'取消',iconClas:'icon-add',handler:function(){$('#ff').form('clear');$('#withdrawDlg').dialog('close');}]"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 </@override>
-<@extends name="layout/questionMgr.ftl"/>
+<@extends name="layout/payMgr.ftl"/>

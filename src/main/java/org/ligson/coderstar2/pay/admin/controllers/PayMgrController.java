@@ -49,4 +49,11 @@ public class PayMgrController {
         int offset = (page - 1) * max;
         return payService.withdrawList(offset, max);
     }
+
+    @RequestMapping("/withdraw")
+    @ResponseBody
+    public Map<String, Object> withdraw(String ids) {
+        String[] widthDrawIds = ids.split(",");
+        return payService.allowWithDraw(null);
+    }
 }

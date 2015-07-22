@@ -382,4 +382,10 @@ public class PayServiceImpl implements PayService {
         result.put("success", true);
         return result;
     }
+
+    @Override
+    public Map<String, Object> allowWithDraw(Withdraw withdraw) {
+        return null;
+    }
+
 }

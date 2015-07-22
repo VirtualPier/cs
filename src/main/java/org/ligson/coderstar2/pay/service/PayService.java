@@ -56,4 +56,7 @@ public interface PayService {
     public Withdraw findWithDrawByStateAndUser(int state, User user1);
 
     public Map<String, Object> withdraw(User user, double money, String comments, String payAccount);
+
+    public Map<String, Object> allowWithDraw(Withdraw withdraw);
+
 }
