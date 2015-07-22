@@ -167,10 +167,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Map<String, Object> createArticle(long id,String title, String content, User creator, String[] tags, long[] categroyIds) {
+    public Map<String, Object> createArticle(long id, String title, String content, User creator, String[] tags, long[] categroyIds) {
         //保存文章
         Article article = findArticleById(id);
-        if (null==article) {
+        if (null == article) {
             article = new Article();
         }
 
@@ -179,6 +179,9 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCreator(creator);
         article.setState(Article.STATE_APPLY);
         articleDao.saveOrUpdate(article);
+        if (id >= 0) {
+            sysTagService.deleteTagByArticle(article);
+        }
         for (String tag : tags) {
             if (StringUtils.isNotEmpty(tag)) {
                 sysTagService.addArticleTag(creator, article, tag);

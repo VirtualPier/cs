@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class ArticleController {
         } else {
             tagArr = tags.split(";");
         }
-        Map result = articleService.createArticle(-1,title, content, user, tagArr, categoryIdArray);
+        Map result = articleService.createArticle(-1, title, content, user, tagArr, categoryIdArray);
         boolean success = (boolean) result.get("success");
         if (success) {
             return "redirect:/my/myArticle";
@@ -183,7 +184,7 @@ public class ArticleController {
     @RequestMapping("/edit")
     public String edit(@RequestParam("id") long id, HttpServletRequest request) {
         Article article = articleService.findArticleById(id);
-        request.setAttribute("article",article);
+        request.setAttribute("article", article);
         List<SysTag> sysTags = articleService.findArticleTagList(article);
 
         String tags = "";
@@ -200,7 +201,7 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/saveArticle", method = RequestMethod.POST)
-    public String saveArticle(@RequestParam(value = "id", defaultValue = "-1",required = false) long id, @RequestParam(value = "title", required = true) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, HttpServletRequest request) {
+    public String saveArticle(@RequestParam(value = "id", defaultValue = "-1", required = false) long id, @RequestParam(value = "title", required = true) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         String[] categoryIdStringArray = categoryIds.split(",");
         long[] categoryIdArray = new long[categoryIdStringArray.length];
@@ -216,12 +217,12 @@ public class ArticleController {
             tagArr = tags.split(";");
         }
         //(long id,String title, String content, User creator, String[] tags, long[] categroyIds)
-        Map result = articleService.createArticle(id, title, description, user,tagArr, categoryIdArray);
+        Map result = articleService.createArticle(id, title, description, user, tagArr, categoryIdArray);
         boolean success = (boolean) result.get("success");
         if (success) {
-            return "redirect:/my/myArticle";
+            return "redirect:/article/view?id=" + id;
         } else {
-            return "redirect:/article/edit";
+            return "redirect:/article/edit?id=" + id;
         }
     }
 

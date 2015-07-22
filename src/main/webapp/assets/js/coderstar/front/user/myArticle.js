@@ -38,17 +38,16 @@ function loadQuestion(question) {
     htmlString += question.replyNum + "&nbsp个回复";
     htmlString += "</span>";
     htmlString += "•";
-    htmlString += "<a href=\"  " + baseUrl + "article/view?id" + question.id + "\" class=\" cs-topic-name\">";
+    htmlString += "<a href=\"  " + baseUrl + "article/view?id=" + question.id + "\" class=\"cs-topic-name\">";
     htmlString += question.title;
     htmlString += "</a>";
     htmlString += "<a href='" + baseUrl + "user/deleteArticle?ids=" + question.id + "' class='pull-right' style='margin-left:10px;'>删除</a>"
     htmlString += "<a href='" + baseUrl + "article/edit?id=" + question.id + "' class='pull-right'>编辑</a>";
-    var stateString = question.state == 1 ? "审核" : "发布";
+    var stateString = question.state == 1 ? "审核中" : "已发布";
     htmlString += "&nbsp;&nbsp;<span class=\"label label-info\">" + stateString + "</span>";
     htmlString += "</p>";
     htmlString += "<h4>";
     htmlString += "<span>";
-    htmlString += (question.description + "").substr(1, 100);
     htmlString += "</span>";
     htmlString += "</h4>";
     htmlString += "</div>";

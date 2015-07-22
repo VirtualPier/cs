@@ -36,10 +36,9 @@ function loadQuestion(question) {
     var htmlString = "<div class=\"cs-item\">";
     htmlString += "<div class=\"mod-head \" >";
     htmlString += "<p class= \"text-color-999 \">";
+    htmlString += "<a title=\"" + question.creator.nickName + "\" class=\"img aw-border-radius-5\" href=\"/user/view?id=" + question.creator.id + "\" data-id=\"5\"><img style='width:50px;height:50px;' onerror=\"javascript:this.src='/images/pic_user.gif'\" src=\"" + question.creator.photo + "\"></a>";
     htmlString += "<span>";
-    htmlString += question.replyNum + "&nbsp个回复";
     htmlString += "</span>";
-    htmlString += "•";
     htmlString += "<a href=\"  " + baseUrl + "question/view?id=" + question.id + "\" class=\" cs-topic-name\">";
     htmlString += question.title;
     htmlString += "</a>";
@@ -47,7 +46,6 @@ function loadQuestion(question) {
     htmlString += "</p>";
     htmlString += "<h4>";
     htmlString += "<span>";
-    htmlString += (question.description + "").substring(1, 100);
     htmlString += "</span>";
     htmlString += "</h4>";
     htmlString += "</div>";

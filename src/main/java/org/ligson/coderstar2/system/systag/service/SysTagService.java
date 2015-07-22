@@ -21,5 +21,9 @@ public interface SysTagService {
 
     public List<SysTag> findByArticle(Article article);
 
-    public List<SysTag> findUserGoodTag(User user,int max);
+    public List<SysTag> findUserGoodTag(User user, int max);
+
+    public void deleteTagByArticle(Article article);
+
+    public void deleteTagByQuestion(Question question);
 }

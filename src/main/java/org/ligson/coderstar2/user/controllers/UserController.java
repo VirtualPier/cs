@@ -96,14 +96,10 @@ public class UserController {
     public String view(@RequestParam("id") long id, HttpServletRequest request) {
         User user = userService.findUserById(id);
         if (user != null) {
-            List<Question> questionList = questionService.findAllQuestionByCreatorAndState(user, Question.STATE_PUBLISH, "createDate", "desc", 0, 10);
-            List<Article> articleList = articleService.findAllArticleByCreatorAndState(user, Article.STATE_PUBLISH, "createDate", "desc", 0, 10);
             int questionTotal = questionService.countByCreatorAndState(user, Question.STATE_PUBLISH);
             int articleTotal = articleService.countByCreatorAndState(user, Question.STATE_PUBLISH);
             List<SysTag> sysTags = sysTagService.findUserGoodTag(user, 10);
             request.setAttribute("viewUser", user);
-            request.setAttribute("questionList", questionList);
-            request.setAttribute("articleList", articleList);
             request.setAttribute("questionTotal", questionTotal);
             request.setAttribute("articleTotal", articleTotal);
             request.setAttribute("tags", sysTags);

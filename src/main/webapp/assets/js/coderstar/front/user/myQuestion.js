@@ -50,7 +50,6 @@ function loadQuestion(question) {
     htmlString += "</p>";
     htmlString += "<h4>";
     htmlString += "<span>";
-    htmlString += question.description.substring(0, 300);
     htmlString += "</span>";
     htmlString += "</h4>";
     htmlString += "</div>";

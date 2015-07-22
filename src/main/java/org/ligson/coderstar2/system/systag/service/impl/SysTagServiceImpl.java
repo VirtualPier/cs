@@ -56,10 +56,22 @@ public class SysTagServiceImpl implements SysTagService {
             sysTag.setArticleNum(sysTag.getQuestionNum() + 1);
         }
         sysTagDao.saveOrUpdate(sysTag);
-        ArticleTag articleTag = new ArticleTag();
-        articleTag.setArticle(article);
-        articleTag.setTag(sysTag);
-        articleTagDao.saveOrUpdate(articleTag);
+        List<ArticleTag> articleTags = articleTagDao.findAllByArticle(article);
+        boolean isExist = false;
+        ArticleTag articleTag = null;
+        for (ArticleTag tag : articleTags) {
+            if ((tag.getTag().getId() == sysTag.getId()) && (tag.getArticle().getId() == article.getId())) {
+                articleTag = tag;
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {
+            articleTag = new ArticleTag();
+            articleTag.setArticle(article);
+            articleTag.setTag(sysTag);
+            articleTagDao.saveOrUpdate(articleTag);
+        }
         return articleTag;
     }
 
@@ -74,11 +86,24 @@ public class SysTagServiceImpl implements SysTagService {
             sysTag.setArticleNum(sysTag.getQuestionNum() + 1);
         }
         sysTagDao.saveOrUpdate(sysTag);
-        QuestionTag questionTag = new QuestionTag();
-        questionTag.setQuestion(question);
-        questionTag.setTag(sysTag);
-        questionTagDao.saveOrUpdate(questionTag);
-        return questionTag;
+
+        List<QuestionTag> questionList = questionTagDao.findAllByQuestion(question);
+        boolean isExist = false;
+        QuestionTag questionTag1 = null;
+        for (QuestionTag questionTag : questionList) {
+            if ((questionTag.getQuestion().getId() == question.getId()) && (sysTag.getId() == questionTag.getTag().getId())) {
+                isExist = true;
+                questionTag1 = questionTag;
+                break;
+            }
+        }
+        if (!isExist) {
+            questionTag1 = new QuestionTag();
+            questionTag1.setQuestion(question);
+            questionTag1.setTag(sysTag);
+            questionTagDao.saveOrUpdate(questionTag1);
+        }
+        return questionTag1;
     }
 
     @Override
@@ -95,5 +120,22 @@ public class SysTagServiceImpl implements SysTagService {
     public List<SysTag> findUserGoodTag(User user, int max) {
         //dianzi
         return sysTagDao.findAllByCreator(user, max);
+    }
+
+    @Override
+    public void deleteTagByArticle(Article article) {
+        List<ArticleTag> articleTags = articleTagDao.findAllByArticle(article);
+        for (ArticleTag articleTag : articleTags) {
+            articleTagDao.delete(articleTag);
+        }
+
+    }
+
+    @Override
+    public void deleteTagByQuestion(Question question) {
+        List<QuestionTag> questionTags = questionTagDao.findAllByQuestion(question);
+        for (QuestionTag questionTag : questionTags) {
+            questionTagDao.delete(questionTag);
+        }
     }
 }

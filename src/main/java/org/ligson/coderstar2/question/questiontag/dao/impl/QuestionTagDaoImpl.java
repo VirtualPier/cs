@@ -19,7 +19,7 @@ public class QuestionTagDaoImpl extends BaseDaoImpl<QuestionTag> implements Ques
         Session session = getCurrentSession();
         Query query = session.createQuery("from QuestionTag qt where qt.question.id=:qid");
         query.setLong("qid", question.getId());
-        List<QuestionTag> questionTags = (List<QuestionTag>)query.list();
+        List<QuestionTag> questionTags = (List<QuestionTag>) query.list();
         return questionTags;
     }
 }

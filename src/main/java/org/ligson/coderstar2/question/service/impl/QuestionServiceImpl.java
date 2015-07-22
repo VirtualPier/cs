@@ -180,7 +180,9 @@ public class QuestionServiceImpl implements QuestionService {
                 return result2;
             }
         }
-
+        if (id >= 0) {
+            sysTagService.deleteTagByQuestion(question);
+        }
         for (String tag : tags) {
             sysTagService.addQuestionTag(user, question, tag);
         }

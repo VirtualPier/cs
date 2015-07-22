@@ -18,24 +18,24 @@
         <div class="mod-body">
             <ul>
                 <li>
-                    <a href="/user/myAttention"
-                       rel="all__focus" ${(springMacroRequestContext.requestUri==("/user/myAttention"))?string("class='active'","")}><i
-                            class="glyphicon glyphicon-star"></i>我关注的问题</a>
-                </li>
-                <li>
                     <a ${springMacroRequestContext.requestUri?contains("/user/myPublish")?string("class='active'","")}
                             href="/user/myPublish" rel="focus_topic__focus"><i
-                            class="glyphicon glyphicon-edit"></i>我提问的问题</a>
+                            class="glyphicon glyphicon-edit"></i>提问的问题</a>
+                </li>
+                <li>
+                    <a href="/user/myAttention"
+                       rel="all__focus" ${(springMacroRequestContext.requestUri==("/user/myAttention"))?string("class='active'","")}><i
+                            class="glyphicon glyphicon-star"></i>关注的问题</a>
                 </li>
                 <li>
                     <a ${springMacroRequestContext.requestUri?contains("/user/myArticle")?string("class='active'","")}
                             href="/user/myArticle" rel="invite_list__invite"><i
-                            class="glyphicon glyphicon-list-alt"></i>我发布的文章</a>
+                            class="glyphicon glyphicon-list-alt"></i>发布的文章</a>
                 </li>
                 <li>
                     <a href="/user/myAttentionArticle"
                        rel="invite_list__invite" ${springMacroRequestContext.requestUri?contains("/user/myAttentionArticle")?string("class='active'","")}><i
-                            class="glyphicon glyphicon-heart"></i>我关注的文章</a>
+                            class="glyphicon glyphicon-heart"></i>关注的文章</a>
                 </li>
                 <li>
                     <a href="/user/myRechangeLog" ${springMacroRequestContext.requestUri?contains("/user/myRechangeLog")?string("class='active'","")}><i
