@@ -76,10 +76,4 @@ public class PayMgrController {
         return prefix + "payOrder";
     }
 
-    @RequestMapping("/payOrder")
-    @ResponseBody
-    public Map<String, Object> rechargeList(@RequestParam("page") int page, @RequestParam("rows") int rows) {
-        return null;
-    }
-
 }
