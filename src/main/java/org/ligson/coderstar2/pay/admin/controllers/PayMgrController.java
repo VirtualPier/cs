@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,4 +60,26 @@ public class PayMgrController {
         User user = (User) request.getSession().getAttribute("user");
         return payService.allowWithDraw(user, id, money);
     }
+
+    @RequestMapping("/userMoney")
+    public String userMoney() {
+        return prefix + "userMoney";
+    }
+
+    @RequestMapping("/rechargeLog")
+    public String rechargeLog() {
+        return prefix + "rechargeLog";
+    }
+
+    @RequestMapping("/payOrder")
+    public String payOrder() {
+        return prefix + "payOrder";
+    }
+
+    @RequestMapping("/payOrder")
+    @ResponseBody
+    public Map<String, Object> rechargeList(@RequestParam("page") int page, @RequestParam("rows") int rows) {
+        return null;
+    }
+
 }

@@ -8,7 +8,11 @@ $(function () {
         columns: [[
             {field: 'ck', title: 'ckID', width: 40, checkbox: 'true'},
             {field: 'id', title: 'ID', width: 40},
-            {field: 'userId', title: '用户ID', width: 40},
+            {
+                field: 'userId', title: '用户ID', width: 40, formatter: function (value, rowData, rowIndex) {
+                return rowData.user.id;
+            }
+            },
             {
                 field: 'user', title: '用户名', width: 50, formatter: function (value) {
                 return value.nickName;
@@ -28,6 +32,13 @@ $(function () {
                 }
             }
             },
+            {
+                field: 'type', title: '支付类型', width: 50, formatter: function (value, rowData, rowIndex) {
+                return value == 1 ? "支付宝" : "xx";
+            }
+            },
+            {field: 'outOrder', title: '外部订单号', width: 100},
+            {field: 'guid', title: '系统订单号', width: 100},
             {field: 'money', title: '交易金额', width: 100},
             {field: 'comments', title: '注释', width: 100}
 
