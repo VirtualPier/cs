@@ -14,6 +14,7 @@ function loadMyRechangeLog() {
                 html += "   <th scope=\"row\">" + trade.id + "</th>";
                 html += "   <td>" + Date.convertTxtFormat(trade.createDate) + "</td>";
                 html += "   <td>" + trade.money + "</td>";
+                html += "   <td>" + trade.trueMoney + "</td>";
                 var stateStr = "申请";
                 if (trade.state == 1) {
                     stateStr = "申请";
