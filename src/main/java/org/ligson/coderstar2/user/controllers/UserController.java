@@ -379,11 +379,11 @@ public class UserController {
 
     @RequestMapping("/checkUnique")
     @ResponseBody
-    public Map<String, Object> checkUnique(@RequestParam(value = "cellphone", required = false) String cellphone, @RequestParam(value = "email", required = false) String email,HttpServletRequest request) {
+    public Map<String, Object> checkUnique(@RequestParam(value = "cellphone", required = false) String cellphone, @RequestParam(value = "email", required = false) String email, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
         User user = (User) request.getSession().getAttribute("user");
         if (StringUtils.isNotBlank(cellphone)) {
-            boolean isUnique = userService.cellphoneIsUnique(cellphone,user);
+            boolean isUnique = userService.cellphoneIsUnique(cellphone, user);
             result.put("success", true);
             result.put("valid", isUnique);
             return result;
@@ -405,6 +405,13 @@ public class UserController {
     public Map<String, Object> modifyPhoto(@RequestParam("photo") CommonsMultipartFile photo, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         return userService.modifyPhoto(photo, user);
+    }
+
+    @RequestMapping("/updateSecurity")
+    @ResponseBody
+    public Map<String, Object> updateSecurity(String oldPassword, String newPassword, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        return userService.resetPassword(user, user.getId(), oldPassword, newPassword);
     }
 
 

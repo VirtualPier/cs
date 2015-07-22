@@ -50,7 +50,7 @@ public interface UserService {
      * @param introduce
      * @return
      */
-    public Map<String,Object> addUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
+    public Map<String, Object> addUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
 
     /***
      * 更新用户
@@ -68,7 +68,7 @@ public interface UserService {
      * @param introduce
      * @return
      */
-    public Map<String,Object> updateUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
+    public Map<String, Object> updateUser(String nickName, String cellphone, String createName, int state, int role, String birth, String email, int sex, String qq, String web, String introduce);
 
     /***
      * 删除用户
@@ -76,7 +76,7 @@ public interface UserService {
      * @param id
      * @return
      */
-    public Map<String,Object> removeUser(long id);
+    public Map<String, Object> removeUser(long id);
 
     /***
      * 退出
@@ -92,7 +92,7 @@ public interface UserService {
      * @param photo
      * @return
      */
-    public Map modifyPhoto(CommonsMultipartFile photo,User user);
+    public Map<String, Object> modifyPhoto(CommonsMultipartFile photo, User user);
 
     /***
      * 重置密码
@@ -102,7 +102,7 @@ public interface UserService {
      * @param new_password
      * @return
      */
-    public Map resetPassword(User adminUser, long userId, String old_password, String new_password);
+    public Map<String, Object> resetPassword(User adminUser, long userId, String old_password, String new_password);
 
     /***
      * 关于用户更多的问题

@@ -12,7 +12,7 @@ import java.io.File;
  */
 public class Bootstrap implements InitializingBean {
     private static Logger logger = Logger.getLogger(Bootstrap.class);
-    private static File webRoot = null;
+    public static File webRoot = null;
     private UserService userService;
 
     public UserService getUserService() {

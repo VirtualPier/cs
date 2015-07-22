@@ -2,11 +2,13 @@ package org.ligson.coderstar2.user.service.impl;
 
 import com.boful.common.codec.utils.PasswordCodec;
 import com.boful.common.date.utils.DateUtils;
+import com.boful.common.file.utils.FileType;
 import com.boful.common.file.utils.FileUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 import org.ligson.coderstar2.pay.domains.TradeRecord;
 import org.ligson.coderstar2.question.domains.Question;
+import org.ligson.coderstar2.system.conf.utils.Bootstrap;
 import org.ligson.coderstar2.user.dao.UserDao;
 import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
@@ -26,8 +28,6 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private static Logger logger = Logger.getLogger(UserServiceImpl.class);
     private UserDao userDao;
-
-    private final String UPLOAD = File.separator+"assets"+File.separator+"images"+File.separator+"upload";
 
     public UserDao getUserDao() {
         return userDao;
@@ -125,87 +125,85 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String,Object> modifyPhoto(CommonsMultipartFile photo, User user) {
-        Map<String,Object> map = new HashMap<String,Object>();
+    public Map<String, Object> modifyPhoto(CommonsMultipartFile photo, User user) {
+        Map<String, Object> map = new HashMap<String, Object>();
         boolean flag = false;
         String url = "";
         String errorMsg = "";
-        String contentType = photo.getContentType();
-        if(contentType.contains("image")){
+        if (FileType.isImage(photo.getOriginalFilename())) {
             //表明上传文件为img,需要保存到服务器段，数据库关联对应关系
             try {
-                InputStream in = photo.getInputStream();
-                String webPath = findWebProPath();
-                String webUpload = UPLOAD+File.separator+user.getId()+"_"+photo.getOriginalFilename();
-                String path = webPath+webUpload;
-                File file = new File(path);
-                if(!file.exists()){
-                    file.getParentFile().mkdirs();
+                //保存文件
+                String fileName = user.getId() + "_" + photo.getOriginalFilename();
+                url = "/upload/" + user.getId() + "/" + fileName;
+                File photoFile = new File(Bootstrap.webRoot, url);
+                if (!photoFile.getParentFile().exists()) {
+                    photoFile.getParentFile().mkdirs();
                 }
-                if(!webPath.isEmpty()){
-                    FileUtils.copyFile(in,file);
-                    url = ".."+File.separator+".."+webUpload;//文件保存到服务器地址路径
-                    flag = true;
-                    user.setPhoto(url);
-                    userDao.saveOrUpdate(user);
-                }else{
-                    errorMsg = "获取web项目路径是出错了，请重新尝试";
+                photo.transferTo(photoFile);
+
+                //删除原文件
+                if (user.getPhoto() != null) {
+                    File oldFile = new File(Bootstrap.webRoot, user.getPhoto());
+                    if (oldFile.exists()) {
+                        oldFile.delete();
+                    }
                 }
+                user.setPhoto(url);
+                userDao.saveOrUpdate(user);
+                flag = true;
             } catch (IOException e) {
-                logger.error("在用户修改上传图像时出错了："+e.getMessage());
+                logger.error("在用户修改上传图像时出错了：" + e.getMessage());
                 errorMsg = "保存上传图像时出错了";
+                flag = false;
             }
 
-        }else{
+        } else {
             errorMsg = "上传的文件不是图形文件，请确认";
+            flag = false;
         }
-        map.put("success",flag);
-        map.put("url",url);
-        map.put("msg",errorMsg);
+        map.put("success", flag);
+        map.put("url", url);
+        map.put("msg", errorMsg);
         return map;
     }
 
     /**
      * 获取web项目在服务器所在路径
+     *
      * @return
      */
-    private String findWebProPath(){
+    private String findWebProPath() {
         String classPath = "";
         String path = this.getClass().getResource("/").getPath();
         try {
             classPath = URLDecoder.decode(path, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            logger.error("类路径为："+path+",转码码为UTF-8时出错");
+            logger.error("类路径为：" + path + ",转码码为UTF-8时出错");
         }
-        if(classPath.isEmpty()){
+        if (classPath.isEmpty()) {
             return "";
         }
-        String webProPath =  new File(classPath).getParentFile().getParent();
+        String webProPath = new File(classPath).getParentFile().getParent();
         return webProPath;
     }
 
     @Override
-    public Map resetPassword(User user, long userId, String old_password, String new_password) {
+    public Map<String, Object> resetPassword(User user, long userId, String old_password, String new_password) {
         Map<String, Object> result = new HashMap<String, Object>();
-        User resetUser = null;
-        if (user.getRole() == User.ROLE_SUPER || user.getRole() == User.ROLE_MANAGER) {
-            resetUser = userDao.getById(userId);
-        } else if (user.getId() == userId) {
-            List<String> props = new ArrayList<>();
-            List<Object> propValues = new ArrayList<>();
-            props.add("id");
-            props.add("password");
-            propValues.add(user.getId());
-            propValues.add(old_password);
-            resetUser = userDao.findByAnd(props, propValues);
-        }
-        if (resetUser != null) {
-            resetUser.setPassword(PasswordCodec.encode(new_password));
-            userDao.saveOrUpdate(resetUser);
-            result.put("success", true);
+        if (user.getId() == userId || (user.getRole() == User.ROLE_MANAGER || user.getRole() == User.ROLE_SUPER)) {
+            User resetUser = userDao.getById(userId);
+            if (resetUser != null) {
+                resetUser.setPassword(PasswordCodec.encode(new_password));
+                userDao.saveOrUpdate(resetUser);
+                result.put("success", true);
+            } else {
+                result.put("success", false);
+                result.put("isExsit", true);
+            }
         } else {
             result.put("success", false);
-            result.put("isExsit", true);
+            result.put("msg", "权限不足!");
         }
         return result;
     }
@@ -286,7 +284,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, Object> updateUser(User user, String nickName, int sex, String introduce, String qq, String cellphone, String email, String web) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         try {
             user.setNickName(nickName);
             user.setSex(sex);
@@ -296,11 +294,11 @@ public class UserServiceImpl implements UserService {
             user.setEmail(email);
             user.setWeb(web);
             userDao.saveOrUpdate(user);
-            map.put("success",true);
+            map.put("success", true);
         } catch (Exception e) {
-            map.put("success",false);
-            map.put("msg","跟新用户对象时出错了");
-            logger.error("请检查数据结构，更新数据时出错了："+e.getMessage());
+            map.put("success", false);
+            map.put("msg", "跟新用户对象时出错了");
+            logger.error("请检查数据结构，更新数据时出错了：" + e.getMessage());
 
         }
 
@@ -309,7 +307,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean cellphoneIsUnique(String cellphone, User user) {
-        long count = userDao.countExceptUserBy("cellphone", cellphone,user);
+        long count = userDao.countExceptUserBy("cellphone", cellphone, user);
         return count == 0;
     }
 
