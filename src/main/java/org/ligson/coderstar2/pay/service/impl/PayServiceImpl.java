@@ -202,6 +202,11 @@ public class PayServiceImpl implements PayService {
     @Override
     public Map<String, Object> transfer(User fromUser, User toUser, double money, int tradeType, long tradeObjId) {
         Map<String, Object> result = new HashMap<>();
+        if(fromUser.equals(toUser)){
+            result.put("success",false);
+            result.put("msg","自己创建文章不允许奖励。");
+            return result;
+        }
         if (money > fromUser.getBalance()) {
             result.put("success", false);
             result.put("msg", "余额不足!");

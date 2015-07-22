@@ -124,17 +124,28 @@ function rewardArticle(articleId, target) {
      })*/
 }
 
-function attentionArticle(articleId) {
+function attentionArticle(articleId,obj) {
     if (!pageConfig.isLogin) {
         BootstrapDialog.alert({title: '提示信息', message: '您没有登录吧?请登录！'});
         return;
     }
-    $.post("/article/attentionArticle", {id: articleId}, function (data) {
+    var flag = $(obj).attr("data-flag");
+    //flag = true 取消关注，flag=false 增加关注
+    $.post("/article/attentionArticle", {id: articleId,flag:flag}, function (data) {
         if (data.success) {
-            BootstrapDialog.alert({title: "提示信息", message: "关注成功"});
-            $("#attentionArticleBtn").attr("disabled", "disabled");
+            BootstrapDialog.alert({title: "提示信息", message: data.msg});
+            //切换页面展示
+            var desc = "";
+            if(flag == "0"){
+                desc = "关注本文";
+                $(obj).attr("data-flag",1);
+            }else{
+                desc = "取消关注";
+                $(obj).attr("data-flag",0);
+            }
+            $("#attentionArticleBtn").html(desc);
         } else {
-            BootstrapDialog.alert({title: "提示信息", message: "关注失败," + data.msg});
+            BootstrapDialog.alert({title: "提示信息", message: data.msg});
         }
     });
 }

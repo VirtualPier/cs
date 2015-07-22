@@ -96,7 +96,7 @@ public class ArticleController {
         Map result = articleService.createArticle(-1, title, content, user, tagArr, categoryIdArray);
         boolean success = (boolean) result.get("success");
         if (success) {
-            return "redirect:/my/myArticle";
+            return "redirect:/user/myArticle";
         } else {
             return "redirect:/article/create";
         }
@@ -128,9 +128,13 @@ public class ArticleController {
 
     @RequestMapping("/attentionArticle")
     @ResponseBody
-    public Map<String, Object> attentionArticle(long id, HttpServletRequest request) {
+    public Map<String, Object> attentionArticle(long id,int flag, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         Article article = articleService.findArticleById(id);
+        if(flag == 0){
+            //设定取消关注
+            return articleService.removeAttention(user, article);
+        }
         return articleService.attentionArticle(user, article);
     }
 

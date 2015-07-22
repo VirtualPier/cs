@@ -24,10 +24,11 @@
                     <#list categoryList as articleLang>
                         <a href="/article/index?categoryId=${articleLang.id}">${articleLang.name}</a>
                     </#list>
-                    <button id="attentionArticleBtn" type="button" ${isAttention ?string("disabled" , "")}
+                    <button id="attentionArticleBtn" type="button"
                             class="btn btn-info"
-                            onclick="attentionArticle(${article.id})"><span
-                            class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention?string("已关注","关注本文")}
+                            data-flag="${isAttention?string("0","1")}"
+                            onclick="attentionArticle(${article.id},this)"><span
+                            class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention?string("取消关注","关注本文")}
                     </button>
                 </p>
 

@@ -149,6 +149,7 @@ public class ArticleServiceImpl implements ArticleService {
             attentionArticle.setUser(user);
             attentionArticleDao.saveOrUpdate(attentionArticle);
             result.put("success", true);
+            result.put("msg", "关注成功!");
         }
         return result;
 
@@ -221,6 +222,7 @@ public class ArticleServiceImpl implements ArticleService {
             article.setAttentionNum(article.getAttentionNum() - 1);
             articleDao.saveOrUpdate(article);
             result.put("success", true);
+            result.put("msg","取消关注成功");
         } else {
             result.put("success", false);
             result.put("msg", "用户未关注!");
