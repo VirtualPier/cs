@@ -42,7 +42,7 @@ public interface ArticleService {
      * @param categroyIds 分类id
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map<String, Object> createArticle(String title, String content, User creator, String[] tags, long[] categroyIds);
+    public Map<String, Object> createArticle(long id,String title, String content, User creator, String[] tags, long[] categroyIds);
 
     /**
      * *

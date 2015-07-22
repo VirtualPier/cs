@@ -167,9 +167,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Map<String, Object> createArticle(String title, String content, User creator, String[] tags, long[] categroyIds) {
+    public Map<String, Object> createArticle(long id,String title, String content, User creator, String[] tags, long[] categroyIds) {
         //保存文章
-        Article article = new Article();
+        Article article = findArticleById(id);
+        if (null==article) {
+            article = new Article();
+        }
+
         article.setTitle(title);
         article.setDescription(content);
         article.setCreator(creator);
