@@ -358,7 +358,7 @@ public class PayServiceImpl implements PayService {
     @Override
     public Map<String, Object> withdraw(User currentUser, double money, String comments, String payAccount) {
         Map<String, Object> result = new HashMap<>();
-        if (money >= currentUser.getBalance()) {
+        if (money > currentUser.getBalance()) {
             result.put("success", false);
             result.put("msg", "超出余额了!");
             return result;
