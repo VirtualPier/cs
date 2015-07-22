@@ -43,7 +43,7 @@ function loadQuestion(question) {
     htmlString += "<a href=\"  " + baseUrl + "question/view?id=" + question.id + "\" class=\" cs-topic-name\">";
     htmlString += question.title;
     htmlString += "</a>";
-    var stateString = question.state == 1 ? "审核" : "发布";
+    var stateString = question.state == 1 ? "审核中" : "已发布";
     htmlString += "&nbsp;&nbsp;<span class=\"label label-info\">" + stateString + "</span>";
     htmlString += "<a href='" + baseUrl + "user/deleteQuestion?ids=" + question.id + "' class='pull-right' style='margin-left:10px;'>删除</a>";
     htmlString += "<a href='" + baseUrl + "question/edit?id=" + question.id + "' class='pull-right'>编辑</a>";
