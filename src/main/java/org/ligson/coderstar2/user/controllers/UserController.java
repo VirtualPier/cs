@@ -101,7 +101,7 @@ public class UserController {
             int questionTotal = questionService.countByCreatorAndState(user, Question.STATE_PUBLISH);
             int articleTotal = articleService.countByCreatorAndState(user, Question.STATE_PUBLISH);
             List<SysTag> sysTags = sysTagService.findUserGoodTag(user, 10);
-            request.setAttribute("user", user);
+            request.setAttribute("viewUser", user);
             request.setAttribute("questionList", questionList);
             request.setAttribute("articleList", articleList);
             request.setAttribute("questionTotal", questionTotal);
@@ -414,6 +414,53 @@ public class UserController {
     public Map<String, Object> updateSecurity(String oldPassword, String newPassword, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         return userService.resetPassword(user, user.getId(), oldPassword, newPassword);
+    }
+
+
+    @RequestMapping("/uploadFile")
+    public void uploadFile(@RequestParam("CKEditorFuncNum") String CKEditorFuncNum, @RequestParam("upload") CommonsMultipartFile upload, HttpServletRequest request, HttpServletResponse response) {
+        User user = (User) request.getSession().getAttribute("user");
+        Map<String, Object> result = userService.uploadFile(user, upload);
+        boolean success = (boolean) result.get("success");
+        StringBuffer sb = new StringBuffer();
+        if (success) {
+            String url = (String) result.get("url");
+            String callback = CKEditorFuncNum;
+            sb.append("<script type=\"text/javascript\">");
+            sb.append("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + url + "','')");
+            sb.append("</script>");
+        } else {
+            String msg = (String) result.get("msg");
+            sb.append("<span style='color:#FF0000;'>" + msg + "</span>");
+        }
+        try {
+            response.getWriter().println(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("/uploadImage")
+    public void uploadImage(@RequestParam("CKEditorFuncNum") String CKEditorFuncNum, @RequestParam("upload") CommonsMultipartFile upload, HttpServletRequest request, HttpServletResponse response) {
+        User user = (User) request.getSession().getAttribute("user");
+        Map<String, Object> result = userService.uploadFile(user, upload);
+        boolean success = (boolean) result.get("success");
+        StringBuffer sb = new StringBuffer();
+        if (success) {
+            String url = (String) result.get("url");
+            String callback = CKEditorFuncNum;
+            sb.append("<script type=\"text/javascript\">");
+            sb.append("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + url + "','')");
+            sb.append("</script>");
+        } else {
+            String msg = (String) result.get("msg");
+            sb.append("<span style='color:#FF0000;'>" + msg + "</span>");
+        }
+        try {
+            response.getWriter().println(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -109,11 +109,13 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         if (statePublish >= 0) {
             query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId and q.state=:state order by " + sort + " " + order);
             query.setLong("userId", user.getId());
-            query.setInteger("state", user.getState());
+            query.setInteger("state", statePublish);
         } else {
             query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId  order by " + sort + " " + order);
             query.setLong("userId", user.getId());
         }
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
 
         List<Question> questionList = (List<Question>) query.list();
         return questionList;

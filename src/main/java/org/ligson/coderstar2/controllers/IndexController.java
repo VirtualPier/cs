@@ -253,6 +253,7 @@ public class IndexController {
     @RequestMapping("/uploadFile")
     public void uploadFile(@RequestParam("upload") CommonsMultipartFile upload, HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute("user");
+        Map<String, Object> result = userService.uploadFile(user, upload);
         return;
     }
 }

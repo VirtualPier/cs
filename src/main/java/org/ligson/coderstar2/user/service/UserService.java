@@ -168,4 +168,8 @@ public interface UserService {
     public boolean cellphoneIsUnique(String cellphone, User user);
 
     public boolean emailIsUnique(String email);
+
+    public Map<String, Object> uploadFile(User user, CommonsMultipartFile upload);
+
+    public Map<String, Object> uploadPhoto(User user, CommonsMultipartFile upload);
 }

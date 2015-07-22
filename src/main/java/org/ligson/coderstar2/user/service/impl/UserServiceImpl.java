@@ -316,4 +316,51 @@ public class UserServiceImpl implements UserService {
         long count = userDao.countBy("email", email);
         return count == 0;
     }
+
+    @Override
+    public Map<String, Object> uploadFile(User user, CommonsMultipartFile upload) {
+        Map<String, Object> result = new HashMap<>();
+        String url = "/upload/" + user.getId() + "/ckfile/" + upload.getOriginalFilename();
+        File destFile = new File(Bootstrap.webRoot, url);
+        if (!destFile.getParentFile().exists()) {
+            destFile.getParentFile().mkdirs();
+        }
+        try {
+            upload.transferTo(destFile);
+            result.put("success", true);
+            result.put("url", url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            result.put("success", false);
+            result.put("msg", "这个问题有点棘手啊!您帮忙吐槽一下如何?");
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> uploadPhoto(User user, CommonsMultipartFile upload) {
+        Map<String, Object> result = new HashMap<>();
+        if (!FileType.isImage(upload.getOriginalFilename())) {
+            result.put("success", false);
+            result.put("msg", (user.getSex() == User.SEX_FEMALE ? "大哥" : "大姐") + ",您这个文件是从火星来的吧?不是图片啊!");
+            return result;
+        }
+        String url = "/upload/" + user.getId() + "/ckimage/" + upload.getOriginalFilename();
+        File destFile = new File(Bootstrap.webRoot, url);
+        if (!destFile.getParentFile().exists()) {
+            destFile.getParentFile().mkdirs();
+        }
+        try {
+            upload.transferTo(destFile);
+            result.put("success", true);
+            result.put("url", url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            result.put("success", false);
+            result.put("msg", "这个问题有点棘手啊!您帮忙吐槽一下如何?");
+        }
+        return result;
+    }
 }

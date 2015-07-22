@@ -1,8 +1,8 @@
 /**
  * Created by ligson on 2015/7/13.
  */
-var questionOffset = 10;
-var articleOffset = 10;
+var questionOffset = 0;
+var articleOffset = 0;
 
 function loadArticle() {
     $.post("/user/loadUserArticles", {id: userId, offset: articleOffset}, function (data) {
@@ -35,8 +35,8 @@ function appendArticle(article) {
     htmlString += "         </div>";
     htmlString += "         <div class=\"mod-body\">";
     htmlString += "             <span class=\"cs-border-radius-5 count pull-left\"><i class=\"glyphicon glyphicon-thumbs-up\"></i>" + article.replyNum + "</span>";
-    htmlString += "             <p class=\"text-color-999\">" + (article.description + "").substring(1, 100) + "</p>";
-    htmlString += "             <p class=\"text-color-999\">" + article.createDate + "</p>";
+    htmlString += "             <p class=\"text-color-999\"></p>";
+    htmlString += "             <p class=\"text-color-999\">" + Date.convertTxtFormat(article.createDate) + "</p>";
     htmlString += "         </div>";
     htmlString += "     </div>";
     htmlString += "</div>";
@@ -52,13 +52,15 @@ function appendQuestion(question) {
     htmlString += "         <div class=\"mod-body\">";
     htmlString += "             <span class=\"cs-border-radius-5 count pull-left\"><i class=\"glyphicon glyphicon-edit\"></i>" + question.replyNum + "</span>";
     htmlString += "             <p class=\"text-color-999\">" + question.viewNum + "次浏览 • " + question.attentionNum + "个关注</p>";
-    htmlString += "             <p class=\"text-color-999\">" + question.createDate + "</p>";
+    htmlString += "             <p class=\"text-color-999\">" + Date.convertTxtFormat(question.createDate) + "</p>";
     htmlString += "         </div>";
     htmlString += "     </div>";
     htmlString += "</div>";
     $("#contents_user_actions_questions").append(htmlString);
 }
 $(function () {
+    loadQuestion();
+    loadArticle();
     $("#loadQuestionBtn").click(function () {
         loadQuestion();
     });

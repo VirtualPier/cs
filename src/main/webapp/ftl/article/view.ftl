@@ -183,7 +183,7 @@
     <div class="col-md-2  col-sm-12 cs-side-bar hidden-xs hidden-sm">
         <div class="cs-mod">
             <div class="mod-head">
-                <h3>作者</h3>
+                <h3></h3>
             </div>
 
             <div class="mod-body">

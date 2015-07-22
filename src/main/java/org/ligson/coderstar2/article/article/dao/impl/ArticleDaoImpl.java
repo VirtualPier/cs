@@ -96,9 +96,9 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
 
     @Override
     public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
-        Query query = getCurrentSession().createQuery("from Article a where a.creator.id=:userId and a.state=:state order by " + sort + " " + order);
+        Query query = getCurrentSession().createQuery("from Article a where a.creator.id=:userId and a.state=:state order by a." + sort + " " + order);
         query.setLong("userId", user.getId());
-        query.setInteger("state", user.getState());
+        query.setInteger("state", statePublish);
         query.setFirstResult(offset);
         query.setMaxResults(max);
         List<Article> articles = (List<Article>) query.list();
