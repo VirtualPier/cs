@@ -103,7 +103,7 @@ public class QuestionController {
         Map result = questionService.createQuestion(id,user, title, description, tagArr, categoryIdArray, money);
         boolean success = (boolean) result.get("success");
         if (success) {
-            return "redirect:/my/myPublish";
+            return "redirect:/user/myPublish";
         } else {
             return "redirect:/question/create";
         }
@@ -147,8 +147,13 @@ public class QuestionController {
 
     @RequestMapping("/attentionQuestion")
     @ResponseBody
-    public Map<String, Object> attentionQuestion(@RequestParam("questionId") long questionId, HttpServletRequest request) {
+    public Map<String, Object> attentionQuestion(@RequestParam("questionId") long questionId,int flag, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
+        Question question = questionService.findQuestionById(questionId);
+        if(flag == 0){
+            //设定取消关注
+            return questionService.removeAttention(user, question);
+        }
         return questionService.attentionQuestion(user, questionId);
     }
 

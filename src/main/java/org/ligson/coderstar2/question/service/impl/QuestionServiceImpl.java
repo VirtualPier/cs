@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.service.impl;
 
+import org.apache.log4j.Logger;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.pay.service.PayService;
 import org.ligson.coderstar2.question.ask.dao.AskDao;
@@ -25,6 +26,7 @@ import java.util.*;
  * Created by ligson on 2015/7/17.
  */
 public class QuestionServiceImpl implements QuestionService {
+    private static Logger logger = Logger.getLogger(QuestionServiceImpl.class);
     private QuestionDao questionDao;
 
     private QuestionTagDao questionTagDao;
@@ -259,20 +261,16 @@ public class QuestionServiceImpl implements QuestionService {
         Map<String, Object> result = new HashMap<>();
         if (ids.length > 0) {
             for (int i = 0; i < ids.length; i++) {
-                Question question = questionDao.findBy("id", ids[i]);
-                if (question != null) {
-                    if (deleteTagByQuestion(question)) {
-                        if (deleteCategoryByQuestion(question) && deleteAskByQuestion(question)) {
-                            //searchService.deleteQuestionById(question.id)
-                            questionDao.delete(question);
-                            result.put("success", true);
-                            result.put("msg", "问题删除成功!");
-                        }
-                    }
-
-                } else {
-                    result.put("success", false);
-                    result.put("msg", "问题删除失败!");
+                //通过sql方式直接删除
+                boolean flag = false;
+                String msg = "";
+                try {
+                    questionDao.execuRemoveSql(ids);
+                    flag = true;
+                    msg = "文章删除成功";
+                } catch (Exception e) {
+                    logger.error("删除提问时出错了，异常为："+e.getMessage());
+                    msg = "删除文章失败，请再次尝试。";
                 }
             }
         } else {
@@ -371,6 +369,7 @@ public class QuestionServiceImpl implements QuestionService {
 
             question.setAttentionNum(question.getAttentionNum() + 1);
             questionDao.saveOrUpdate(question);
+            result.put("msg", "关注成功!");
             result.put("success", true);
         }
         return result;
@@ -547,6 +546,7 @@ public class QuestionServiceImpl implements QuestionService {
             question.setAttentionNum(question.getAttentionNum() - 1);
             questionDao.saveOrUpdate(question);
             result.put("success", true);
+            result.put("msg","取消关注成功");
         } else {
             result.put("success", false);
             result.put("msg", "用户未关注问题" + question.getTitle());

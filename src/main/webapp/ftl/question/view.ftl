@@ -31,9 +31,11 @@
                 <#list categoryList as category>
                     <a href="/question/index?categoryId=${category.id}">${category.name}</a>
                 </#list>
-                <button id="attentionQuestionBtn" type="button" class="btn btn-info"
-                        onclick="attentionQuestion(${question.id})" ${isAttention ?string("disabled","")}><span
-                        class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention ?string("已关注","关注")}
+                <button id="attentionQuestionBtn" type="button"
+                        class="btn btn-info"
+                        data-flag="${isAttention?string("0","1")}"
+                        onclick="attentionQuestion(${question.id},this)"><span
+                        class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention?string("取消关注","关注本文")}
                 </button>
             </p>
             <p><label>标签:</label>

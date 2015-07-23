@@ -62,17 +62,27 @@ $(document).ready(function () {
     });
 });
 
-function attentionQuestion(questionId) {
+function attentionQuestion(questionId,obj) {
     if (!pageConfig.isLogin) {
         BootstrapDialog.alert({title: "提示信息", message: "您还没有登陆"});
         return;
     }
-    $.post("/question/attentionQuestion", {questionId: questionId}, function (data) {
+    var flag = $(obj).attr("data-flag");
+    $.post("/question/attentionQuestion", {questionId: questionId,flag:flag}, function (data) {
         if (data.success) {
-            BootstrapDialog.alert({title: "提示信息", message: "关注成功"});
-            $("#attentionQuestionBtn").attr("disabled", "disabled");
+            BootstrapDialog.alert({title: "提示信息", message: data.msg});
+            //切换页面展示
+            var desc = "";
+            if(flag == "0"){
+                desc = "关注本文";
+                $(obj).attr("data-flag",1);
+            }else{
+                desc = "取消关注";
+                $(obj).attr("data-flag",0);
+            }
+            $("#attentionQuestionBtn").html(desc);
         } else {
-            BootstrapDialog.alert({title: "提示信息", message: "关注失败," + data.msg});
+            BootstrapDialog.alert({title: "提示信息", message:  data.msg});
         }
     });
 }

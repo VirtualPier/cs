@@ -165,4 +165,33 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         result.put("total", count.intValue());
         return result;
     }
+
+    @Override
+    public void execuRemoveSql(long[] ids) {
+        StringBuilder idMgr = new StringBuilder();
+        boolean flag = false;
+        for(long id:ids){
+            if(flag){
+                idMgr.append(",");
+            }else{
+                flag = true;
+            }
+            idMgr.append(id);
+        }
+        getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(),"question_category")).executeUpdate();
+        getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(),"question_tag")).executeUpdate();
+        getCurrentSession().createSQLQuery("DELETE FROM question WHERE id in ("+idMgr.toString()+")").executeUpdate();
+    }
+
+
+
+    /**
+     * 组装需要删除的语句
+     * @param ids
+     * @param tableName
+     * @return
+     */
+    private String findRemoveSql(String ids,String tableName){
+        return "DELETE FROM "+tableName+" WHERE question_id in ("+ids+");";
+    }
 }

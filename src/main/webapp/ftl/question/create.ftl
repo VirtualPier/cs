@@ -14,11 +14,12 @@
 </script>
 <script type="text/javascript" src="${basePath}js/lib/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="${basePath}js/coderstar/common/ckconfig.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/front/createQuestion.js"></script>
+<script type="text/javascript" src="${basePath}js/coderstar/front/create.js"></script>
 </@override>
 <@override name="body">
 <div class="col-sm-12 col-md-9 cs-main-content">
-
+    <!--隐藏表单域，记录当前页面的类型-->
+    <input type="hidden" id="type" value="question"/>
     <form method="post" action="/question/saveQuestion" class="form-horizontal" name="createQuestionForm" id="createQuestionForm">
 
         <div class="cs-mod">

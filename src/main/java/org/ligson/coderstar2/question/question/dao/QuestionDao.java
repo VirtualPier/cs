@@ -29,4 +29,6 @@ public interface QuestionDao extends BaseDao<Question> {
     public List<Question> findAllByAttentionQuestion(User user, int offset, int max);
 
     public Map<String,Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order);
+
+    void execuRemoveSql(long[] ids);
 }
