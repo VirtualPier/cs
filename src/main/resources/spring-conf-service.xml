@@ -45,6 +45,7 @@
     <bean id="articleService" name="articleService"
           class="org.ligson.coderstar2.article.service.impl.ArticleServiceImpl">
         <property name="articleDao" ref="articleDao"/>
+        <property name="articleCategoryDao" ref="articleCategoryDao"/>
         <property name="articleTagDao" ref="articleTagDao"/>
         <property name="categoryDao" ref="categoryDao"/>
         <property name="sysTagService" ref="sysTagService"/>
