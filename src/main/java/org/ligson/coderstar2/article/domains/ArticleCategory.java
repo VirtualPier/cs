@@ -26,8 +26,8 @@ public class ArticleCategory {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "article_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "article_id")
     public Article getArticle() {
         return article;
     }

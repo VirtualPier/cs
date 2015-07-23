@@ -2,6 +2,7 @@ package org.ligson.coderstar2.article.service.impl;
 
 import com.boful.common.date.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.ligson.coderstar2.article.arrentionarticle.dao.AttentionArticleDao;
 import org.ligson.coderstar2.article.article.dao.ArticleDao;
 import org.ligson.coderstar2.article.articlecategory.dao.ArticleCategoryDao;
@@ -29,6 +30,7 @@ import java.util.*;
  * 文章服务
  */
 public class ArticleServiceImpl implements ArticleService {
+    private static Logger logger = Logger.getLogger(ArticleServiceImpl.class);
     private ArticleDao articleDao;
     private ArticleCategoryDao articleCategoryDao;
     private ArticleTagDao articleTagDao;
@@ -206,7 +208,17 @@ public class ArticleServiceImpl implements ArticleService {
     public Map<String, Object> deleteArticle(User user, long articleId) {
         //需要删除article
         Map<String,Object> map = new HashMap<>();
-        List<String> pros = new ArrayList<>();
+        boolean flag = false;
+        String msg = "";
+        try {
+            articleDao.execuRemoveSql(articleId);
+            flag = true;
+            msg = "文章删除成功";
+        } catch (Exception e) {
+            logger.error("用户ID："+user.getId()+"，删除articleID："+articleId+",时出错了，异常为："+e.getMessage());
+            msg = "删除文章失败，请再次尝试。";
+        }
+        /*List<String> pros = new ArrayList<>();
         pros.add("id");
         pros.add("creator.id");
         List<Object> vals = new ArrayList<>();
@@ -218,10 +230,10 @@ public class ArticleServiceImpl implements ArticleService {
         if(article == null){
             msg = "根据用户："+user.getCreateName()+",没有找到文章，主键为："+articleId;
         }else{
-            articleDao.delete(article);
+
             flag = true;
             msg = "文章删除成功";
-        }
+        }*/
         map.put("success",flag);
         map.put("msg",msg);
         return map;

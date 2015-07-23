@@ -30,4 +30,5 @@ public interface ArticleDao extends BaseDao<Article> {
 
     public Map<String, Object> searhArticle(String title, long tagId, long categoryId, int max, int offset, String sort, String orderr);
 
+    void execuRemoveSql(long articleId) throws Exception;
 }

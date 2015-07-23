@@ -161,4 +161,24 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         result.put("total", count.intValue());
         return result;
     }
+
+    @Override
+    public void execuRemoveSql(long articleId) throws Exception {
+        //通过sql方式进行删除对应数据，涉及标签、类别
+        getCurrentSession().createSQLQuery(findRemoveSql(articleId,"article_category")).executeUpdate();
+        getCurrentSession().createSQLQuery(findRemoveSql(articleId,"article_tag")).executeUpdate();
+        getCurrentSession().createSQLQuery("DELETE FROM article WHERE id="+articleId).executeUpdate();
+    }
+
+
+    /**
+     * 组装需要删除的语句
+     * @param articleId
+     * @param tableName
+     * @return
+     */
+    private String findRemoveSql(long articleId,String tableName){
+        return "DELETE FROM "+tableName+" WHERE article_id="+articleId+";";
+    }
+
 }
