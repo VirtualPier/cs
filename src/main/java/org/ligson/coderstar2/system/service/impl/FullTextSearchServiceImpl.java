@@ -8,13 +8,12 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.spell.SpellChecker;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.ArticleTag;
 import org.ligson.coderstar2.article.service.ArticleService;
@@ -180,7 +179,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
             if (!questionIndex.exists()) {
                 questionIndex.mkdirs();
             }
-            questionDirectory = FSDirectory.open(articleIndex.toPath());
+            questionDirectory = FSDirectory.open(questionIndex.toPath());
             questionWriter = new IndexWriter(questionDirectory, questionIndexWriterConfig);
             questionReader = DirectoryReader.open(questionWriter, true);
 
@@ -229,8 +228,14 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
 
     @Override
     public void indexArticle(Article article) {
+        try {
+           // articleWriter.deleteDocuments(new Term("id", article.getId()+""));
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
         addSpell(article.getTitle());
-        Field idField = new LongField("id", article.getId(), Field.Store.YES);
+        Field idField = new StringField("id", article.getId()+"", Field.Store.YES);
         Field titleField = new TextField("title", article.getTitle(), Field.Store.YES);
         Field contentField = new TextField("description", article.getDescription(), Field.Store.NO);
         Field createDateField = new StringField("createDate", article.getCreateDate(), Field.Store.YES);
@@ -253,6 +258,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
 
         try {
             articleWriter.addDocument(document);
+            articleWriter.commit();
         } catch (IOException e) {
             logger.error(e);
         }
@@ -261,8 +267,13 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
 
     @Override
     public void indexQuestion(Question question) {
+        try {
+            //questionWriter.deleteDocuments(new Term("id",question.getId()+""));
+        } catch (Exception e) {
+            logger.error(e);
+        }
         addSpell(question.getTitle());
-        Field idField = new LongField("id", question.getId(), Field.Store.YES);
+        Field idField = new StringField("id", question.getId()+"", Field.Store.YES);
         Field titleField = new TextField("title", question.getTitle(), Field.Store.YES);
         Field contentField = new TextField("description", question.getDescription(), Field.Store.NO);
         Field createDateField = new StringField("createDate", question.getCreateDate(), Field.Store.YES);
@@ -285,6 +296,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
 
         try {
             questionWriter.addDocument(document);
+            questionWriter.commit();
         } catch (IOException e) {
             logger.error(e);
         }
@@ -323,12 +335,12 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
 
     @Override
     public List<Question> relatedQuestion(Question question, int max) {
-        Term term = new Term("title", question.getTitle());
-        TermQuery termQuery = new TermQuery(term);
-        IndexSearcher searcher = new IndexSearcher(questionReader);
         List<Question> questionList = new ArrayList<>();
         try {
-            TopDocs topDocs = searcher.search(termQuery, max);
+            QueryParser queryParser = new QueryParser("title", analyzer);
+            Query query = queryParser.parse(question.getTitle());
+            IndexSearcher searcher = new IndexSearcher(questionReader);
+            TopDocs topDocs = searcher.search(query, max);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             for (int i = 0; i < scoreDocs.length; i++) {
                 ScoreDoc scoreDoc = scoreDocs[i];
@@ -340,7 +352,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
                     questionList.add(question1);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(e);
         }
         return questionList;
@@ -348,12 +360,13 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
 
     @Override
     public List<Article> relatedArticle(Article article, int max) {
-        Term term = new Term("title", article.getTitle());
-        TermQuery termQuery = new TermQuery(term);
-        IndexSearcher searcher = new IndexSearcher(articleReader);
         List<Article> articleList = new ArrayList<>();
         try {
-            TopDocs topDocs = searcher.search(termQuery, max);
+            QueryParser queryParser = new QueryParser("title", analyzer);
+            Query query = queryParser.parse(article.getTitle());
+            IndexSearcher searcher = new IndexSearcher(articleReader);
+            TopDocs topDocs = searcher.search(query, max);
+
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             for (int i = 0; i < scoreDocs.length; i++) {
                 ScoreDoc scoreDoc = scoreDocs[i];
@@ -365,7 +378,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
                     articleList.add(article1);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(e);
         }
         return articleList;
@@ -387,6 +400,51 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
 
     @Override
     public List<String> hotArticleKey(String key, int max) {
+        List<String> results = new ArrayList<>();
+        try {
+            String[] words = spellChecker.suggestSimilar(key, max);
+            for (String word : words) {
+                results.add(word);
+            }
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return results;
+    }
+
+    private Document searchArticleById(long id) {
+        Term term = new Term("id", id + "");
+        TermQuery termQuery = new TermQuery(term);
+        IndexSearcher searcher = new IndexSearcher(articleReader);
+        List<Article> articleList = new ArrayList<>();
+        try {
+            TopDocs topDocs = searcher.search(termQuery, 1);
+            if (topDocs.scoreDocs.length > 0) {
+                return searcher.doc(topDocs.scoreDocs[0].doc);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+
+    private Document searchQuestionById(long id) {
+        Term term = new Term("id", id + "");
+        TermQuery termQuery = new TermQuery(term);
+        IndexSearcher searcher = new IndexSearcher(questionReader);
+        try {
+            TopDocs topDocs = searcher.search(termQuery, 1);
+            if (topDocs.scoreDocs.length > 0) {
+                return searcher.doc(topDocs.scoreDocs[0].doc);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            logger.error(e);
+        }
         return null;
     }
 }

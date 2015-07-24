@@ -536,6 +536,11 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+    @Override
+    public List<Article> findAllArticleByState(int statePublish) {
+        return articleDao.findAllBy("state", statePublish);
+    }
+
     public ArticleCategoryDao getArticleCategoryDao() {
         return articleCategoryDao;
     }

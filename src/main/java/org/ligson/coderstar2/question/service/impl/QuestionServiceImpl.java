@@ -585,4 +585,9 @@ public class QuestionServiceImpl implements QuestionService {
             fullTextSearchService.indexQuestion(question);
         }
     }
+
+    @Override
+    public List<Question> findAllQuestionByState(int statePublish) {
+        return questionDao.findAllBy("state", statePublish);
+    }
 }

@@ -6,6 +6,7 @@ import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.system.service.FullTextSearchService;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,6 +32,18 @@ public class ArticleController {
     @Autowired
     @Qualifier("articleService")
     private ArticleService articleService;
+
+    @Autowired
+    @Qualifier("fullTextSearchService")
+    private FullTextSearchService fullTextSearchService;
+
+    public FullTextSearchService getFullTextSearchService() {
+        return fullTextSearchService;
+    }
+
+    public void setFullTextSearchService(FullTextSearchService fullTextSearchService) {
+        this.fullTextSearchService = fullTextSearchService;
+    }
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -128,10 +141,10 @@ public class ArticleController {
 
     @RequestMapping("/attentionArticle")
     @ResponseBody
-    public Map<String, Object> attentionArticle(long id,int flag, HttpServletRequest request) {
+    public Map<String, Object> attentionArticle(long id, int flag, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         Article article = articleService.findArticleById(id);
-        if(flag == 0){
+        if (flag == 0) {
             //设定取消关注
             return articleService.removeAttention(user, article);
         }
@@ -166,6 +179,8 @@ public class ArticleController {
         int supportNum = articleService.countByArticleIsSupport(article, true);
         int opposeNum = articleService.countByArticleIsSupport(article, false);
 
+        List<Article> relatedArticleList = fullTextSearchService.relatedArticle(article, 10);
+        request.setAttribute("relatedArticleList", relatedArticleList);
         request.setAttribute("isDisabled", isDisabled);
         request.setAttribute("supportNum", supportNum);
         request.setAttribute("opposeNum", opposeNum);

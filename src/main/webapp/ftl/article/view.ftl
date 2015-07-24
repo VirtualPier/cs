@@ -210,14 +210,14 @@
 
         <div class="cs-mod">
             <div class="mod-head">
-                <h3>热门文章</h3>
+                <h3>相关文章</h3>
             </div>
 
             <div class="mod-body font-size-12">
                 <ul>
-                    <#list hotArticles as art>
+                    <#list relatedArticleList as at>
                         <li>
-                            <a controller="article" action="view" params="[id: article.id]">${art.title}</a>
+                            <a href="/article/view?id=${at.id}">${at.title}</a>
                         </li>
                     </#list>
                 </ul>

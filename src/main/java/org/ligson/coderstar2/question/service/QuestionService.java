@@ -181,4 +181,6 @@ public interface QuestionService {
     public Map<String, Object> removeAttention(User user, Question question);
 
     public void syncIndex(long[] questionIds);
+
+    public List<Question> findAllQuestionByState(int statePublish);
 }

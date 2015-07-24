@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.controllers;
 
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.question.ask.service.QuestionAskService;
 import org.ligson.coderstar2.question.domains.Ask;
 import org.ligson.coderstar2.question.domains.Question;
@@ -7,6 +8,7 @@ import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.system.service.FullTextSearchService;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +37,26 @@ public class QuestionController {
     @Autowired
     @Qualifier("categoryService")
     private CategoryService categoryService;
+
+    @Autowired
+    @Qualifier("fullTextSearchService")
+    private FullTextSearchService fullTextSearchService;
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public FullTextSearchService getFullTextSearchService() {
+        return fullTextSearchService;
+    }
+
+    public void setFullTextSearchService(FullTextSearchService fullTextSearchService) {
+        this.fullTextSearchService = fullTextSearchService;
+    }
 
     public QuestionService getQuestionService() {
         return questionService;
@@ -85,7 +107,7 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
-    public String saveQuestion(@RequestParam(value = "id", defaultValue = "-1",required = false) long id, @RequestParam(value = "title", required = true) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, @RequestParam(value = "money", required = false, defaultValue = "0") int money, HttpServletRequest request) {
+    public String saveQuestion(@RequestParam(value = "id", defaultValue = "-1", required = false) long id, @RequestParam(value = "title", required = true) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, @RequestParam(value = "money", required = false, defaultValue = "0") int money, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         String[] categoryIdStringArray = categoryIds.split(",");
         long[] categoryIdArray = new long[categoryIdStringArray.length];
@@ -100,7 +122,7 @@ public class QuestionController {
         } else {
             tagArr = tags.split(";");
         }
-        Map result = questionService.createQuestion(id,user, title, description, tagArr, categoryIdArray, money);
+        Map result = questionService.createQuestion(id, user, title, description, tagArr, categoryIdArray, money);
         boolean success = (boolean) result.get("success");
         if (success) {
             return "redirect:/user/myPublish";
@@ -122,6 +144,8 @@ public class QuestionController {
             User user = (User) object;
             isAttention = questionService.isAttentionQuestion(user, question);
         }
+        List<Question> relatedQuestionList = fullTextSearchService.relatedQuestion(question, 10);
+        request.setAttribute("relatedQuestionList", relatedQuestionList);
         request.setAttribute("question", question);
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("isAttention", isAttention);
@@ -147,10 +171,10 @@ public class QuestionController {
 
     @RequestMapping("/attentionQuestion")
     @ResponseBody
-    public Map<String, Object> attentionQuestion(@RequestParam("questionId") long questionId,int flag, HttpServletRequest request) {
+    public Map<String, Object> attentionQuestion(@RequestParam("questionId") long questionId, int flag, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         Question question = questionService.findQuestionById(questionId);
-        if(flag == 0){
+        if (flag == 0) {
             //设定取消关注
             return questionService.removeAttention(user, question);
         }

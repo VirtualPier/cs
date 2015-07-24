@@ -54,7 +54,7 @@ $(function () {
     });
 });
 function syncQuestionIndex() {
-    $.post("/questionMgr/syncQuestionIndex", {}, function (data) {
+    $.post("/articleMgr/syncIndex", {}, function (data) {
         if (data.success) {
             $.messager.alert("同步完成");
         }

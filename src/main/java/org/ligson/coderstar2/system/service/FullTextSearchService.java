@@ -29,4 +29,5 @@ public interface FullTextSearchService {
 
     public List<String> hotArticleKey(String key, int max);
 
+
 }

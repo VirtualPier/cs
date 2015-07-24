@@ -210,15 +210,11 @@
 
         <div class="mod-body font-size-12">
             <ul>
-                <li>
-                    <a>XXXXXXXXXXXX</a>
-                </li>
-                <li>
-                    <a>XXXXXXXXXXXX</a>
-                </li>
-                <li>
-                    <a>XXXXXXXXXXXX</a>
-                </li>
+                <#list relatedQuestionList as qt>
+                    <li>
+                        <a href="/question/view?id=${qt.id}">${qt.title}</a>
+                    </li>
+                </#list>
             </ul>
         </div>
     </div>

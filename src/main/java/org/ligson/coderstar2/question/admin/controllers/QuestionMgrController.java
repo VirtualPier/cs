@@ -82,12 +82,11 @@ public class QuestionMgrController {
 
     @RequestMapping("/syncIndex")
     @ResponseBody
-    public Map<String, Object> syncIndex(@RequestParam("questionIds") String questionIds) {
-        String[] idArray = questionIds.split(",");
-        long[] ids = new long[idArray.length];
-        int i = 0;
-        for (String qId : idArray) {
-            ids[i++] = Long.parseLong(qId);
+    public Map<String, Object> syncIndex() {
+        List<Question> questionList = questionService.findAllQuestionByState(Question.STATE_PUBLISH);
+        long[] ids = new long[questionList.size()];
+        for (int i = 0; i < questionList.size(); i++) {
+            ids[i] = questionList.get(i).getId();
         }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", true);

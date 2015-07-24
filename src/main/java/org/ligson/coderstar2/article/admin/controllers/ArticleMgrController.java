@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.article.admin.controllers;
 
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,12 +65,11 @@ public class ArticleMgrController {
 
     @RequestMapping("/syncIndex")
     @ResponseBody
-    public Map<String, Object> syncIndex(@RequestParam("articleIds") String articleIds) {
-        String[] idArray = articleIds.split(",");
-        long[] ids = new long[idArray.length];
-        int i = 0;
-        for (String qId : idArray) {
-            ids[i++] = Long.parseLong(qId);
+    public Map<String, Object> syncIndex() {
+        List<Article> articleList = articleService.findAllArticleByState(Article.STATE_PUBLISH);
+        long[] ids = new long[articleList.size()];
+        for (int i = 0; i < articleList.size(); i++) {
+            ids[i] = articleList.get(i).getId();
         }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", true);

@@ -198,4 +198,6 @@ public interface ArticleService {
     public List<Article> findAllArticleByUser(User user, int offset, int max);
 
     public void syncIndex(long[] articleIds);
+
+    public List<Article> findAllArticleByState(int statePublish);
 }
