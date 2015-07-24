@@ -39,18 +39,18 @@ function newLanguage() {
     $('#fm').form('clear');//清空窗体数据
 }
 function save() {
-    var url = 'addLanguage';
-    var data=$('#fm').serialize();
-    if(!$('#fm').form('validate'))return;
+    var url = 'addCategory';
+    var data = $('#fm').serialize();
+    if (!$('#fm').form('validate'))return;
     $.ajax({
         //设定地址与传递参数到后台
         url: url,
-        data:data,
-        type:'post',
-        dateType:'json',
+        data: data,
+        type: 'post',
+        dateType: 'json',
         //判断结果是否正确
         success: function (result) {
-            if(result.success){
+            if (result.success) {
                 $.messager.alert('提示', '保存成功!', 'success');
                 $('#dlg').dialog('close');
                 $('#tt').datagrid('reload');
@@ -60,19 +60,19 @@ function save() {
         }
     })
 };
-function update(){
-    var url = 'editeLanguage';
-    var data=$('#fm').serialize();
-    if(!$('#fm').form('validate'))return;
+function update() {
+    var url = 'editCategory';
+    var data = $('#fm').serialize();
+    if (!$('#fm').form('validate'))return;
     $.ajax({
         //设定地址与传递参数到后台
         url: url,
-        data:data,
-        type:'post',
-        dateType:'json',
+        data: data,
+        type: 'post',
+        dateType: 'json',
         //判断结果是否正确
         success: function (data) {
-            if(data.success){
+            if (data.success) {
                 $.messager.alert('提示', '更新成功!', 'success');
                 $('#dlg').dialog('close');
                 $('#tt').datagrid('reload');
@@ -90,7 +90,7 @@ function editeLanguage() {
         $('#name').val(rows.name);
         $('#sortIndex').val(rows.sort_index);
         $('#description').val(rows.description);
-        $('#btnSave').attr('onclick','update()');
+        $('#btnSave').attr('onclick', 'update()');
     }
     else {
         $.messager.alert('提示', '请选择要修改的数据');
@@ -99,7 +99,7 @@ function editeLanguage() {
 }
 
 function deleteLanguage() {
-    var url = 'deleteLanguage';
+    var url = 'deleteCategory';
     var selected = $('#tt').datagrid("getSelections");
     if (selected.length == 0) {
         $.messager.alert('提示', '请选择要删除的数据!', 'info');
@@ -107,9 +107,9 @@ function deleteLanguage() {
     }
     var idString = "";
     $.each(selected, function (index, item) {
-        if(index<selected.length-1){
+        if (index < selected.length - 1) {
             idString += item.id + ",";
-        }else{
+        } else {
             idString += item.id;
         }
     });
@@ -118,16 +118,14 @@ function deleteLanguage() {
 
     $.ajax({
         //设定地址与传递参数到后台
-        url: url+"?id="+idString,
-        type:'post',
-        dateType:'json',
+        url: url + "?ids=" + idString,
+        type: 'post',
+        dateType: 'json',
         //判断结果是否正确
         success: function (data) {
-            if(data.success){
-                $.messager.alert('提示', '删除成功!', 'success');
-                $("#tt").datagrid("clearSelections");//解决方法：在删除数据成功后清空所有的已选择项
-                $('#tt').datagrid('reload');
-            }
+            $.messager.alert('提示', '删除成功!', 'success');
+            $("#tt").datagrid("clearSelections");//解决方法：在删除数据成功后清空所有的已选择项
+            $('#tt').datagrid('reload');
         }, error: function () {
             $.messager.alert('提示', '删除失败!', 'error');
         }

@@ -14,4 +14,8 @@ public interface CategoryDao extends BaseDao<Category> {
     public List<Category> findAllByQuestion(Question question);
 
     public List<Category> findAllByArticle(Article article);
+
+    public List<Article> listArticleByCategory(Category category);
+
+    public List<Question> listQuestionByCategory(Category category);
 }

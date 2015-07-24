@@ -5,8 +5,10 @@ import org.ligson.coderstar2.article.domains.ArticleCategory;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.domains.QuestionCategory;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/17.
@@ -25,4 +27,16 @@ public interface CategoryService {
     public Category findCategoryById(long categoryId);
 
     public List<Category> findArticleCategoryList(Article article);
+
+    public List<Category> list(int max, int offset);
+
+    public Map<String, Object> addCategory(String name, String description, int sortIndex);
+
+    public Map<String, Object> modifyCategory(long id, String name, String description, int sortIndex);
+
+    public List<Map<String, Object>> deleteCategoryList(User user, long[] idArray);
+
+    public List<Question> listQuestionByCategory(Category category);
+
+    public List<Article> listArticleByCategory(Category category);
 }

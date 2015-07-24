@@ -15,6 +15,7 @@ import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.system.service.FullTextSearchService;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.dao.UserDao;
@@ -45,6 +46,23 @@ public class QuestionServiceImpl implements QuestionService {
     private SysTagDao sysTagDao;
     private PayService payService;
     private SysTagService sysTagService;
+    private FullTextSearchService fullTextSearchService;
+
+    public FullTextSearchService getFullTextSearchService() {
+        return fullTextSearchService;
+    }
+
+    public void setFullTextSearchService(FullTextSearchService fullTextSearchService) {
+        this.fullTextSearchService = fullTextSearchService;
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static void setLogger(Logger logger) {
+        QuestionServiceImpl.logger = logger;
+    }
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -269,7 +287,7 @@ public class QuestionServiceImpl implements QuestionService {
                     flag = true;
                     msg = "文章删除成功";
                 } catch (Exception e) {
-                    logger.error("删除提问时出错了，异常为："+e.getMessage());
+                    logger.error("删除提问时出错了，异常为：" + e.getMessage());
                     msg = "删除文章失败，请再次尝试。";
                 }
             }
@@ -546,11 +564,25 @@ public class QuestionServiceImpl implements QuestionService {
             question.setAttentionNum(question.getAttentionNum() - 1);
             questionDao.saveOrUpdate(question);
             result.put("success", true);
-            result.put("msg","取消关注成功");
+            result.put("msg", "取消关注成功");
         } else {
             result.put("success", false);
             result.put("msg", "用户未关注问题" + question.getTitle());
         }
         return result;
+    }
+
+    @Override
+    public void syncIndex(long[] questionIds) {
+        List<Question> questionList = new ArrayList<>();
+        for (long questionId : questionIds) {
+            Question question = findQuestionById(questionId);
+            if (question != null) {
+                questionList.add(question);
+            }
+        }
+        for (Question question : questionList) {
+            fullTextSearchService.indexQuestion(question);
+        }
     }
 }

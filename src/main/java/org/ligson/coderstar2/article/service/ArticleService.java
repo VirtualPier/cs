@@ -42,7 +42,7 @@ public interface ArticleService {
      * @param categroyIds 分类id
      * @return [success:true/false,msg:XXXX,...]
      */
-    public Map<String, Object> createArticle(long id,String title, String content, User creator, String[] tags, long[] categroyIds);
+    public Map<String, Object> createArticle(long id, String title, String content, User creator, String[] tags, long[] categroyIds);
 
     /**
      * *
@@ -107,9 +107,9 @@ public interface ArticleService {
      * *
      * 搜索文章
      *
-     * @param title       标题
-     * @param max         每页记录数
-     * @param offset      开始记录
+     * @param title  标题
+     * @param max    每页记录数
+     * @param offset 开始记录
      * @return [success:true/false,msg:XXXX,...]
      */
     public Map<String, Object> searchArticle(String title, long tagId, long categoryId, int max, int offset, String sort, String orderr);
@@ -196,4 +196,6 @@ public interface ArticleService {
     public List<Article> findAllAttentionArticle(User user, int offset, int max);
 
     public List<Article> findAllArticleByUser(User user, int offset, int max);
+
+    public void syncIndex(long[] articleIds);
 }

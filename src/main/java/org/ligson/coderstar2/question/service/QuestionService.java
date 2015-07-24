@@ -21,7 +21,7 @@ public interface QuestionService {
      * @param categoryIds
      * @return
      */
-    public Map<String, Object> createQuestion(long id,User user, String title, String description, String[] tags, long[] categoryIds, double money);
+    public Map<String, Object> createQuestion(long id, User user, String title, String description, String[] tags, long[] categoryIds, double money);
 
 
     /***
@@ -144,7 +144,7 @@ public interface QuestionService {
 
     public Map<String, Object> questionList(int offset, int max);
 
-    public Map<String, Object> searchQuestion(long categoryId,boolean hasDeal, String sort, int max, int offset);
+    public Map<String, Object> searchQuestion(long categoryId, boolean hasDeal, String sort, int max, int offset);
 
     public Question findQuestionById(long id);
 
@@ -179,4 +179,6 @@ public interface QuestionService {
     public List<Question> findAllAttentionQuestion(User user, int offset, int max);
 
     public Map<String, Object> removeAttention(User user, Question question);
+
+    public void syncIndex(long[] questionIds);
 }

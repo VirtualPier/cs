@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,25 +39,40 @@ public class ArticleMgrController {
 
     @RequestMapping("/auditArticle")
     @ResponseBody
-    public Map<String,Object> auditArticle(@RequestParam("id") String id, HttpServletRequest request){
-        String[] sIds=id.split(",");
+    public Map<String, Object> auditArticle(@RequestParam("id") String id, HttpServletRequest request) {
+        String[] sIds = id.split(",");
         long[] ids = new long[sIds.length];
-        for (int i=0;i<sIds.length;i++){
-            ids[i] =Long.parseLong(sIds[i]);
+        for (int i = 0; i < sIds.length; i++) {
+            ids[i] = Long.parseLong(sIds[i]);
         }
-        User user= (User) request.getSession().getAttribute("adminUser");
-        return  articleService.auditArticle(user,ids);
+        User user = (User) request.getSession().getAttribute("adminUser");
+        return articleService.auditArticle(user, ids);
     }
 
     @RequestMapping("/deleteArticle")
     @ResponseBody
-    public Map<String,Object> deleteArticle(@RequestParam("ids") String ids, HttpServletRequest request){
-        String[] sIds=ids.split(",");
+    public Map<String, Object> deleteArticle(@RequestParam("ids") String ids, HttpServletRequest request) {
+        String[] sIds = ids.split(",");
         long[] lIds = new long[sIds.length];
-        for (int i=0;i<sIds.length;i++){
-            lIds[i] =Long.parseLong(sIds[i]);
+        for (int i = 0; i < sIds.length; i++) {
+            lIds[i] = Long.parseLong(sIds[i]);
         }
-        User user= (User) request.getSession().getAttribute("adminUser");
-        return  articleService.deleteArticles(user, lIds);
+        User user = (User) request.getSession().getAttribute("adminUser");
+        return articleService.deleteArticles(user, lIds);
+    }
+
+    @RequestMapping("/syncIndex")
+    @ResponseBody
+    public Map<String, Object> syncIndex(@RequestParam("articleIds") String articleIds) {
+        String[] idArray = articleIds.split(",");
+        long[] ids = new long[idArray.length];
+        int i = 0;
+        for (String qId : idArray) {
+            ids[i++] = Long.parseLong(qId);
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", true);
+        articleService.syncIndex(ids);
+        return result;
     }
 }

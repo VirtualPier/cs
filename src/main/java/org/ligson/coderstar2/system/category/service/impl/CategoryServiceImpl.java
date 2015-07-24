@@ -3,15 +3,20 @@ package org.ligson.coderstar2.system.category.service.impl;
 import org.ligson.coderstar2.article.articlecategory.dao.ArticleCategoryDao;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.ArticleCategory;
+import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.domains.QuestionCategory;
 import org.ligson.coderstar2.question.questioncategory.dao.QuestionCategoryDao;
+import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.user.domains.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/17.
@@ -20,6 +25,24 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryDao categoryDao;
     private ArticleCategoryDao articleCategoryDao;
     private QuestionCategoryDao questionCategoryDao;
+    private QuestionService questionService;
+    private ArticleService articleService;
+
+    public QuestionService getQuestionService() {
+        return questionService;
+    }
+
+    public void setQuestionService(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
+    public ArticleService getArticleService() {
+        return articleService;
+    }
+
+    public void setArticleService(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     public QuestionCategoryDao getQuestionCategoryDao() {
         return questionCategoryDao;
@@ -102,5 +125,80 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> findArticleCategoryList(Article article) {
         return categoryDao.findAllByArticle(article);
+    }
+
+    @Override
+    public List<Category> list(int max, int offset) {
+        return categoryDao.list(offset, max);
+    }
+
+    @Override
+    public Map<String, Object> addCategory(String name, String description, int sortIndex) {
+        Category category = new Category();
+        category.setName(name);
+        category.setDescription(description);
+        category.setSortIndex(sortIndex);
+        categoryDao.saveOrUpdate(category);
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> modifyCategory(long id, String name, String description, int sortIndex) {
+        Category category = categoryDao.getById(id);
+        category.setName(name);
+        category.setDescription(description);
+        category.setSortIndex(sortIndex);
+        categoryDao.saveOrUpdate(category);
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        result.put("category", category);
+        return result;
+    }
+
+    public Map<String, Object> deleteCategory(User user, long categoryId) {
+        Map<String, Object> result = new HashMap<>();
+        Category category = categoryDao.getById(categoryId);
+        List<Question> questionList = listQuestionByCategory(category);
+        long[] qIds = new long[questionList.size()];
+        for (int i = 0; i < questionList.size(); i++) {
+            qIds[i] = questionList.get(i).getId();
+        }
+        questionService.deleteQuestion(qIds);
+
+        List<Article> articleList = listArticleByCategory(category);
+        long[] aIds = new long[articleList.size()];
+        for (int i = 0; i < articleList.size(); i++) {
+            aIds[i] = articleList.get(i).getId();
+        }
+        articleService.deleteArticles(user, aIds);
+
+        if (category != null) {
+            categoryDao.delete(category);
+        }
+
+        result.put("success", true);
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> deleteCategoryList(User user, long[] idArray) {
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (long id : idArray) {
+            Map<String, Object> tmp = deleteCategory(user, id);
+            result.add(tmp);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Question> listQuestionByCategory(Category category) {
+        return categoryDao.listQuestionByCategory(category);
+    }
+
+    @Override
+    public List<Article> listArticleByCategory(Category category) {
+        return categoryDao.listArticleByCategory(category);
     }
 }

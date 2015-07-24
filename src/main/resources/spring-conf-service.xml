@@ -26,8 +26,7 @@
         <property name="userDao" ref="userDao"/>
         <property name="sysTagService" ref="sysTagService"/>
         <property name="categoryService" ref="categoryService"/>
-
-
+        <property name="fullTextSearchService" ref="fullTextSearchService"/>
     </bean>
     <bean id="questionAskService" name="questionAskService"
           class="org.ligson.coderstar2.question.ask.service.impl.QuestionAskServiceImpl">
@@ -41,6 +40,8 @@
         <property name="categoryDao" ref="categoryDao"/>
         <property name="articleCategoryDao" ref="articleCategoryDao"/>
         <property name="questionCategoryDao" ref="questionCategoryDao"/>
+        <property name="articleService" ref="articleService"/>
+        <property name="questionService" ref="questionService"/>
     </bean>
     <bean id="articleService" name="articleService"
           class="org.ligson.coderstar2.article.service.impl.ArticleServiceImpl">
@@ -57,6 +58,7 @@
         <property name="remarkRate" ref="remarkRate"/>
         <property name="remarkRateDao" ref="remarkRateDao"/>
         <property name="sysTagDao" ref="sysTagDao"/>
+        <property name="fullTextSearchService" ref="fullTextSearchService"/>
     </bean>
 
     <bean id="payService" name="payService"
@@ -72,6 +74,25 @@
         <property name="sysTagDao" ref="sysTagDao"/>
         <property name="questionTagDao" ref="questionTagDao"/>
         <property name="articleTagDao" ref="articleTagDao"/>
+    </bean>
+
+
+    <bean id="smartcnAnalyzer" name="smartcnAnalyzer"
+          class="org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer"/>
+
+    <bean id="spellcheckDic" name="spellcheckDic" class="java.io.File">
+        <constructor-arg type="java.lang.String" value="${search.spellcheckDic}"/>
+    </bean>
+    <bean id="indexDir" name="indexDir" class="java.io.File">
+        <constructor-arg type="java.lang.String" value="${search.indexDir}"/>
+    </bean>
+    <bean name="fullTextSearchService" class="org.ligson.coderstar2.system.service.impl.FullTextSearchServiceImpl"
+          init-method="init" destroy-method="destory">
+        <property name="articleService" ref="articleService"/>
+        <property name="questionService" ref="questionService"/>
+        <property name="analyzer" ref="smartcnAnalyzer"/>
+        <property name="spellcheckDic" ref="spellcheckDic"/>
+        <property name="indexDir" ref="indexDir"/>
     </bean>
 
 </beans>

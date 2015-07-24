@@ -18,6 +18,7 @@ import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
+import org.ligson.coderstar2.system.service.FullTextSearchService;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
@@ -44,6 +45,23 @@ public class ArticleServiceImpl implements ArticleService {
     private AttentionArticleDao attentionArticleDao;
     private PayService payService;
     private SysTagDao sysTagDao;
+    private FullTextSearchService fullTextSearchService;
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static void setLogger(Logger logger) {
+        ArticleServiceImpl.logger = logger;
+    }
+
+    public FullTextSearchService getFullTextSearchService() {
+        return fullTextSearchService;
+    }
+
+    public void setFullTextSearchService(FullTextSearchService fullTextSearchService) {
+        this.fullTextSearchService = fullTextSearchService;
+    }
 
     public SysTagDao getSysTagDao() {
         return sysTagDao;
@@ -207,7 +225,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     public Map<String, Object> deleteArticle(User user, long articleId) {
         //需要删除article
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         boolean flag = false;
         String msg = "";
         try {
@@ -215,7 +233,7 @@ public class ArticleServiceImpl implements ArticleService {
             flag = true;
             msg = "文章删除成功";
         } catch (Exception e) {
-            logger.error("用户ID："+user.getId()+"，删除articleID："+articleId+",时出错了，异常为："+e.getMessage());
+            logger.error("用户ID：" + user.getId() + "，删除articleID：" + articleId + ",时出错了，异常为：" + e.getMessage());
             msg = "删除文章失败，请再次尝试。";
         }
         /*List<String> pros = new ArrayList<>();
@@ -234,8 +252,8 @@ public class ArticleServiceImpl implements ArticleService {
             flag = true;
             msg = "文章删除成功";
         }*/
-        map.put("success",flag);
-        map.put("msg",msg);
+        map.put("success", flag);
+        map.put("msg", msg);
         return map;
     }
 
@@ -258,7 +276,7 @@ public class ArticleServiceImpl implements ArticleService {
             article.setAttentionNum(article.getAttentionNum() - 1);
             articleDao.saveOrUpdate(article);
             result.put("success", true);
-            result.put("msg","取消关注成功");
+            result.put("msg", "取消关注成功");
         } else {
             result.put("success", false);
             result.put("msg", "用户未关注!");
@@ -502,6 +520,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> findAllArticleByUser(User user, int offset, int max) {
         return articleDao.findAllArticleByCreatorAndState(user, -1, "createDate", "desc", offset, max);
+    }
+
+    @Override
+    public void syncIndex(long[] articleIds) {
+        List<Article> articleList = new ArrayList<>();
+        for (long articleId : articleIds) {
+            Article article = findArticleById(articleId);
+            if (article != null) {
+                articleList.add(article);
+            }
+        }
+        for (Article article : articleList) {
+            fullTextSearchService.indexArticle(article);
+        }
     }
 
     public ArticleCategoryDao getArticleCategoryDao() {
