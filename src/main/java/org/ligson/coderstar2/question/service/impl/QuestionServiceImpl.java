@@ -586,6 +586,10 @@ public class QuestionServiceImpl implements QuestionService {
         }
     }
 
+    public List<String> hotKey(String key, int max) {
+        return fullTextSearchService.hotQuestionKey(key,max);
+    }
+
     @Override
     public List<Question> findAllQuestionByState(int statePublish) {
         return questionDao.findAllBy("state", statePublish);

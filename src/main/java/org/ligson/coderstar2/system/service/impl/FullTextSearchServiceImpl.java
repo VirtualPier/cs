@@ -1,21 +1,21 @@
 package org.ligson.coderstar2.system.service.impl;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
+import org.apache.lucene.search.spell.PlainTextDictionary;
 import org.apache.lucene.search.spell.SpellChecker;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.Version;
 import org.ligson.coderstar2.article.domains.Article;
-import org.ligson.coderstar2.article.domains.ArticleTag;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
@@ -24,7 +24,6 @@ import org.ligson.coderstar2.system.service.FullTextSearchService;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by ligson on 2015/7/23.
@@ -190,11 +189,15 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
             }
             spellcheckerDirectory = FSDirectory.open(spellCheckerIndex.toPath());
             spellChecker = new SpellChecker(spellcheckerDirectory);
-
-        } catch (IOException e) {
+            IndexWriterConfig writerConfig = new IndexWriterConfig(analyzer);
+            spellChecker.indexDictionary(new PlainTextDictionary(new FileReader(spellcheckDic)),writerConfig,true);
+            String[] words = spellChecker.suggestSimilar("l", 10);
+        } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
         }
     }
+
 
     public void destory() {
         try {

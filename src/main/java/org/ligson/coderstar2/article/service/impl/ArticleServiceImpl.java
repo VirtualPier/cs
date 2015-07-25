@@ -537,6 +537,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public List<String> hotKey(String key, int max) {
+        return fullTextSearchService.hotArticleKey(key,max);
+    }
+
+    @Override
     public List<Article> findAllArticleByState(int statePublish) {
         return articleDao.findAllBy("state", statePublish);
     }

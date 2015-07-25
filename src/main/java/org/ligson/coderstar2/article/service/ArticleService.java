@@ -199,5 +199,7 @@ public interface ArticleService {
 
     public void syncIndex(long[] articleIds);
 
+    public List<String> hotKey(String key, int max);
+
     public List<Article> findAllArticleByState(int statePublish);
 }

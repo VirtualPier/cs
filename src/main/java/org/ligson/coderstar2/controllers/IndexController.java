@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.controllers;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.question.domains.Question;
@@ -47,6 +48,7 @@ public class IndexController {
     @Autowired
     @Qualifier("categoryService")
     private CategoryService categoryService;
+
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -217,6 +219,33 @@ public class IndexController {
         return "index/friendLinks";
     }
 
+
+    @RequestMapping("/searchKey")
+    @ResponseBody
+    public Map<String,Object> searchKey(String key,Integer type){
+        //返回的格式为[{value:}}
+        Map<String,Object> map = new HashMap<>();
+        int maxWorld = 10;
+        //1、根据key进行在document中查找对应匹配关键字,根据类型获取对应关键字
+        List<String> words = null;
+        if(1 == type){
+            //question
+             words = questionService.hotKey(key,maxWorld);
+        }else{
+            //article
+           words = articleService.hotKey(key,maxWorld);
+        }
+        List<Map<String,String>> ll = new ArrayList<>();
+        Map<String,String> hotKeyMap = new HashMap<>();
+        for(String word:words){
+            hotKeyMap.put("value",word);
+        }
+        if(!hotKeyMap.isEmpty()){
+            ll.add(hotKeyMap);
+        }
+        map.put("hotKeys",ll);
+        return map;
+    }
 
     @RequestMapping("/search")
     public String search(@RequestParam(value = "searchType", defaultValue = "1") int searchType, @RequestParam(value = "title", required = false) String title, @RequestParam(value = "categoryId", defaultValue = "-1", required = false) long categoryId, @RequestParam(value = "tagId", defaultValue = "-1", required = false) long tagId, @RequestParam(value = "sort", defaultValue = "createDate", required = false) String sort, @RequestParam(value = "order", defaultValue = "desc", required = false) String order, @RequestParam(value = "offset", required = false, defaultValue = "0") int offset, @RequestParam(value = "max", defaultValue = "15", required = false) int max, HttpServletRequest request) {
