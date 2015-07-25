@@ -191,7 +191,6 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
             spellChecker = new SpellChecker(spellcheckerDirectory);
             IndexWriterConfig writerConfig = new IndexWriterConfig(analyzer);
             spellChecker.indexDictionary(new PlainTextDictionary(new FileReader(spellcheckDic)),writerConfig,true);
-            String[] words = spellChecker.suggestSimilar("l", 10);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
