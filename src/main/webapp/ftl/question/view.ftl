@@ -39,7 +39,8 @@
                     <a class="pull-right" style="margin-left:10px;">
                         <span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
                 </#if>
-                <a id="attentionQuestionBtn" class="pull-right" href="javascript:void(0);"
+                <a id="attentionQuestionBtn" data-flag="${isAttention?string("0","1")}" class="pull-right"
+                   href="javascript:void(0);"
                    onclick="attentionQuestion(${question.id},this)"><span
                         class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention?string("取消关注","关注本文")}</a>
 
