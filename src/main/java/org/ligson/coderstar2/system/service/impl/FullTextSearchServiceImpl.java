@@ -6,6 +6,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -23,6 +24,7 @@ import org.ligson.coderstar2.system.service.FullTextSearchService;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -43,6 +45,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
     private Directory spellcheckerDirectory;
     private File spellcheckDic;
     private SpellChecker spellChecker;
+
 
     public File getSpellcheckDic() {
         return spellcheckDic;
@@ -182,6 +185,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
             questionWriter = new IndexWriter(questionDirectory, questionIndexWriterConfig);
             questionReader = DirectoryReader.open(questionWriter, true);
 
+
             //拼写
             File spellCheckerIndex = new File(indexDir, "spellchecker");
             if (!spellCheckerIndex.exists()) {
@@ -189,8 +193,8 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
             }
             spellcheckerDirectory = FSDirectory.open(spellCheckerIndex.toPath());
             spellChecker = new SpellChecker(spellcheckerDirectory);
-            IndexWriterConfig writerConfig = new IndexWriterConfig(analyzer);
-            spellChecker.indexDictionary(new PlainTextDictionary(new FileReader(spellcheckDic)),writerConfig,true);
+
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
@@ -219,10 +223,19 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
             FileWriter writer = new FileWriter(spellcheckDic, true);
             PrintWriter printWriter = new PrintWriter(writer);
             while (tokenStream.incrementToken()) {
-                printWriter.println(charTermAttribute.toString());
+                String word = charTermAttribute.toString();
+                logger.debug(word);
+                printWriter.println(word);
             }
+            writer.close();
+            printWriter.close();
             tokenStream.end();
             tokenStream.close();
+
+            PlainTextDictionary plainTextDictionary = new PlainTextDictionary(new FileReader(spellcheckDic));
+            IndexWriterConfig spellCheckerWriterConfig = new IndexWriterConfig(analyzer);
+            spellChecker.indexDictionary(plainTextDictionary, spellCheckerWriterConfig, true);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -231,13 +244,13 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
     @Override
     public void indexArticle(Article article) {
         try {
-           // articleWriter.deleteDocuments(new Term("id", article.getId()+""));
+            // articleWriter.deleteDocuments(new Term("id", article.getId()+""));
         } catch (Exception e) {
             logger.error(e);
         }
 
         addSpell(article.getTitle());
-        Field idField = new StringField("id", article.getId()+"", Field.Store.YES);
+        Field idField = new StringField("id", article.getId() + "", Field.Store.YES);
         Field titleField = new TextField("title", article.getTitle(), Field.Store.YES);
         Field contentField = new TextField("description", article.getDescription(), Field.Store.NO);
         Field createDateField = new StringField("createDate", article.getCreateDate(), Field.Store.YES);
@@ -275,7 +288,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
             logger.error(e);
         }
         addSpell(question.getTitle());
-        Field idField = new StringField("id", question.getId()+"", Field.Store.YES);
+        Field idField = new StringField("id", question.getId() + "", Field.Store.YES);
         Field titleField = new TextField("title", question.getTitle(), Field.Store.YES);
         Field contentField = new TextField("description", question.getDescription(), Field.Store.NO);
         Field createDateField = new StringField("createDate", question.getCreateDate(), Field.Store.YES);
@@ -390,6 +403,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
     public List<String> hotQuestionKey(String key, int max) {
         List<String> results = new ArrayList<>();
         try {
+            spellChecker.setAccuracy(0.1f);
             String[] words = spellChecker.suggestSimilar(key, max);
             for (String word : words) {
                 results.add(word);
@@ -404,6 +418,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
     public List<String> hotArticleKey(String key, int max) {
         List<String> results = new ArrayList<>();
         try {
+            spellChecker.setAccuracy(0.1f);
             String[] words = spellChecker.suggestSimilar(key, max);
             for (String word : words) {
                 results.add(word);

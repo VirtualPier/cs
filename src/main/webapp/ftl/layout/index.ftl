@@ -16,12 +16,12 @@
     <script type="text/javascript" src="${basePath}js/lib/jquery.cookie.js"></script>
     <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-typeahead/example.css">
-  <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
- <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-select/css/bootstrap-select.min.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-select/css/bootstrap-select.min.css"/>
     <script type="text/javascript" src="${basePath}js/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
     <!----百度统计---->
-  <script type="text/javascript" src="${basePath}js/coderstar/front/baidustatistics.js"></script>
-   <link rel="stylesheet" type="text/css" href="${basePath}css/cs/base.css"/>
+    <script type="text/javascript" src="${basePath}js/coderstar/front/baidustatistics.js"></script>
+    <link rel="stylesheet" type="text/css" href="${basePath}css/cs/base.css"/>
     <script type="text/javascript" src="${basePath}js/coderstar/front/common.js"></script>
 <@block name="header"></@block>
 </head>
@@ -77,8 +77,9 @@
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control typeahead" data-provide="typeahead"  placeholder="输入搜索内容" id="titleSearch"
-                          name="title" value="${title}"/>
+                    <input type="text" class="form-control typeahead" data-provide="typeahead" placeholder="输入搜索内容"
+                           id="titleSearch"
+                           name="title" value="${title}"/>
                 </div>
 
                 <div class="form-group">
