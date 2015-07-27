@@ -141,7 +141,7 @@ public class ArticleController {
 
     @RequestMapping("/attentionArticle")
     @ResponseBody
-    public Map<String, Object> attentionArticle(long id, int flag, HttpServletRequest request) {
+    public Map<String, Object> attentionArticle(@RequestParam("articleId") long id, @RequestParam("flag") int flag, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         Article article = articleService.findArticleById(id);
         if (flag == 0) {
