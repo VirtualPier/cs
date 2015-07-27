@@ -30,6 +30,24 @@ public class PayServiceImpl implements PayService {
     private TradeRecordDao tradeRecordDao;
     private UserDao userDao;
     private BlockedFundDao blockedFundDao;
+    private String appName;
+    private String basePath;
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
 
     public BlockedFundDao getBlockedFundDao() {
         return blockedFundDao;
@@ -90,8 +108,8 @@ public class PayServiceImpl implements PayService {
 
     private Map alipayParams(PayOrder payOrder) {
 
-        String basePath = "http://127.0.0.1:8080";
-        String appName = "码农之星在线充值!";
+        String basePath = getBasePath();
+        String appName = getAppName() + "在线充值!";
         //支付类型
         String payment_type = "1";
         //必填，不能修改
@@ -202,9 +220,9 @@ public class PayServiceImpl implements PayService {
     @Override
     public Map<String, Object> transfer(User fromUser, User toUser, double money, int tradeType, long tradeObjId) {
         Map<String, Object> result = new HashMap<>();
-        if(fromUser.equals(toUser)){
-            result.put("success",false);
-            result.put("msg","自己创建文章不允许奖励。");
+        if (fromUser.equals(toUser)) {
+            result.put("success", false);
+            result.put("msg", "自己创建文章不允许奖励。");
             return result;
         }
         if (money > fromUser.getBalance()) {

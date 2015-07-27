@@ -68,6 +68,8 @@
         <property name="tradeRecordDao" ref="tradeRecordDao"/>
         <property name="userDao" ref="userDao"/>
         <property name="blockedFundDao" ref="blockedFundDao"/>
+        <property name="appName" value="${appconfig.name}"/>
+        <property name="basePath" value="${appconfig.domain}"/>
     </bean>
     <bean name="sysTagService"
           class="org.ligson.coderstar2.system.systag.service.impl.SysTagServiceImpl">
