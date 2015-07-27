@@ -32,9 +32,9 @@ import java.util.List;
  */
 public class FullTextSearchServiceImpl implements FullTextSearchService {
     private IndexWriter articleWriter;
-    private IndexReader articleReader;
+    private DirectoryReader articleReader;
     private IndexWriter questionWriter;
-    private IndexReader questionReader;
+    private DirectoryReader questionReader;
     private File indexDir;
     private Analyzer analyzer;
     private Directory articleDirectory;
@@ -87,28 +87,12 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
         this.articleWriter = articleWriter;
     }
 
-    public IndexReader getArticleReader() {
-        return articleReader;
-    }
-
-    public void setArticleReader(IndexReader articleReader) {
-        this.articleReader = articleReader;
-    }
-
     public IndexWriter getQuestionWriter() {
         return questionWriter;
     }
 
     public void setQuestionWriter(IndexWriter questionWriter) {
         this.questionWriter = questionWriter;
-    }
-
-    public IndexReader getQuestionReader() {
-        return questionReader;
-    }
-
-    public void setQuestionReader(IndexReader questionReader) {
-        this.questionReader = questionReader;
     }
 
     public File getIndexDir() {
@@ -244,7 +228,8 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
     @Override
     public void indexArticle(Article article) {
         try {
-            // articleWriter.deleteDocuments(new Term("id", article.getId()+""));
+            articleWriter.deleteDocuments(new Term("id", article.getId() + ""));
+            articleWriter.commit();
         } catch (Exception e) {
             logger.error(e);
         }
@@ -283,7 +268,8 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
     @Override
     public void indexQuestion(Question question) {
         try {
-            //questionWriter.deleteDocuments(new Term("id",question.getId()+""));
+            questionWriter.deleteDocuments(new Term("id", question.getId() + ""));
+            questionWriter.commit();
         } catch (Exception e) {
             logger.error(e);
         }
@@ -354,8 +340,8 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
         try {
             QueryParser queryParser = new QueryParser("title", analyzer);
             Query query = queryParser.parse(question.getTitle());
-            IndexSearcher searcher = new IndexSearcher(questionReader);
-            TopDocs topDocs = searcher.search(query, max);
+            IndexSearcher searcher = new IndexSearcher(getQuestionReader());
+            TopDocs topDocs = searcher.search(query, max + 1);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             for (int i = 0; i < scoreDocs.length; i++) {
                 ScoreDoc scoreDoc = scoreDocs[i];
@@ -367,10 +353,55 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
                     questionList.add(question1);
                 }
             }
+            questionList.remove(question);
         } catch (Exception e) {
             logger.error(e);
         }
         return questionList;
+    }
+
+    public DirectoryReader getArticleReader() {
+        try {
+            if (articleReader == null) {
+                articleReader = DirectoryReader.open(articleDirectory);
+            } else {
+                DirectoryReader tr = DirectoryReader.openIfChanged(articleReader);
+                if (tr != null) {
+                    articleReader.close();
+                    articleReader = tr;
+                }
+            }
+            return articleReader;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setArticleReader(DirectoryReader articleReader) {
+        this.articleReader = articleReader;
+    }
+
+    public DirectoryReader getQuestionReader() {
+        try {
+            if (questionReader == null) {
+                questionReader = DirectoryReader.open(questionDirectory);
+            } else {
+                DirectoryReader tr = DirectoryReader.openIfChanged(questionReader);
+                if (tr != null) {
+                    questionReader.close();
+                    questionReader = tr;
+                }
+            }
+            return questionReader;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setQuestionReader(DirectoryReader questionReader) {
+        this.questionReader = questionReader;
     }
 
     @Override
@@ -379,20 +410,23 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
         try {
             QueryParser queryParser = new QueryParser("title", analyzer);
             Query query = queryParser.parse(article.getTitle());
-            IndexSearcher searcher = new IndexSearcher(articleReader);
-            TopDocs topDocs = searcher.search(query, max);
+
+            IndexSearcher searcher = new IndexSearcher(getArticleReader());
+            TopDocs topDocs = searcher.search(query, max + 1);
 
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             for (int i = 0; i < scoreDocs.length; i++) {
                 ScoreDoc scoreDoc = scoreDocs[i];
                 Document document = searcher.doc(scoreDoc.doc);
                 String idString = document.get("id");
+                System.out.println(idString);
                 long id = Long.parseLong(idString);
                 Article article1 = articleService.findArticleById(id);
                 if (article1 != null) {
                     articleList.add(article1);
                 }
             }
+            articleList.remove(article);
         } catch (Exception e) {
             logger.error(e);
         }

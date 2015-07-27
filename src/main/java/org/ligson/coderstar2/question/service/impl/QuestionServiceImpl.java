@@ -530,6 +530,9 @@ public class QuestionServiceImpl implements QuestionService {
             Question question = questionDao.getById(ids[i]);
             question.setState(state);
             questionDao.saveOrUpdate(question);
+            if (state == Question.STATE_PUBLISH) {
+                fullTextSearchService.indexQuestion(question);
+            }
         }
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
@@ -587,7 +590,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     public List<String> hotKey(String key, int max) {
-        return fullTextSearchService.hotQuestionKey(key,max);
+        return fullTextSearchService.hotQuestionKey(key, max);
     }
 
     @Override

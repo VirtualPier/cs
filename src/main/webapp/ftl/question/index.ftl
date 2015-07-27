@@ -42,7 +42,7 @@
                                     <a href="/user/view?id=${question.creator.id}">${question.creator.nickName}</a>
                                     <label>分类:</label>
                                     <#list question.questionCategories as category>
-                                        <a>${category.category.name}</a>
+                                        <a href="/question/index?categoryId=${category.category.id}">${category.category.name}</a>
                                     </#list>
                                 </p>
 

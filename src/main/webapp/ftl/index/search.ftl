@@ -71,13 +71,15 @@
                                     <label>分类:</label>
                                     <#if searchType==1>
                                         <#list model.questionCategories as category>
-                                            <a href="/index/search?categoryId=${category.id}&searchType=${searchType}">${category.name}</a>
+                                            <a href="/index/search?categoryId=${category.id}&searchType=${searchType}">${category.category.name}</a>
                                         </#list>
                                     <#else>
                                         <#list model.articleCategories as category>
-                                            <a href="/index/search?categoryId=${category.id}&searchType=${searchType}">${category.name}</a>
+                                            <a href="/index/search?categoryId=${category.id}&searchType=${searchType}">${category.category.name}</a>
                                         </#list>
                                     </#if>
+                                    <label>作者:</label>
+                                    <a href="/user/view?id=${model.creator.id}">${model.creator.nickName}</a>
                                 </p>
 
                                 <p>

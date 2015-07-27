@@ -106,7 +106,8 @@
                             <!-- end 用户头像 -->
                             <div class="title">
                                 <p>
-                                    <a class="cs-user-name" href="/user/view/2" data-id="2">${remark.user.nickName}</a>
+                                    <a class="cs-user-name" href="/user/view?id=${remark.user.id}"
+                                       data-id="2">${remark.user.nickName}</a>
                                 </p>
 
                             </div>

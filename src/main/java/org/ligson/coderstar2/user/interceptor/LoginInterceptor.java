@@ -43,7 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
 
             if (bean instanceof UserController) {
-                String[] uncheckAction = new String[]{"view"};
+                String[] uncheckAction = new String[]{"view", "loadUserArticles", "loadUserQuestions"};
                 boolean isExsit = false;
                 for (String actionName : uncheckAction) {
                     if (actionName.equals(methodName)) {

@@ -184,6 +184,7 @@ public class ArticleServiceImpl implements ArticleService {
             Article article = articleDao.getById(ids[i]);
             article.setState(Article.STATE_PUBLISH);
             articleDao.saveOrUpdate(article);
+            fullTextSearchService.indexArticle(article);
         }
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
