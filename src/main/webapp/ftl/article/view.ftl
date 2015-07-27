@@ -21,20 +21,25 @@
                 <h1>${article.title}</h1>
 
                 <p><label>分类:</label>
-                    <#list categoryList as articleLang>
-                        <a href="/article/index?categoryId=${articleLang.id}">${articleLang.name}</a>
+                    <#list article.articleCategories as articleCategory>
+                        <a href="/article/index?categoryId=${articleCategory.category.id}">${articleCategory.category.name}</a>
                     </#list>
-                    <button id="attentionArticleBtn" type="button"
-                            class="btn btn-info"
-                            data-flag="${isAttention?string("0","1")}"
-                            onclick="attentionArticle(${article.id},this)"><span
+
+                    <#if (user??)&&(user.id==article.creator.id)>
+                        <a class="pull-right" style="margin-left:10px;">
+                            <span class="glyphicon glyphicon-remove"></span>&nbsp;删除</a>
+                        <a class="pull-right" style="margin-left:10px;">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
+                    </#if>
+                    <a class="pull-right" href="javascript:void(0);"
+                       onclick="attentionArticle(${article.id},this)" id="attentionArticleBtn"><span
                             class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention?string("取消关注","关注本文")}
-                    </button>
+                    </a>
                 </p>
 
                 <p><label>标签:</label>
-                    <#list tags as ta>
-                        <a href="/article/index?tagId=${ta.id}" class="cs-question-tags">${ta.name}</a>
+                    <#list article.tags as ta>
+                        <a href="/article/index?tagId=${ta.tag.id}" class="cs-question-tags">${ta.tag.name}</a>
                     </#list>
                 </p>
                 <#include "includes/share.ftl">

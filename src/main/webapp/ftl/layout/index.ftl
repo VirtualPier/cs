@@ -101,7 +101,11 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-expanded="false">
-                        <span class="glyphicon  glyphicon-user"></span>我的 <span class="caret"></span></a>
+                        <img alt="${user.photo}" style="width:20px;height:20px;float:left;" class="media-object"
+                             src="${user.photo}"
+                             onerror="javascript:this.src='/images/pic_user.gif'" title="${user.nickName}">
+                        <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="/user/myPublish">提问的问题</a>

@@ -26,25 +26,31 @@
             <#if question.money gt 0>
                 <p><label>悬赏码币:</label>${question.money}</p>
             </#if>
+
             <p>
                 <label>分类:</label>
-                <#list categoryList as category>
-                    <a href="/question/index?categoryId=${category.id}">${category.name}</a>
+                <#list question.questionCategories as category>
+                    <a href="/question/index?categoryId=${category.category.id}">${category.category.name}</a>
                 </#list>
-                <button id="attentionQuestionBtn" type="button"
-                        class="btn btn-info"
-                        data-flag="${isAttention?string("0","1")}"
-                        onclick="attentionQuestion(${question.id},this)"><span
-                        class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention?string("取消关注","关注本文")}
-                </button>
-            </p>
-            <p><label>标签:</label>
-                <#list tags as tag>
-                    <a href="/question/index?tagId=${tag.id}" class="cs-question-tags">${tag.name}</a>
-                </#list>
+
+                <#if (user??)&&(user.id==question.creator.id)>
+                    <a class="pull-right" style="margin-left:10px;">
+                        <span class="glyphicon glyphicon-remove"></span>&nbsp;删除</a>
+                    <a class="pull-right" style="margin-left:10px;">
+                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
+                </#if>
+                <a id="attentionQuestionBtn" class="pull-right" href="javascript:void(0);"
+                   onclick="attentionQuestion(${question.id},this)"><span
+                        class="glyphicon glyphicon-heart-empty"></span>&nbsp;${isAttention?string("取消关注","关注本文")}</a>
+
             </p>
 
-            <#include "includes/share.ftl">
+            <p><label>标签:</label>
+                <#list question.tags as tag>
+                    <a href="/question/index?tagId=${tag.tag.id}" class="cs-question-tags">${tag.tag.name}</a>
+                </#list>
+                <#include "includes/share.ftl">
+            </p>
 
         </div>
 
@@ -188,7 +194,9 @@
         <div class="mod-body">
             <dl>
                 <dt class="pull-left cs-border-radius-5">
-                    <a href="/user/view?id=${question.creator.id}"><img alt="软爷" src="${question.creator.photo}"
+                    <a href="/user/view?id=${question.creator.id}"><img title="${question.creator.nickName}"
+                                                                        alt="${question.creator.nickName}"
+                                                                        src="${question.creator.photo}"
                                                                         onerror="javascript:this.src='/images/pic_user.gif'"/></a>
                 </dt>
                 <dd class="pull-left">
