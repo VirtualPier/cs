@@ -99,16 +99,16 @@
                                 </#if>
 
                                 <#if question.rightAsk??>
+                                    <#if question.rightAsk.id==ask.id>
+                                        <button class="btn btn-success pull-right">最佳答案</button>
+                                    </#if>
+                                <#else>
                                     <#if user??>
                                         <#if user.id==question.creator.id>
                                             <button class="btn btn-success pull-right" name="selectRightAskBtn"
-                                                    onclick="selectRightAsk(1)">设为最佳答案
+                                                    onclick="selectRightAsk(${ask.id})">设为最佳答案
                                             </button>
                                         </#if>
-                                    </#if>
-                                <#else>
-                                    <#if question.rightAsk.id==ask.id>
-                                        <button class="btn btn-success pull-right">最佳答案</button>
                                     </#if>
                                 </#if>
 
@@ -193,7 +193,17 @@
                 </dt>
                 <dd class="pull-left">
                     <a class="cs-user-name"
-                       href="/user/view?id=${question.creator.id}">${question.creator.nickName}</a>
+                       href="/user/view?id=${question.creator.id}">
+                        <#if user??>
+                            <#if user.id==question.creator.id>
+                                我
+                            <#else>
+                            ${question.creator.nickName}
+                            </#if>
+                        <#else>
+                        ${question.creator.nickName}
+                        </#if>
+                    </a>
 
                     <p></p>
                 </dd>
