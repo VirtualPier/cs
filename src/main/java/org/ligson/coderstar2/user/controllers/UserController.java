@@ -277,7 +277,7 @@ public class UserController {
     @RequestMapping("/alipay")
     public void alipay(@RequestParam("money") int money, HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute("user");
-        Map<String, Object> map = payService.recharge(user, 0.01);
+        Map<String, Object> map = payService.recharge(user, money);
         Map map1 = (Map) map.get("requestMap");
         String html = AlipaySubmit.buildRequest(map1, "post", "确认");
         try {
