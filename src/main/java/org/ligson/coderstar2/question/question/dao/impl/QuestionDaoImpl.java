@@ -143,13 +143,13 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         Query query = null;
         Query query2 = null;
         if (tagId >= 0 && categoryId >= 0) {
-            query = getCurrentSession().createQuery("select a from Question a,QuestionTag at,QuestionCategory ac where a.id=at.question.id and a.id=ac.quesiton.id and a.title like :title order by a." + sort + " " + order);
+            query = getCurrentSession().createQuery("select distinct(a) from Question a,QuestionTag at,QuestionCategory ac where a.id=at.question.id and a.id=ac.quesiton.id and a.title like :title order by a." + sort + " " + order);
             query2 = getCurrentSession().createQuery("select count(a) from Question a,QuestionTag at,ArticleCategory ac where a.id=at.question.id and a.id=ac.question.id and a.title like :title order by a." + sort + " " + order);
         } else if (tagId < 0 && categoryId >= 0) {
-            query = getCurrentSession().createQuery("select a from Question a,QuestionCategory ac where a.id=ac.question.id  and a.title like :title order by a." + sort + " " + order);
+            query = getCurrentSession().createQuery("select distinct(a) from Question a,QuestionCategory ac where a.id=ac.question.id  and a.title like :title order by a." + sort + " " + order);
             query2 = getCurrentSession().createQuery("select count(a) from Question a,QuestionCategory ac where a.id=ac.question.id  and a.title like :title order by a." + sort + " " + order);
         } else {
-            query = getCurrentSession().createQuery("select a from Question a,QuestionTag at where a.id=at.question.id  and a.title like :title order by a." + sort + " " + order);
+            query = getCurrentSession().createQuery("select distinct(a) from Question a,QuestionTag at where a.id=at.question.id  and a.title like :title order by a." + sort + " " + order);
             query2 = getCurrentSession().createQuery("select count(a) from Question a,QuestionTag at where a.id=at.question.id  and a.title like :title order by a." + sort + " " + order);
         }
         query.setString("title", "%" + title + "%");
