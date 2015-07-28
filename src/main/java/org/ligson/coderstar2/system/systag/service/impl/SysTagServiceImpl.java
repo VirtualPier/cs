@@ -138,4 +138,9 @@ public class SysTagServiceImpl implements SysTagService {
             questionTagDao.delete(questionTag);
         }
     }
+
+    @Override
+    public List<SysTag> questionHotTags(int max) {
+        return sysTagDao.findQuestionHotTags(max);
+    }
 }

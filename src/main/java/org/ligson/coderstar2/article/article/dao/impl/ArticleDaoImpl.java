@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.article.article.dao.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.ligson.coderstar2.article.article.dao.ArticleDao;
@@ -165,20 +166,68 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     @Override
     public void execuRemoveSql(long articleId) throws Exception {
         //通过sql方式进行删除对应数据，涉及标签、类别
-        getCurrentSession().createSQLQuery(findRemoveSql(articleId,"article_category")).executeUpdate();
-        getCurrentSession().createSQLQuery(findRemoveSql(articleId,"article_tag")).executeUpdate();
-        getCurrentSession().createSQLQuery("DELETE FROM article WHERE id="+articleId).executeUpdate();
+        getCurrentSession().createSQLQuery(findRemoveSql(articleId, "article_category")).executeUpdate();
+        getCurrentSession().createSQLQuery(findRemoveSql(articleId, "article_tag")).executeUpdate();
+        getCurrentSession().createSQLQuery("DELETE FROM article WHERE id=" + articleId).executeUpdate();
+    }
+
+    @Override
+    public int countByCreatorAndStateAndTitleLike(User user, int statePublish, String title) {
+        Query query = null;
+        if (statePublish >= 0) {
+            String hql = "select count(*) from Article a where a.creator.id=:userId and a.state=:state ";
+            if (StringUtils.isNotBlank(title)) {
+                hql += " and a.title like :title";
+            }
+            query = getCurrentSession().createQuery(hql);
+            query.setLong("userId", user.getId());
+            query.setInteger("state", statePublish);
+            if (StringUtils.isNotBlank(title)) {
+                query.setString("title", "%" + title + "%");
+            }
+        } else {
+            String hql = "select count(*) from Article a where a.creator.id=:userId ";
+            if (StringUtils.isNotBlank(title)) {
+                hql += " and a.title like :title";
+            }
+            query = getCurrentSession().createQuery(hql);
+            query.setLong("userId", user.getId());
+            if (StringUtils.isNotBlank(title)) {
+                query.setString("title", "%" + title + "%");
+            }
+        }
+        Long count = (Long) query.uniqueResult();
+        return count.intValue();
+    }
+
+    @Override
+    public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
+        String hql = "from Article a where a.creator.id=:userId ";
+        if (StringUtils.isNotBlank(title)) {
+            hql += " and a.title like :title";
+        }
+        hql += " order by a." + sort + " " + order;
+        Query query = getCurrentSession().createQuery(hql);
+        query.setLong("userId", user.getId());
+        if (StringUtils.isNotBlank(title)) {
+            query.setString("title", "%" + title + "%");
+        }
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Article> articles = (List<Article>) query.list();
+        return articles;
     }
 
 
     /**
      * 组装需要删除的语句
+     *
      * @param articleId
      * @param tableName
      * @return
      */
-    private String findRemoveSql(long articleId,String tableName){
-        return "DELETE FROM "+tableName+" WHERE article_id="+articleId+";";
+    private String findRemoveSql(long articleId, String tableName) {
+        return "DELETE FROM " + tableName + " WHERE article_id=" + articleId + ";";
     }
 
 }

@@ -69,4 +69,13 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
         return sysTags;
     }
 
+    @Override
+    public List<SysTag> findQuestionHotTags(int max) {
+        Query query = getCurrentSession().createQuery("select qt.tag from QuestionTag qt group by qt.tag order by count(qt.question) desc");
+        query.setFirstResult(0);
+        query.setMaxResults(max);
+        List<SysTag> sysTags = (List<SysTag>) query.list();
+        return sysTags;
+    }
+
 }

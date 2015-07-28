@@ -12,9 +12,9 @@ import java.util.Map;
  * Created by ligson on 2015/7/16.
  */
 public interface QuestionDao extends BaseDao<Question> {
-    public List<Question> findByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort, long categoryId, int max, int offset);
+    public List<Question> findByRightAskIsNullAndCategoryIdAndTagIdOrderBy(boolean hasDeal, String sort, long categoryId, long tagId, int max, int offset);
 
-    public int countByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort,long categoryId);
+    public int countByRightAskIsNullAndCategoryIdAndTagIdOrderBy(boolean hasDeal, String sort, long categoryId, long tagId);
 
     public List<Question> findAllByStateOrderBy(int statePublish, String sort, String order, int offset, int max);
 
@@ -28,7 +28,7 @@ public interface QuestionDao extends BaseDao<Question> {
 
     public List<Question> findAllByAttentionQuestion(User user, int offset, int max);
 
-    public Map<String,Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order);
+    public Map<String, Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order);
 
     void execuRemoveSql(long[] ids);
 }

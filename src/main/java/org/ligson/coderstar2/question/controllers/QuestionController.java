@@ -9,6 +9,7 @@ import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.service.FullTextSearchService;
+import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,6 +42,18 @@ public class QuestionController {
     @Autowired
     @Qualifier("fullTextSearchService")
     private FullTextSearchService fullTextSearchService;
+
+    @Autowired
+    @Qualifier("sysTagService")
+    private SysTagService sysTagService;
+
+    public SysTagService getSysTagService() {
+        return sysTagService;
+    }
+
+    public void setSysTagService(SysTagService sysTagService) {
+        this.sysTagService = sysTagService;
+    }
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -75,8 +88,8 @@ public class QuestionController {
     }
 
     @RequestMapping("/index")
-    public String index(@RequestParam(value = "categoryId", required = false, defaultValue = "-1") long categoryId, @RequestParam(value = "hasDeal", defaultValue = "false", required = false) boolean hasDeal, @RequestParam(value = "sort", defaultValue = "money", required = false) String sort, @RequestParam(value = "max", defaultValue = "15", required = false) int max, @RequestParam(value = "offset", defaultValue = "0", required = false) int offset, HttpServletRequest request) {
-        Map<String, Object> map = questionService.searchQuestion(categoryId, hasDeal, sort, max, offset);
+    public String index(@RequestParam(value = "tagId", required = false, defaultValue = "-1") long tagId, @RequestParam(value = "categoryId", required = false, defaultValue = "-1") long categoryId, @RequestParam(value = "hasDeal", defaultValue = "false", required = false) boolean hasDeal, @RequestParam(value = "sort", defaultValue = "money", required = false) String sort, @RequestParam(value = "max", defaultValue = "15", required = false) int max, @RequestParam(value = "offset", defaultValue = "0", required = false) int offset, HttpServletRequest request) {
+        Map<String, Object> map = questionService.searchQuestion(tagId,categoryId, hasDeal, sort, max, offset);
         int total = (int) map.get("total");
         List<Question> questionList = (List<Question>) map.get("questionList");
         //List<List<SysTag>> questionTagList = questionService.findQuestionTagsByQuestionList(questionList);
@@ -91,6 +104,8 @@ public class QuestionController {
         request.setAttribute("max", max);
         request.setAttribute("questionList", questionList);
         List<Category> categoryList = categoryService.list();
+        List<SysTag> sysTagList = sysTagService.questionHotTags(10);
+        request.setAttribute("sysTagList", sysTagList);
         request.setAttribute("categoryList", categoryList);
         return "question/index";
     }

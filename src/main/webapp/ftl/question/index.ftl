@@ -98,18 +98,20 @@
             </div>
 
             <div class="mod-body">
-                <a class="cs-question-tags">11111</a>
+                <#list sysTagList as sysTag>
+                    <a class="cs-question-tags" href="/question/index?tagId=${sysTag.id}">${sysTag.name}</a>
+                </#list>
             </div>
         </div>
 
-        <div class="cs-mod cs-text-align-justify">
-            <div class="mod-head">
-                <h3>热门用户</h3>
-            </div>
-
-            <div class="mod-body">
-            </div>
+    <#--<div class="cs-mod cs-text-align-justify">
+        <div class="mod-head">
+            <h3>热门用户</h3>
         </div>
+
+        <div class="mod-body">
+        </div>
+    </div>-->
 
     </div>
 </div>

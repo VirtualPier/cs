@@ -26,4 +26,6 @@ public interface SysTagService {
     public void deleteTagByArticle(Article article);
 
     public void deleteTagByQuestion(Question question);
+
+    public List<SysTag> questionHotTags(int max);
 }

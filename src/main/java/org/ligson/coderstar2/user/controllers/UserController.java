@@ -25,9 +25,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ligson on 2015/7/20.
@@ -179,12 +177,34 @@ public class UserController {
 
     @RequestMapping("/loadMyArticle")
     @ResponseBody
-    public Map<String, Object> loadMyArticle(@RequestParam("offset") int offset, HttpServletRequest request) {
+    public Map<String, Object> loadMyArticle(@RequestParam(value = "current", required = false, defaultValue = "1") int page, @RequestParam(value = "rowCount", required = false, defaultValue = "10") int max, @RequestParam(value = "searchPhrase", required = false) String searchPhrase, HttpServletRequest request) {
+        String sort = "createDate";
+        String order = "desc";
+        Enumeration enumeration = request.getParameterNames();
+        while (enumeration.hasMoreElements()) {
+            String name = enumeration.nextElement().toString();
+            if (name.startsWith("sort")) {
+                int startIndex = name.indexOf("[");
+                int endIndex = name.indexOf("]");
+                sort = name.substring(startIndex + 1, endIndex);
+                order = request.getParameter(name);
+                break;
+            }
+        }
+        int offset = (page - 1) * max;
         User user = (User) request.getSession().getAttribute("user");
-        List<Article> articleList = articleService.findAllArticleByUser(user, offset, 10);
+        String title = searchPhrase;
+        int total = articleService.countByCreatorAndStateAndTitleLike(user, -1, title);
+        if (max == -1) {
+            max = total;
+        }
+        List<Article> articleList = articleService.findAllArticleByUserAndTitleLikeOrder(user, title, offset, max, sort, order);
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
-        result.put("articleList", articleList);
+        result.put("rows", articleList);
+        result.put("total", total);
+        result.put("current", page);
+        result.put("rowCount", max);
         return result;
     }
 

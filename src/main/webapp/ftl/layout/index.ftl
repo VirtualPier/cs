@@ -40,7 +40,7 @@
 
             <image src="${basePath}images/logo.png"
                    style="width:40px;height:40px;float: left;margin-top:5px;border:0;"/>
-            <a href="/index/index" class="navbar-brand">${appName}</a>
+            <a href="/index/index" class="navbar-brand" style="margin-left:5px;">${appName}</a>
 
         </div>
 

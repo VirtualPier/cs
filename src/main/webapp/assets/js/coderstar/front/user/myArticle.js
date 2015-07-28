@@ -20,7 +20,43 @@ function loadContent() {
     });
 }
 $(function () {
-    loadContent();
+    $("#grid-basic").bootgrid({
+        ajax: true,
+        url: baseUrl + "user/loadMyArticle",
+        labels: {
+            infos: "显示从{{ctx.start}}到{{ctx.end}},共{{ctx.total}}条",
+            all: "所有",
+            loading: "正在加载",
+            noResults: "没有结果",
+            refresh: "刷新",
+            search: "搜索"
+        },
+        formatters: {
+            "title": function (col, row) {
+                return "<a target='_blank' href='/article/view?id=" + row.id + "' title='" + row.title + "'>" + row.title + "</a>"
+            },
+            "state": function (col, row) {
+                var text = "";
+                if (row.state == 1) {
+                    text = "审核中";
+                } else {
+                    text = "已发布";
+                }
+                return "<span class=\"label label-info\">" + text + "</span>";
+
+            },
+            "createDate": function (col, row) {
+                return Date.convertTxtFormat(row.createDate);
+            },
+            "delOper": function (col, row) {
+                return "<a href='" + baseUrl + "user/deleteArticle?id=" + row.id + "'>删除</a>";
+            },
+            "editOper": function (col, row) {
+                return "<a href='" + baseUrl + "article/edit?id=" + row.id + "'>编辑</a>";
+            }
+        }
+    });
+    //loadContent();
     $("#bp_more_reply").click(function () {
         loadContent();
     });

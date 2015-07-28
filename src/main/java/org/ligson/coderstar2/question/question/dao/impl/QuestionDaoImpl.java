@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.question.dao.impl;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.question.domains.Question;
@@ -15,28 +16,27 @@ import java.util.Map;
  * Created by ligson on 2015/7/16.
  */
 public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDao {
-    @Override
-    public List<Question> findByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort, long categoryId, int max, int offset) {
-        StringBuilder sb = null;
-        if (categoryId >= 0) {
-            sb = new StringBuilder("select distinct(qc.question) from QuestionCategory qc where qc.question.state=" + Question.STATE_PUBLISH + " and  qc.category.id=" + categoryId + " and ");
-            if (hasDeal) {
-                sb.append(" qc.question.rightAsk is not null ");
-            } else {
-                sb.append(" qc.question.rightAsk is null ");
-            }
-            sb.append(" order by qc.question.").append(sort).append(" desc ");
-        } else {
-            sb = new StringBuilder("from Question q where q.state=" + Question.STATE_PUBLISH + " and ");
-            if (hasDeal) {
-                sb.append(" q.rightAsk is not null ");
-            } else {
-                sb.append(" q.rightAsk is null ");
-            }
-            sb.append(" order by q.").append(sort).append(" desc ");
-        }
+    private static Logger logger = Logger.getLogger(QuestionDaoImpl.class);
 
-        Query query = getCurrentSession().createQuery(sb.toString());
+    @Override
+    public List<Question> findByRightAskIsNullAndCategoryIdAndTagIdOrderBy(boolean hasDeal, String sort, long categoryId, long tagId, int max, int offset) {
+        StringBuilder sb = new StringBuilder();
+        if (categoryId >= 0 && tagId >= 0) {
+            sb.append("select q from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.question.id and q.id=qc.question.id and q.state=0 qc.category.id=").append(categoryId);
+        } else if (tagId < 0 && categoryId >= 0) {
+            sb.append("select q from Question q,QuestionCategory qc where q.id=qc.question.id and q.state=0");
+        } else {
+            sb.append("select q from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
+        }
+        if (hasDeal) {
+            sb.append(" and q.rightAsk is not null ");
+        } else {
+            sb.append(" and q.rightAsk is null ");
+        }
+        sb.append(" order by q.").append(sort).append(" desc ");
+        String hql = sb.toString();
+        logger.debug(hql);
+        Query query = getCurrentSession().createQuery(hql);
         query.setFirstResult(offset);
         query.setMaxResults(max);
         query.setCacheable(true);
@@ -44,30 +44,26 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     }
 
     @Override
-    public int countByRightAskIsNullAndCategoryIdOrderBy(boolean hasDeal, String sort, long categoryId) {
-        StringBuilder sb = null;
-        if (categoryId >= 0) {
-            sb = new StringBuilder("select count(qc.question) from QuestionCategory qc where qc.question.state=" + Question.STATE_PUBLISH + " and  qc.category.id=" + categoryId + " and ");
-            if (hasDeal) {
-                sb.append(" qc.question.rightAsk is not null ");
-            } else {
-                sb.append(" qc.question.rightAsk is null ");
-            }
-            sb.append(" order by ").append(sort).append(" desc ");
+    public int countByRightAskIsNullAndCategoryIdAndTagIdOrderBy(boolean hasDeal, String sort, long categoryId, long tagId) {
+        StringBuilder sb = new StringBuilder();
+        if (categoryId >= 0 && tagId >= 0) {
+            sb.append("select count(q) from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.question.id and q.id=qc.question.id and q.state=0 qc.category.id=").append(categoryId);
+        } else if (tagId < 0 && categoryId >= 0) {
+            sb.append("select count(q) from Question q,QuestionCategory qc where q.id=qc.question.id and q.state=0");
         } else {
-            sb = new StringBuilder("select count(*) from Question q where q.state=" + Question.STATE_PUBLISH + " and ");
-            if (hasDeal) {
-                sb.append(" q.rightAsk is not null ");
-            } else {
-                sb.append(" q.rightAsk is null ");
-            }
-            sb.append(" order by ").append(sort).append(" desc ");
+            sb.append("select count(q) from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
         }
-
-        Query query = getCurrentSession().createQuery(sb.toString());
-        query.setCacheable(true);
-        Long tatal = (Long) query.uniqueResult();
-        return tatal.intValue();
+        if (hasDeal) {
+            sb.append(" and q.rightAsk is not null ");
+        } else {
+            sb.append(" and q.rightAsk is null ");
+        }
+        sb.append(" order by q.").append(sort).append(" desc ");
+        String hql = sb.toString();
+        logger.debug(hql);
+        Query query = getCurrentSession().createQuery(hql);
+        Long total = (Long) query.uniqueResult();
+        return total.intValue();
     }
 
     @Override
@@ -170,28 +166,28 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     public void execuRemoveSql(long[] ids) {
         StringBuilder idMgr = new StringBuilder();
         boolean flag = false;
-        for(long id:ids){
-            if(flag){
+        for (long id : ids) {
+            if (flag) {
                 idMgr.append(",");
-            }else{
+            } else {
                 flag = true;
             }
             idMgr.append(id);
         }
-        getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(),"question_category")).executeUpdate();
-        getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(),"question_tag")).executeUpdate();
-        getCurrentSession().createSQLQuery("DELETE FROM question WHERE id in ("+idMgr.toString()+")").executeUpdate();
+        getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(), "question_category")).executeUpdate();
+        getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(), "question_tag")).executeUpdate();
+        getCurrentSession().createSQLQuery("DELETE FROM question WHERE id in (" + idMgr.toString() + ")").executeUpdate();
     }
-
 
 
     /**
      * 组装需要删除的语句
+     *
      * @param ids
      * @param tableName
      * @return
      */
-    private String findRemoveSql(String ids,String tableName){
-        return "DELETE FROM "+tableName+" WHERE question_id in ("+ids+");";
+    private String findRemoveSql(String ids, String tableName) {
+        return "DELETE FROM " + tableName + " WHERE question_id in (" + ids + ");";
     }
 }

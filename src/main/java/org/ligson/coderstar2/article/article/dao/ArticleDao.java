@@ -31,4 +31,8 @@ public interface ArticleDao extends BaseDao<Article> {
     public Map<String, Object> searhArticle(String title, long tagId, long categoryId, int max, int offset, String sort, String orderr);
 
     void execuRemoveSql(long articleId) throws Exception;
+
+    public int countByCreatorAndStateAndTitleLike(User user, int state, String title);
+
+    public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
 }

@@ -519,8 +519,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findAllArticleByUser(User user, int offset, int max) {
-        return articleDao.findAllArticleByCreatorAndState(user, -1, "createDate", "desc", offset, max);
+    public List<Article> findAllArticleByUserOrder(User user, int offset, int max, String sort, String order) {
+        return articleDao.findAllArticleByCreatorAndState(user, -1, sort, order, offset, max);
     }
 
     @Override
@@ -539,12 +539,22 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<String> hotKey(String key, int max) {
-        return fullTextSearchService.hotArticleKey(key,max);
+        return fullTextSearchService.hotArticleKey(key, max);
     }
 
     @Override
     public List<Article> findAllArticleByState(int statePublish) {
         return articleDao.findAllBy("state", statePublish);
+    }
+
+    @Override
+    public int countByCreatorAndStateAndTitleLike(User user, int state, String title) {
+        return articleDao.countByCreatorAndStateAndTitleLike(user, state, title);
+    }
+
+    @Override
+    public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
+        return articleDao.findAllArticleByUserAndTitleLikeOrder(user, title, offset, max, sort, order);
     }
 
     public ArticleCategoryDao getArticleCategoryDao() {

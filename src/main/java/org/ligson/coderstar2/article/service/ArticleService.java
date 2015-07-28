@@ -195,11 +195,15 @@ public interface ArticleService {
 
     public List<Article> findAllAttentionArticle(User user, int offset, int max);
 
-    public List<Article> findAllArticleByUser(User user, int offset, int max);
+    public List<Article> findAllArticleByUserOrder(User user, int offset, int max, String sort, String order);
 
     public void syncIndex(long[] articleIds);
 
     public List<String> hotKey(String key, int max);
 
     public List<Article> findAllArticleByState(int statePublish);
+
+    public int countByCreatorAndStateAndTitleLike(User user, int state, String title);
+
+    public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
 }
