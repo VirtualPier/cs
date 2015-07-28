@@ -26,9 +26,9 @@
                     </#list>
 
                     <#if (user??)&&(user.id==article.creator.id)>
-                        <a class="pull-right" style="margin-left:10px;">
+                        <a class="pull-right" style="margin-left:10px;" href="/user/deleteArticle?id=${article.id}">
                             <span class="glyphicon glyphicon-remove"></span>&nbsp;删除</a>
-                        <a class="pull-right" style="margin-left:10px;">
+                        <a class="pull-right" style="margin-left:10px;" href="/article/edit?id=${article.id}">
                             <span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
                     </#if>
                     <a class="pull-right" data-flag="${isAttention?string("0","1")}" href="javascript:void(0);"

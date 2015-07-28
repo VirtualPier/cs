@@ -110,7 +110,6 @@
 
             <div class="tab-content" style="padding:5px;">
                 <div role="tabpanel" class="tab-pane active" id="zhoubang">
-
                     <ul class="media-list">
                         <#list weekCount as count>
                             <li class="media">
@@ -123,7 +122,9 @@
                                 </div>
 
                                 <div class="media-body">
-                                    <h4 class="media-heading">${count[0].nickName}</h4>${count[1]}篇文章
+                                    <h4 class="media-heading">
+                                        <a href="/user/view?id=${count[0].id}">${count[0].nickName}</a>
+                                    </h4>${count[1]}篇文章
                                 </div>
                             </li>
                         </#list>
@@ -145,8 +146,9 @@
                                 </div>
 
                                 <div class="media-body">
-                                    <h4 class="media-heading">${count[0].nickName}</h4>
-                                ${count[1]}篇文章
+                                    <h4 class="media-heading">
+                                        <a href="/user/view?id=${count[0].id}">${count[0].nickName}</a>
+                                    </h4>${count[1]}篇文章
                                 </div>
                             </li>
                         </#list>
@@ -168,8 +170,9 @@
                                 </div>
 
                                 <div class="media-body">
-                                    <h4 class="media-heading">${count[0].nickName}</h4>
-                                ${count[1]}篇文章
+                                    <h4 class="media-heading">
+                                        <a href="/user/view?id=${count[0].id}">${count[0].nickName}</a>
+                                    </h4>${count[1]}篇文章
                                 </div>
                             </li>
                         </#list>
