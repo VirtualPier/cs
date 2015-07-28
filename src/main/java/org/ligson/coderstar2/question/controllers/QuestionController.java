@@ -4,6 +4,8 @@ import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.question.ask.service.QuestionAskService;
 import org.ligson.coderstar2.question.domains.Ask;
 import org.ligson.coderstar2.question.domains.Question;
+import org.ligson.coderstar2.question.domains.QuestionCategory;
+import org.ligson.coderstar2.question.domains.QuestionTag;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
@@ -20,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ligson on 2015/7/17.
@@ -89,7 +93,7 @@ public class QuestionController {
 
     @RequestMapping("/index")
     public String index(@RequestParam(value = "tagId", required = false, defaultValue = "-1") long tagId, @RequestParam(value = "categoryId", required = false, defaultValue = "-1") long categoryId, @RequestParam(value = "hasDeal", defaultValue = "false", required = false) boolean hasDeal, @RequestParam(value = "sort", defaultValue = "money", required = false) String sort, @RequestParam(value = "max", defaultValue = "15", required = false) int max, @RequestParam(value = "offset", defaultValue = "0", required = false) int offset, HttpServletRequest request) {
-        Map<String, Object> map = questionService.searchQuestion(tagId,categoryId, hasDeal, sort, max, offset);
+        Map<String, Object> map = questionService.searchQuestion(tagId, categoryId, hasDeal, sort, max, offset);
         int total = (int) map.get("total");
         List<Question> questionList = (List<Question>) map.get("questionList");
         //List<List<SysTag>> questionTagList = questionService.findQuestionTagsByQuestionList(questionList);
@@ -214,7 +218,11 @@ public class QuestionController {
     public String edit(@RequestParam("id") long id, HttpServletRequest request) {
         Question question = questionService.findQuestionById(id);
         request.setAttribute("question", question);
-        List<SysTag> sysTags = questionService.findQuestionTagList(question);
+        Set<QuestionTag> questionTags = question.getTags();
+        List<SysTag> sysTags = new ArrayList<>();
+        for (QuestionTag questionTag : questionTags) {
+            sysTags.add(questionTag.getTag());
+        }
         String tags = "";
         for (SysTag sysTag : sysTags) {
             tags += sysTag.getName() + ";";
@@ -223,7 +231,11 @@ public class QuestionController {
         request.setAttribute("tags", tags);
         List<Category> categoryList = categoryService.list();
         request.setAttribute("categoryList", categoryList);
-        List<Category> questionCategoryList = categoryService.findQuestionCategoryList(question);
+        Set<QuestionCategory> questionCategories = question.getQuestionCategories();
+        List<Category> questionCategoryList = new ArrayList<>();
+        for(QuestionCategory questionCategory:questionCategories){
+            questionCategoryList.add(questionCategory.getCategory());
+        }
         request.setAttribute("questionCategoryList", questionCategoryList);
         return "question/edit";
     }

@@ -1,6 +1,8 @@
 package org.ligson.coderstar2.article.controllers;
 
 import org.ligson.coderstar2.article.domains.Article;
+import org.ligson.coderstar2.article.domains.ArticleCategory;
+import org.ligson.coderstar2.article.domains.ArticleTag;
 import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ligson on 2015/7/17.
@@ -204,8 +208,11 @@ public class ArticleController {
     public String edit(@RequestParam("id") long id, HttpServletRequest request) {
         Article article = articleService.findArticleById(id);
         request.setAttribute("article", article);
-        List<SysTag> sysTags = articleService.findArticleTagList(article);
-
+        Set<ArticleTag> articleTags = article.getTags();
+        List<SysTag> sysTags = new ArrayList<>();
+        for (ArticleTag articleTag : articleTags) {
+            sysTags.add(articleTag.getTag());
+        }
         String tags = "";
         for (SysTag sysTag : sysTags) {
             tags += sysTag.getName() + ";";
@@ -214,7 +221,11 @@ public class ArticleController {
         request.setAttribute("tags", tags);
         List<Category> categoryList = categoryService.list();
         request.setAttribute("categoryList", categoryList);
-        List<Category> articleCategoryList = categoryService.findArticleCategoryList(article);
+        Set<ArticleCategory> articleCategories = article.getArticleCategories();
+        List<Category> articleCategoryList = new ArrayList<>();
+        for (ArticleCategory category : articleCategories) {
+            articleCategoryList.add(category.getCategory());
+        }
         request.setAttribute("articleCategoryList", articleCategoryList);
         return "article/edit";
     }

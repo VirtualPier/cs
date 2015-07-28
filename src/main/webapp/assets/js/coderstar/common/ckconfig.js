@@ -14,7 +14,7 @@ $(function () {
         ['Image', 'Flash', 'Table'],
         ['Link', 'Unlink', 'Anchor'],
         ['Smiley', 'SpecialChar', 'PageBreak'],
-        ['CodeSnippet', 'Preview']
+        ['CodeSnippet', 'Preview','Source']
     ];
     var config = {
         readOnly: !pageConfig.isLogin,

@@ -1,4 +1,4 @@
-<@override name="title">编辑问题</@override>
+<@override name="title">编辑文章</@override>
 <@override name="header">
 <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
 <script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
