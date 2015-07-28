@@ -26,6 +26,11 @@ $(function () {
                 field: 'createDate', title: '创建时间', width: 50, formatter: function (value) {
                 return Date.convertTxtFormat(value);
             }
+            },
+            {
+                field: "recommend", title: "推荐", formatter: function (value, row, index) {
+                return "<input type='button' value='推荐' onclick='recommendArticle(" + row.id + ")'/>";
+            }
             }
         ]],
         nowrap: false,
@@ -136,4 +141,8 @@ function deleteArticle() {
             $.messager.alert('提示', '删除失败!', 'error');
         }
     })
+}
+
+function recommendArticle(articleId){
+
 }

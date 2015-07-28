@@ -1,6 +1,8 @@
 package org.ligson.coderstar2.article.service.impl;
 
 import com.boful.common.date.utils.DateUtils;
+import com.boful.common.file.utils.FileType;
+import com.boful.common.file.utils.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.ligson.coderstar2.article.arrentionarticle.dao.AttentionArticleDao;
@@ -16,6 +18,7 @@ import org.ligson.coderstar2.pay.service.PayService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
+import org.ligson.coderstar2.system.conf.utils.Bootstrap;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.service.FullTextSearchService;
@@ -23,7 +26,10 @@ import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -230,7 +236,17 @@ public class ArticleServiceImpl implements ArticleService {
         boolean flag = false;
         String msg = "";
         try {
+            Article article = findArticleById(articleId);
+            if (article != null) {
+                if (article.getPoster() != null) {
+                    File poster = new File(Bootstrap.webRoot, article.getPoster());
+                    if (poster.exists()) {
+                        poster.delete();
+                    }
+                }
+            }
             articleDao.execuRemoveSql(articleId);
+
             flag = true;
             msg = "文章删除成功";
         } catch (Exception e) {
@@ -555,6 +571,38 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
         return articleDao.findAllArticleByUserAndTitleLikeOrder(user, title, offset, max, sort, order);
+    }
+
+    @Override
+    public Map<String, Object> recommendArticle(Article article, int recommendNum, CommonsMultipartFile poster) {
+        Map<String, Object> result = new HashMap<>();
+        if (FileType.isImage(poster.getOriginalFilename())) {
+            String fileType = FileUtils.getFileSufix(poster.getOriginalFilename());
+            String url = "/upload/article/" + article.getId() + "/" + UUID.randomUUID().toString() + "." + fileType;
+            File destFile = new File(Bootstrap.webRoot, url);
+            if (!destFile.getParentFile().exists()) {
+                destFile.mkdirs();
+            }
+            try {
+                poster.transferTo(destFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String oldUrl = article.getPoster();
+            File oldFile = new File(Bootstrap.webRoot, oldUrl);
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+            article.setPoster(url);
+            article.setRecommendNum(recommendNum);
+            articleDao.saveOrUpdate(article);
+            result.put("success", true);
+            result.put("url", url);
+        } else {
+            result.put("success", false);
+            result.put("msg", "不是图片类型");
+        }
+        return result;
     }
 
     public ArticleCategoryDao getArticleCategoryDao() {

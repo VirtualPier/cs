@@ -29,7 +29,11 @@ public class Article {
     private long viewNum = 0;
     //关注量
     private long attentionNum = 0;
+    //海报
+    private String poster;
 
+    //管理员推荐数
+    private int recommendNum = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -146,6 +150,24 @@ public class Article {
 
     public void setAttentionNum(long attentionNum) {
         this.attentionNum = attentionNum;
+    }
+
+    @Column(name = "poster", nullable = true)
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    @Column(name = "recommend_num", nullable = false)
+    public int getRecommendNum() {
+        return recommendNum;
+    }
+
+    public void setRecommendNum(int recommendNum) {
+        this.recommendNum = recommendNum;
     }
 
     public static final Map<Integer, String> stateCnName = new HashMap<>();

@@ -34,6 +34,8 @@ public class Question implements Serializable {
     //关注量
     private long attentionNum = 0;
     private Ask rightAsk;
+    private String poster;
+    private int recommendNum = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -170,6 +172,24 @@ public class Question implements Serializable {
 
     public void setRightAsk(Ask rightAsk) {
         this.rightAsk = rightAsk;
+    }
+
+    @Column(name = "poster", nullable = true)
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    @Column(name = "recommend_num", nullable = false)
+    public int getRecommendNum() {
+        return recommendNum;
+    }
+
+    public void setRecommendNum(int recommendNum) {
+        this.recommendNum = recommendNum;
     }
 
     public static final Map<Integer, String> stateCnName = new HashMap<>();

@@ -19,8 +19,10 @@
 <div id="dlg" class="easyui-dialog" style="width: 400px; height: 280px; padding: 10px 20px;"
      closed="true" buttons="#dlg-buttons">
     <div class="ftitle">
-
     </div>
+</div>
+<div id="recommendDlg" class="easyui-dialog" closed="false">
+
 </div>
 </@override>
 <@extends name="layout/articleMgr.ftl"/>

@@ -5,6 +5,7 @@ import org.ligson.coderstar2.article.domains.Remark;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -206,4 +207,7 @@ public interface ArticleService {
     public int countByCreatorAndStateAndTitleLike(User user, int state, String title);
 
     public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
+
+    public Map<String, Object> recommendArticle(Article article, int recommendNum, CommonsMultipartFile poster);
+
 }
