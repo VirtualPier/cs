@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.question.dao;
 
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.BaseDao;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.Category;
@@ -31,4 +32,8 @@ public interface QuestionDao extends BaseDao<Question> {
     public Map<String, Object> searchQuestion(String title, long tagId, long categoryId, long max, long offset, String sort, String order);
 
     void execuRemoveSql(long[] ids);
+
+    public int countByCreatorAndStateAndTitleLike(User user, int state, String title);
+
+    public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
 }

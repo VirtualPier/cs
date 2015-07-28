@@ -140,12 +140,34 @@ public class UserController {
 
     @RequestMapping("/loadMyCreateQuestion")
     @ResponseBody
-    public Map<String, Object> loadMyCreateQuestion(@RequestParam("offset") int offset, HttpServletRequest request) {
+    public Map<String, Object> loadMyCreateQuestion(@RequestParam(value = "current", required = false, defaultValue = "1") int page, @RequestParam(value = "rowCount", required = false, defaultValue = "10") int max, @RequestParam(value = "searchPhrase", required = false) String searchPhrase, HttpServletRequest request) {
+        String sort = "createDate";
+        String order = "desc";
+        Enumeration enumeration = request.getParameterNames();
+        while (enumeration.hasMoreElements()) {
+            String name = enumeration.nextElement().toString();
+            if (name.startsWith("sort")) {
+                int startIndex = name.indexOf("[");
+                int endIndex = name.indexOf("]");
+                sort = name.substring(startIndex + 1, endIndex);
+                order = request.getParameter(name);
+                break;
+            }
+        }
+        int offset = (page - 1) * max;
         User user = (User) request.getSession().getAttribute("user");
-        List<Question> questionList = questionService.findAllQuestionByCreatorAndState(user, -1, "createDate", "desc", offset, 10);
+        String title = searchPhrase;
+        int total = questionService.countByCreatorAndStateAndTitleLike(user, -1, title);
+        if (max == -1) {
+            max = total;
+        }
+        List<Question> articleList = questionService.findAllQuestionByUserAndTitleLikeOrder(user, title, offset, max, sort, order);
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
-        result.put("questionList", questionList);
+        result.put("rows", articleList);
+        result.put("total", total);
+        result.put("current", page);
+        result.put("rowCount", max);
         return result;
     }
 

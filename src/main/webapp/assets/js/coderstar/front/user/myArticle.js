@@ -56,10 +56,7 @@ $(function () {
             }
         }
     });
-    //loadContent();
-    $("#bp_more_reply").click(function () {
-        loadContent();
-    });
+
 });
 
 /**

@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.service;
 
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.question.domains.Ask;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.Category;
@@ -144,7 +145,7 @@ public interface QuestionService {
 
     public Map<String, Object> questionList(int offset, int max);
 
-    public Map<String, Object> searchQuestion(long tagId,long categoryId, boolean hasDeal, String sort, int max, int offset);
+    public Map<String, Object> searchQuestion(long tagId, long categoryId, boolean hasDeal, String sort, int max, int offset);
 
     public Question findQuestionById(long id);
 
@@ -185,4 +186,8 @@ public interface QuestionService {
     public void syncIndex(long[] questionIds);
 
     public List<Question> findAllQuestionByState(int statePublish);
+
+    public int countByCreatorAndStateAndTitleLike(User user, int state, String title);
+
+    public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
 }

@@ -419,10 +419,10 @@ public class QuestionServiceImpl implements QuestionService {
      * @return 格式:[success:true/false,questionList:questionList,total:total]
      */
     @Override
-    public Map<String, Object> searchQuestion(long tagId,long categoryId, boolean hasDeal, String sort, int max, int offset) {
+    public Map<String, Object> searchQuestion(long tagId, long categoryId, boolean hasDeal, String sort, int max, int offset) {
         Map<String, Object> result = new HashMap<>();
-        List<Question> questionList = questionDao.findByRightAskIsNullAndCategoryIdAndTagIdOrderBy(hasDeal, sort, categoryId,tagId, max, offset);
-        int total = questionDao.countByRightAskIsNullAndCategoryIdAndTagIdOrderBy(hasDeal, sort, categoryId,tagId);
+        List<Question> questionList = questionDao.findByRightAskIsNullAndCategoryIdAndTagIdOrderBy(hasDeal, sort, categoryId, tagId, max, offset);
+        int total = questionDao.countByRightAskIsNullAndCategoryIdAndTagIdOrderBy(hasDeal, sort, categoryId, tagId);
         result.put("questionList", questionList);
         result.put("total", total);
         return result;
@@ -596,5 +596,15 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> findAllQuestionByState(int statePublish) {
         return questionDao.findAllBy("state", statePublish);
+    }
+
+    @Override
+    public int countByCreatorAndStateAndTitleLike(User user, int state, String title) {
+        return questionDao.countByCreatorAndStateAndTitleLike(user, state, title);
+    }
+
+    @Override
+    public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
+        return questionDao.findAllQuestionByUserAndTitleLikeOrder(user, title, offset, max, sort, order);
     }
 }

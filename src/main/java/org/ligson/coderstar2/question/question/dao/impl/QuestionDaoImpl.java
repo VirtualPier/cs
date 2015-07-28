@@ -1,7 +1,9 @@
 package org.ligson.coderstar2.question.question.dao.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.base.dao.impl.BaseDaoImpl;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.question.dao.QuestionDao;
@@ -177,6 +179,53 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(), "question_category")).executeUpdate();
         getCurrentSession().createSQLQuery(findRemoveSql(idMgr.toString(), "question_tag")).executeUpdate();
         getCurrentSession().createSQLQuery("DELETE FROM question WHERE id in (" + idMgr.toString() + ")").executeUpdate();
+    }
+
+    @Override
+    public int countByCreatorAndStateAndTitleLike(User user, int statePublish, String title) {
+        Query query = null;
+        if (statePublish >= 0) {
+            String hql = "select count(*) from Question q where q.creator.id=:userId and q.state=:state ";
+            if (StringUtils.isNotBlank(title)) {
+                hql += " and q.title like :title";
+            }
+            query = getCurrentSession().createQuery(hql);
+            query.setLong("userId", user.getId());
+            query.setInteger("state", statePublish);
+            if (StringUtils.isNotBlank(title)) {
+                query.setString("title", "%" + title + "%");
+            }
+        } else {
+            String hql = "select count(*) from Question q where q.creator.id=:userId ";
+            if (StringUtils.isNotBlank(title)) {
+                hql += " and q.title like :title";
+            }
+            query = getCurrentSession().createQuery(hql);
+            query.setLong("userId", user.getId());
+            if (StringUtils.isNotBlank(title)) {
+                query.setString("title", "%" + title + "%");
+            }
+        }
+        Long count = (Long) query.uniqueResult();
+        return count.intValue();
+    }
+
+    @Override
+    public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
+        String hql = "from Question q where q.creator.id=:userId ";
+        if (StringUtils.isNotBlank(title)) {
+            hql += " and q.title like :title";
+        }
+        hql += " order by q." + sort + " " + order;
+        Query query = getCurrentSession().createQuery(hql);
+        query.setLong("userId", user.getId());
+        if (StringUtils.isNotBlank(title)) {
+            query.setString("title", "%" + title + "%");
+        }
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Question> questionList = (List<Question>) query.list();
+        return questionList;
     }
 
 

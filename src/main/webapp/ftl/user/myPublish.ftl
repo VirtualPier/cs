@@ -1,7 +1,15 @@
 <@override name="title">提问的问题</@override>
 <@override name="header">
 <script type="text/javascript" src="/js/coderstar/common/baseurl.js"></script>
+<link href="/js/lib/jquery-bootgrid/jquery.bootgrid.min.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="/js/lib/jquery-bootgrid/jquery.bootgrid.min.js"></script>
+<script type="text/javascript" src="/js/coderstar/common/date.js"></script>
 <script type="text/javascript" src="/js/coderstar/front/user/myQuestion.js"></script>
+<style type="text/css">
+    .column-header-anchor {
+        text-align: center;
+    }
+</style>
 </@override>
 <@override name="body">
 <div class="row">
@@ -16,14 +24,28 @@
                 </div>
 
                 <div class="mod-body cs-feed-list clearfix" id="main_contents">
-                </div>
-
-                <div class="mod-footer">
-                    <!-- 加载更多内容 -->
-                    <a id="bp_more_publish" class="cs-load-more-content disabled" data-page="1">
-                        <span id="btn_msg">查看更多</span>
-                    </a>
-                    <!-- end 加载更多内容 -->
+                    <table id="grid-basic" class="table table-condensed table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th data-column-id="id" data-type="numeric" data-visible="false" data-searchable="false">
+                                ID
+                            </th>
+                            <th data-column-id="title" data-formatter="title" data-cssClass="table-title">问题</th>
+                            <th data-column-id="createDate" data-align="center" data-formatter="createDate"
+                                data-searchable="false">创建时间
+                            </th>
+                            <th data-column-id="state" data-align="center" data-formatter="state">状态</th>
+                            <th data-column-id="viewNum" data-align="center" data-searchable="false">浏览量</th>
+                            <th data-column-id="replyNum" data-align="center" data-searchable="false">回答量</th>
+                            <th data-formatter="delOper" data-align="center" data-headerAlign="center"
+                                data-searchable="false" data-sortable="false">删除
+                            </th>
+                            <th data-formatter="editOper" data-align="center" data-headerAlign="center"
+                                data-searchable="false" data-sortable="false">编辑
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
