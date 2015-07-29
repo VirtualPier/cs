@@ -6,7 +6,9 @@ import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.domains.QuestionCategory;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,7 @@ public interface CategoryService {
 
     public Map<String, Object> addCategory(String name, String description, int sortIndex);
 
-    public Map<String, Object> modifyCategory(long id, String name, String description, int sortIndex);
+    public Map<String, Object> modifyCategory(long id, String name, String description, int sortIndex,CommonsMultipartFile poster);
 
     public List<Map<String, Object>> deleteCategoryList(User user, long[] idArray);
 

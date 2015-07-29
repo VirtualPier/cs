@@ -92,33 +92,17 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request) {
-        List<Question> questionList = questionService.findHotQuestion(5);
-        List<Article> articleList = articleService.findHotArticle(5);
-        List<List> tagCount = sysTagService.hotsTag(5);
-        List<Question> offerQuestionList = questionService.findOfferQuesiton(5);
         List<Question> newQuestionList = questionService.newestQuestion(5);
         List<Article> newArticleList = articleService.newestArticle(5);
         List<Category> categoryList = categoryService.list();
-        List<List<Question>> questionCategoryList = new ArrayList<>();
-        List<List<Article>> articleCategoryList = new ArrayList<>();
-        for (Category category : categoryList) {
-            List<Question> questionList1 = questionService.findAllQuestionByCategory(category, 0, 5);
-            List<Article> articleList1 = articleService.findAllArticleByCategory(category, 0, 5);
+        List<Question> recommendQuestionList = questionService.questionListOrderBy(0, 3, "recommendNum", "desc");
+        List<Article> recommendArticleList = articleService.articleListOrderBy(0, 3, "recommendNum", "desc");
 
-            questionCategoryList.add(questionList1);
-            articleCategoryList.add(articleList1);
-        }
-
-        request.setAttribute("questionList", questionList);
-        request.setAttribute("articleList", articleList);
-        request.setAttribute("tagCount", tagCount);
-        request.setAttribute("offerQuestionList", offerQuestionList);
+        request.setAttribute("recommendQuestionList", recommendQuestionList);
+        request.setAttribute("recommendArticleList", recommendArticleList);
         request.setAttribute("newQuestionList", newQuestionList);
         request.setAttribute("newArticleList", newArticleList);
         request.setAttribute("categoryList", categoryList);
-        request.setAttribute("questionCategoryList", questionCategoryList);
-        request.setAttribute("articleCategoryList", articleCategoryList);
-
         return "index/index";
     }
 
@@ -222,28 +206,28 @@ public class IndexController {
 
     @RequestMapping("/searchKey")
     @ResponseBody
-    public Map<String,Object> searchKey(String key,Integer type){
+    public Map<String, Object> searchKey(String key, Integer type) {
         //返回的格式为[{value:}}
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         int maxWorld = 10;
         //1、根据key进行在document中查找对应匹配关键字,根据类型获取对应关键字
         List<String> words = null;
-        if(1 == type){
+        if (1 == type) {
             //question
-             words = questionService.hotKey(key,maxWorld);
-        }else{
+            words = questionService.hotKey(key, maxWorld);
+        } else {
             //article
-           words = articleService.hotKey(key,maxWorld);
+            words = articleService.hotKey(key, maxWorld);
         }
-        List<Map<String,String>> ll = new ArrayList<>();
-        Map<String,String> hotKeyMap = new HashMap<>();
-        for(String word:words){
-            hotKeyMap.put("value",word);
+        List<Map<String, String>> ll = new ArrayList<>();
+        Map<String, String> hotKeyMap = new HashMap<>();
+        for (String word : words) {
+            hotKeyMap.put("value", word);
         }
-        if(!hotKeyMap.isEmpty()){
+        if (!hotKeyMap.isEmpty()) {
             ll.add(hotKeyMap);
         }
-        map.put("hotKeys",ll);
+        map.put("hotKeys", ll);
         return map;
     }
 

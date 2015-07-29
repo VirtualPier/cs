@@ -119,8 +119,8 @@ public class QuestionMgrController {
 
     @RequestMapping("/editCategory")
     @ResponseBody
-    public Map<String, Object> editCategory(long id, String name, String description, int sortIndex) {
-        return categoryService.modifyCategory(id, name, description, sortIndex);
+    public Map<String, Object> editCategory(long id, String name, String description, int sortIndex, @RequestParam(value = "poster", required = false) CommonsMultipartFile poster) {
+        return categoryService.modifyCategory(id, name, description, sortIndex, poster);
     }
 
     @RequestMapping("/deleteCategory")

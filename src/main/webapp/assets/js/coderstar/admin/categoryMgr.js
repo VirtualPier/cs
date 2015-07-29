@@ -5,9 +5,14 @@ $(function () {
             {field: 'ck', title: 'ckID', width: 40, checkbox: 'true'},
             {field: 'id', title: 'ID', width: 40, hidden: true},
             {field: 'name', title: '语言名称', width: 100},
-            {field: 'sort_index', title: '显示顺序', width: 100},
+            {field: 'sortIndex', title: '显示顺序', width: 100},
             {field: 'description', title: '描述', width: 100},
-            {field: 'questionNum', title: '问题总数', width: 100}
+            {field: 'questionNum', title: '问题总数', width: 100},
+            {
+                field: "poster", title: "海报", formatter: function (value) {
+                return "<img src='" + value + "'/ width=100 height=80 onerror='javascript:this.src=\"/images/nopic.gif\"'>";
+            }
+            },
         ]],
         toolbar: [{
             id: 'btnadd',
@@ -62,25 +67,39 @@ function save() {
 };
 function update() {
     var url = 'editCategory';
-    var data = $('#fm').serialize();
-    if (!$('#fm').form('validate'))return;
-    $.ajax({
-        //设定地址与传递参数到后台
-        url: url,
-        data: data,
-        type: 'post',
-        dateType: 'json',
-        //判断结果是否正确
-        success: function (data) {
-            if (data.success) {
-                $.messager.alert('提示', '更新成功!', 'success');
-                $('#dlg').dialog('close');
-                $('#tt').datagrid('reload');
-            }
-        }, error: function () {
+    var fm = $("#fm");
+    var id = fm.find("input[name='id']").val();
+    var name = fm.find("input[name='name']").val();
+    var sortIndex = fm.find("input[name='sortIndex']").val();
+    var desc = fm.find("textarea[name='description']").val();
+    var poster = document.getElementById("poster").files[0];
+    var formData = new FormData();
+    formData.append("id", id);
+    formData.append("name", name);
+    formData.append("sortIndex", sortIndex);
+    formData.append("description", desc);
+    formData.append("poster", poster);
 
+    //var data = fm.serialize();
+    if (!fm.form('validate'))return;
+    $.ajax({
+        url: "/questionMgr/editCategory",
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data1) {
+            if (data1.success) {
+                $("#dlg").dialog("close");
+                $('#tt').datagrid('reload');
+            } else {
+                alert(data1.msg);
+            }
+        },
+        error: function (data2) {
+            alert(data2);
         }
-    })
+    });
 }
 function editeLanguage() {
     var rows = $('#tt').datagrid('getSelected');
@@ -88,7 +107,7 @@ function editeLanguage() {
         $("#dlg").dialog("open").dialog('setTitle', '编辑编程语言');
         $('#id').val(rows.id);
         $('#name').val(rows.name);
-        $('#sortIndex').val(rows.sort_index);
+        $('#sortIndex').val(rows.sortIndex);
         $('#description').val(rows.description);
         $('#btnSave').attr('onclick', 'update()');
     }

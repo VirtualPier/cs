@@ -1,5 +1,7 @@
 package org.ligson.coderstar2.system.category.service.impl;
 
+import com.boful.common.file.utils.FileType;
+import com.boful.common.file.utils.FileUtils;
 import org.ligson.coderstar2.article.articlecategory.dao.ArticleCategoryDao;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.domains.ArticleCategory;
@@ -10,13 +12,14 @@ import org.ligson.coderstar2.question.questioncategory.dao.QuestionCategoryDao;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
+import org.ligson.coderstar2.system.conf.utils.Bootstrap;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by ligson on 2015/7/17.
@@ -145,8 +148,31 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Map<String, Object> modifyCategory(long id, String name, String description, int sortIndex) {
+    public Map<String, Object> modifyCategory(long id, String name, String description, int sortIndex, CommonsMultipartFile poster){
         Category category = categoryDao.getById(id);
+        if (poster != null) {
+            if (FileType.isImage(poster.getOriginalFilename())) {
+                String fileType = FileUtils.getFileSufix(poster.getName());
+                String url = "/upload/category/" + category.getId() + "/" + UUID.randomUUID().toString() + "." + fileType;
+                File file = new File(Bootstrap.webRoot, url);
+                if (!file.getParentFile().exists()) {
+                    file.mkdirs();
+                }
+
+                if (category.getPoster() != null) {
+                    File old = new File(Bootstrap.webRoot, category.getPoster());
+                    if (old.exists()) {
+                        old.delete();
+                    }
+                }
+                try {
+                    poster.transferTo(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                category.setPoster(url);
+            }
+        }
         category.setName(name);
         category.setDescription(description);
         category.setSortIndex(sortIndex);
@@ -156,6 +182,7 @@ public class CategoryServiceImpl implements CategoryService {
         result.put("category", category);
         return result;
     }
+
 
     public Map<String, Object> deleteCategory(User user, long categoryId) {
         Map<String, Object> result = new HashMap<>();

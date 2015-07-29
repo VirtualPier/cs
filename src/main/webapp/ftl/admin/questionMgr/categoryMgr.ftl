@@ -22,6 +22,7 @@
 
     </div>
     <form id="fm" method="post">
+
         <div class="fitem">
             <label style="width:100px;">
                 语言名称</label>
@@ -40,6 +41,12 @@
             <textarea id="description" rows=5 style="width:200px;" required="true" name="description"
                       class="textarea easyui-validatebox"></textarea>
 
+        </div>
+        <div class="fitem">
+            <label style="width:100px;">
+                描述
+            </label>
+            <input id="poster" type="file" class="input" name="poster"/>
         </div>
         <input type="hidden" name="action" id="hidtype"/>
         <input type="hidden" name="id" id="id"/>

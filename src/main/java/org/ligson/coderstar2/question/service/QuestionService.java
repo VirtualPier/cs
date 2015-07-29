@@ -193,4 +193,6 @@ public interface QuestionService {
     public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
 
     public Map<String, Object> recommendQuestion(Question question, int recommendNum, CommonsMultipartFile poster);
+
+    public List<Question> questionListOrderBy(int offset, int max, String sort, String order);
 }

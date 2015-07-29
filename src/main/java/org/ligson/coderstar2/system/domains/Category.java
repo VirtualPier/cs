@@ -15,6 +15,7 @@ public class Category {
     private int sortIndex = 0;
     private long questionNum = 0;
     private long articleNum = 0;
+    private String poster;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,5 +70,14 @@ public class Category {
 
     public void setArticleNum(long articleNum) {
         this.articleNum = articleNum;
+    }
+
+    @Column(name = "poster", nullable = true)
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 }

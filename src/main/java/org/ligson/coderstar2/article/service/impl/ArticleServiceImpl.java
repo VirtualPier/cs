@@ -607,6 +607,11 @@ public class ArticleServiceImpl implements ArticleService {
         return result;
     }
 
+    @Override
+    public List<Article> articleListOrderBy(int offset, int max, String sort, String order) {
+        return articleDao.findAllByStateOrderBy(Article.STATE_PUBLISH, sort, order, offset, max);
+    }
+
     public ArticleCategoryDao getArticleCategoryDao() {
         return articleCategoryDao;
     }

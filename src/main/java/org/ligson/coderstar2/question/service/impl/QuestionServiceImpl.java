@@ -647,4 +647,9 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return result;
     }
+
+    @Override
+    public List<Question> questionListOrderBy(int offset, int max, String sort, String order) {
+        return questionDao.findAllByStateOrderBy(Question.STATE_PUBLISH, sort, order, offset, max);
+    }
 }
