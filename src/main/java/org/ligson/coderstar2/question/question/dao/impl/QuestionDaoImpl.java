@@ -24,11 +24,11 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     public List<Question> findByRightAskIsNullAndCategoryIdAndTagIdOrderBy(boolean hasDeal, String sort, long categoryId, long tagId, int max, int offset) {
         StringBuilder sb = new StringBuilder();
         if (categoryId >= 0 && tagId >= 0) {
-            sb.append("select q from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.question.id and q.id=qc.question.id and q.state=0 qc.category.id=").append(categoryId);
+            sb.append("select distinct(q) from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.question.id and q.id=qc.question.id and q.state=0 qc.category.id=").append(categoryId);
         } else if (tagId < 0 && categoryId >= 0) {
-            sb.append("select q from Question q,QuestionCategory qc where q.id=qc.question.id and q.state=0");
+            sb.append("select distinct(q) from Question q,QuestionCategory qc where q.id=qc.question.id and q.state=0");
         } else {
-            sb.append("select q from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
+            sb.append("select distinct(q) from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
         }
         if (hasDeal) {
             sb.append(" and q.rightAsk is not null ");

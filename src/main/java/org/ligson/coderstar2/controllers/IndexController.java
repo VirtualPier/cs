@@ -98,6 +98,20 @@ public class IndexController {
         List<Question> recommendQuestionList = questionService.questionListOrderBy(0, 3, "recommendNum", "desc");
         List<Article> recommendArticleList = articleService.articleListOrderBy(0, 3, "recommendNum", "desc");
 
+        List<Question> hotQuestions = questionService.findHotQuestion(10);
+        Map<String, Object> result = questionService.searchQuestion(-1, -1, false, "createDate", 10, 0);
+        List<Question> waitQuestionList = (List<Question>) result.get("questionList");
+        List<Question> offerQuestionList = questionService.findOfferQuesiton(10);
+        List<Article> hotArticles = articleService.findHotArticle(10);
+        List<User> hotAuthors = userService.hotAuthors(5);
+        List<User> hotReplyers = userService.hotReplyers(5);
+
+        request.setAttribute("hotAuthors", hotAuthors);
+        request.setAttribute("hotReplyers", hotReplyers);
+        request.setAttribute("hotQuestions", hotQuestions);
+        request.setAttribute("hotArticles", hotArticles);
+        request.setAttribute("offerQuestionList", offerQuestionList);
+        request.setAttribute("waitQuestionList", waitQuestionList);
         request.setAttribute("recommendQuestionList", recommendQuestionList);
         request.setAttribute("recommendArticleList", recommendArticleList);
         request.setAttribute("newQuestionList", newQuestionList);

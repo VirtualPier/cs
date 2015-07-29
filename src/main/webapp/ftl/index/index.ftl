@@ -65,7 +65,8 @@
         <div class="list-group">
             <#list newArticleList as a>
                 <a href="/article/view?id=${a.id}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"
-                   class="list-group-item${(a_index==0)?string(' active','')}">${(a_index==0)?string('[文章]','')}${a.title}
+                   class="list-group-item${(a_index==0)?string(' active','')}"
+                   title="${a.title}">${(a_index==0)?string('[文章]','')}${a.title}
                 </a>
             </#list>
         </div>
@@ -97,8 +98,68 @@
 
 </div>
 
-<div class="rows">
-
+<div class="row">
+    <div class="col-md-9">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#hotQuestion" aria-controls="hotQuestion"
+                                                      role="tab" data-toggle="tab">热门问题</a>
+            </li>
+            <li role="presentation"><a href="#waitQuestion" aria-controls="waitQuestion" role="tab" data-toggle="tab">待解决问题</a>
+            </li>
+            <li role="presentation"><a href="#offerQuestion" aria-controls="offerQuestion" role="tab"
+                                       data-toggle="tab">悬赏问题</a></li>
+            <li role="presentation"><a href="#hotArticle" aria-controls="hotArticle" role="tab"
+                                       data-toggle="tab">热门文章</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="hotQuestion">
+                <ul class="list-group">
+                    <#list hotQuestions as q>
+                        <li class="list-group-item" ${(q_index==0)?string("style='border-top:0;'","")}>
+                            <a href="/question/view?id=${q.id}">${q.title}</a>
+                        </li>
+                    </#list>
+                </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="waitQuestion">
+                <#list waitQuestionList as q>
+                    <li class="list-group-item" ${(q_index==0)?string("style='border-top:0;'","")}>
+                        <a href="/question/view?id=${q.id}">${q.title}</a>
+                    </li>
+                </#list>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="offerQuestion">
+                <#list offerQuestionList as q>
+                    <li class="list-group-item" ${(q_index==0)?string("style='border-top:0;'","")}>
+                        <a href="/question/view?id=${q.id}">${q.title}</a>
+                    </li>
+                </#list>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="hotArticle">
+                <#list hotArticles as a>
+                    <li class="list-group-item" ${(a_index==0)?string("style='border-top:0;'","")}>
+                        <a href="/article/view?id=${a.id}">${a.title}</a>
+                    </li>
+                </#list>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href="#" class="list-group-item active">热门作者</a>
+            <#list hotAuthors as u>
+                <a href="/user/view?id=${u.id}" class="list-group-item">${u.nickName}</a>
+            </#list>
+        </div>
+        <div class="list-group">
+            <a href="#" class="list-group-item active">问题专家</a>
+            <#list hotAuthors as u>
+                <a href="/user/view?id=${u.id}" class="list-group-item">${u.nickName}</a>
+            </#list>
+        </div>
+    </div>
 </div>
 </@override>
 <@extends name="layout/index.ftl"/>

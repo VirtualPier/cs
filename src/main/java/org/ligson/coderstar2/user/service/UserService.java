@@ -172,4 +172,8 @@ public interface UserService {
     public Map<String, Object> uploadFile(User user, CommonsMultipartFile upload);
 
     public Map<String, Object> uploadPhoto(User user, CommonsMultipartFile upload);
+
+    public List<User> hotAuthors(int max);
+
+    public List<User> hotReplyers(int max);
 }

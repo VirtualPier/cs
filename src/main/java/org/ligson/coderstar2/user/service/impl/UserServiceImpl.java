@@ -363,4 +363,14 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    @Override
+    public List<User> hotAuthors(int max) {
+        return userDao.hotAuthors(max);
+    }
+
+    @Override
+    public List<User> hotReplyers(int max) {
+        return userDao.hotReplyers(max);
+    }
 }
