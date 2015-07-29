@@ -15,8 +15,6 @@ input[type=radio]:focus, input[type=checkbox]:focus {
     outline: 0
 }
 
-
-
 form {
     margin: 0
 }
@@ -83,15 +81,17 @@ table td {
 }
 
 .navbar {
-   /* height: 28px;*/
+    /* height: 28px;*/
 }
 
-.navbar .btn{
-    height:34px;
+.navbar .btn {
+    height: 34px;
 }
-.navBtn{
+
+.navBtn {
 
 }
+
 .bg-red {
     background: red;
 }
@@ -134,10 +134,11 @@ table td {
 /*******************分页组件 end*********************/
 
 /**************** index start*************************/
-.cs-question-content h4 a{
-    font-weight:bold;
-    font-size:14px;
+.cs-question-content h4 a {
+    font-weight: bold;
+    font-size: 14px;
 }
+
 .cs-main-content {
     padding: 0 0 20px;
     border-right: 1px solid #e6e6e6;
@@ -205,7 +206,6 @@ table td {
     background-color: #fff
 }
 
-
 .cs-tabs {
     height: 38px;
     line-height: 38px;
@@ -249,9 +249,9 @@ table td {
     background-color: #f2f2f2;
     font-size: 12px;
     color: #999;
-    cursor:pointer;
-    margin-left:5px;
-    border-radius:5px;
+    cursor: pointer;
+    margin-left: 5px;
+    border-radius: 5px;
 }
 
 .cs-side-bar .cs-mod {
@@ -310,7 +310,6 @@ table td {
 
 /******************login start************************/
 
-
 /******************login end************************/
 
 /******************register start********************************/
@@ -324,43 +323,51 @@ table td {
 .cs-register-box .mod-head > a > img {
     display: none
 }
-.cs-register-box  .has-feedback{
+
+.cs-register-box .has-feedback {
 }
 
 .cs-register-box .mod-footer {
     padding-top: 40px;
 }
+
 /******************register end*******************************/
 
 /*******************question create***********************/
-.tag-bar{
-    padding:10px;
+.tag-bar {
+    padding: 10px;
 }
+
 /********************question create**********************/
 
 /******************question view start***********/
-.cs-question-description-editor{
+.cs-question-description-editor {
     margin: 20px 0 0;
     padding: 0 20px;
 }
-.cs-question-description-editor .mod-footer{
-    height:50px;
-    line-height:50px;
+
+.cs-question-description-editor .mod-footer {
+    height: 50px;
+    line-height: 50px;
 }
+
 .cs-question-detail .content {
     padding: 10px 0;
 }
-.cs-question-detail>.mod-head {
+
+.cs-question-detail > .mod-head {
     position: relative;
     padding-bottom: 14px;
     border-bottom: 1px solid #f5f5f5;
 }
+
 .cs-question-detail .mod-head h1 {
     max-width: 500px;
     margin: 0;
     font-size: 20px;
     line-height: 30px;
 }
+
 .cs-feed-list {
     padding: 0 20px;
 }
@@ -371,6 +378,7 @@ table td {
     margin: 0;
     font-size: 20px;
 }
+
 .cs-feed-list .cs-item .cs-user-img {
     position: absolute;
     left: 0;
@@ -378,14 +386,17 @@ table td {
     width: 40px;
     height: 40px;
 }
+
 .cs-feed-list .cs-item .mod-head {
     z-index: 1;
 }
+
 .cs-feed-list .cs-item .mod-head, .cs-feed-list .cs-item .mod-body, .cs-feed-list .cs-item .mod-footer {
     position: relative;
     width: 100%;
     padding-left: 50px;
 }
+
 .cs-feed-list .cs-item .cs-user-img img {
     width: 40px;
     height: 40px;
@@ -396,7 +407,7 @@ table td {
     float: left;
     background-color: #f5f5f5;
     border-radius: 4px;
-    margin-left:10px;
+    margin-left: 10px;
 }
 
 .cs-feed-list .cs-item .mod-footer {
@@ -412,21 +423,26 @@ table td {
     background-color: #f5f5f5;
     border-radius: 4px;
 }
+
 .cs-feed-list .operate a.disabled:hover, .cs-feed-list .operate a.disabled:hover i {
     color: #999;
 }
+
 .cs-feed-list .operate a.disabled {
     background-color: #fff;
     border: 1px solid #f5f5f5;
     border-radius: 4px;
 }
+
 .cs-feed-list .operate a:hover, .cs-feed-list .operate a.active {
     background-color: #499ef3;
     color: #fff;
 }
+
 .cs-feed-list .operate a.agree {
     border-radius: 4px;
 }
+
 .cs-feed-list .operate a {
     float: left;
     height: 28px;
@@ -439,9 +455,11 @@ table td {
 .cs-feed-list .operate a.disabled:hover, .cs-feed-list .operate a.disabled:hover i {
     color: #999;
 }
+
 .cs-feed-list .operate a:hover i, .cs-feed-list .operate a.active i {
     color: #fff;
 }
+
 .cs-feed-list .meta i, .cs-question-detail .meta i {
     font-size: 16px;
     vertical-align: -2px;
@@ -450,6 +468,7 @@ table td {
 .cs-feed-list .cs-item:last-child {
     border-bottom: none;
 }
+
 .cs-feed-list .cs-item {
     position: relative;
     padding: 14px 0;
@@ -460,7 +479,7 @@ table td {
     font-weight: 500;
 }
 
-.cs-replay-box form>.mod-head {
+.cs-replay-box form > .mod-head {
     position: relative;
     height: auto;
     overflow: hidden;
@@ -469,15 +488,18 @@ table td {
     padding-left: 40px;
     line-height: 28px;
 }
-.cs-replay-box .mod-head>.cs-user-name {
+
+.cs-replay-box .mod-head > .cs-user-name {
     position: absolute;
     left: 0;
     top: 0;
 }
-.cs-replay-box .mod-head>.cs-user-name img {
+
+.cs-replay-box .mod-head > .cs-user-name img {
     width: 32px;
     height: 32px;
 }
+
 .cs-replay-box {
     margin: 20px 0 0;
     padding: 0 20px;
@@ -493,8 +515,8 @@ table td {
     margin-left: 10px;
 }
 
-.cs-question-detail .mod-head p{
-    margin-top:10px;
+.cs-question-detail .mod-head p {
+    margin-top: 10px;
 }
 
 /**************question view end***************/
@@ -506,27 +528,33 @@ table td {
     padding: 20px 20px 20px 135px;
     border-bottom: 1px solid #e6e6e6;
 }
+
 .cs-user-detail-box .mod-footer {
     border-top: 1px solid #E3E3E3;
 }
+
 .cs-user-detail-box .mod-head img {
     position: absolute;
     left: 20px;
     top: 20px;
     border-radius: 5px;
 }
+
 .cs-user-detail-box .mod-head .operate a {
     margin-left: 10px;
 }
+
 .cs-user-detail-box .mod-body .meta {
     height: 45px;
     line-height: 45px;
     padding: 0 20px;
     font-size: 13px;
 }
+
 .cs-user-detail-box .mod-body .meta span {
     margin-right: 10px;
 }
+
 .cs-user-detail-box .mod-body .meta span i {
     position: relative;
     top: 2px;
@@ -536,6 +564,7 @@ table td {
     padding-top: 20px;
     min-height: 52px;
 }
+
 .tab-content {
     padding-bottom: 20px;
 }
@@ -554,16 +583,20 @@ table td {
     padding-top: 0;
     border-top: none;
 }
+
 .cs-user-center-tab .cs-mod .cs-item {
     padding-top: 14px;
     border-bottom: 1px solid #f5f5f5;
 }
+
 .cs-user-center-tab .cs-mod .cs-item .mod-head h4.cs-hide-txt {
     max-width: 645px;
 }
+
 .cs-user-center-tab .cs-mod .cs-item .mod-body {
     position: relative;
 }
+
 .cs-profile-publish-list .mod-body {
     padding: 0 !important;
 }
@@ -578,6 +611,7 @@ table td {
     border-radius: 4px;
     line-height: 30px;
 }
+
 .cs-user-center-tab .count i {
     margin-right: 10px;
 }
@@ -591,6 +625,7 @@ table td {
     background: #499ef3;
     color: #fff;
 }
+
 a.cs-load-more-content {
     display: block;
 }
@@ -621,14 +656,15 @@ a.cs-load-more-content {
 .cs-user-center-tab .tab-pane > .cs-mod > .mod-body {
     padding: 0 20px;
 }
+
 .cs-user-center-details {
     padding: 0 60px;
 }
 
-
 .cs-user-center-details dl:first-child {
     border-top: none;
 }
+
 .cs-user-center-details dl {
     height: auto;
     overflow: hidden;
@@ -638,12 +674,12 @@ a.cs-load-more-content {
     border-top: 1px dotted #C1CAD4;
 }
 
-
 .cs-user-center-details dl dt {
     margin-right: 20px;
     font-weight: normal;
     color: #333;
 }
+
 .cs-user-center-details dl dt, .cs-user-center-details dl dd {
     float: left;
 }
@@ -651,6 +687,7 @@ a.cs-load-more-content {
 .cs-user-center-details .meta span {
     margin-right: 10px;
 }
+
 .cs-user-center-details .cs-user-center-details-good-topic > div {
     min-height: 20px;
     margin-bottom: 15px;
@@ -659,6 +696,7 @@ a.cs-load-more-content {
 .topic-tag .text:hover, .topic-tag .text:active, .topic-tag .close:hover, .topic-tag .close:active {
     background-color: #339DFF;
 }
+
 .topic-tag .text {
     display: inline-block;
     height: 20px;
@@ -669,9 +707,11 @@ a.cs-load-more-content {
     color: #fff;
     border-radius: 4px;
 }
+
 .cs-user-center-details dl dd a {
     margin-right: 10px;
 }
+
 .topic-tag a {
     float: left;
 }
@@ -679,9 +719,11 @@ a.cs-load-more-content {
 .cs-mod.people-following p {
     margin-top: 10px;
 }
+
 .cs-side-bar .cs-mod p {
     margin-bottom: 0;
 }
+
 .cs-user-name, .cs-topic-name {
     font-size: 12px;
     line-height: 20px;
@@ -692,11 +734,11 @@ a.cs-load-more-content {
     width: 24px;
     height: 24px;
 }
+
 .cs-topic-bar .topic-tag {
     float: left;
     margin: 0 10px 10px 0;
 }
-
 
 /*******************user view end****************************/
 
@@ -705,6 +747,7 @@ a.cs-load-more-content {
     padding: 0 20px;
     border-bottom: 1px solid #e6e6e6;
 }
+
 .common-head h2 {
     height: 60px;
     line-height: 60px;
@@ -712,6 +755,7 @@ a.cs-load-more-content {
     font-size: 20px;
     color: #333;
 }
+
 .cs-mod.side-nav ul li a {
     display: block;
     padding-left: 10px;
@@ -719,15 +763,17 @@ a.cs-load-more-content {
     color: #666;
     font-size: 14px;
 }
+
 .cs-mod.side-nav ul li a:hover {
     background-color: #f5f5f5;
 }
 
 .cs-mod.side-nav ul li a.active {
     background-color: #f5f5f5;
-    font-weight:bold;
+    font-weight: bold;
 
 }
+
 .cs-mod.side-nav i {
     margin-right: 10px;
     color: #999;
@@ -739,11 +785,27 @@ a.cs-load-more-content {
     padding-top: 0;
     border-top: none;
 }
+
 .cs-side-bar .cs-mod {
     padding: 20px 0;
     border-top: 1px solid #E2E2E2;
 }
-.cs-dropdown-list li.user a img, .cs-question-tags, .cs-mod.topic-nav ul>li>p a, .cs-mod.topic-nav ul>li>a, .cs-border-radius-5, .cs-border-radius-5 img, .cs-load-more-content, .cs-user-name img, .cs-topic-name img, .cs-topic-name span, .cs-topic-img img, .cs-dropdown-menu img, .cs-login-register a img, .cs-login-register .cs-user-head img, .cs-dropdown, .category dl dt img, .category .span12>ul>li, .cs-mod.side-nav ul li a, .topic-edit-notes li, .cs-notopic-sort, .cs-comment-box, .cs-topic-detail-title .mod-body img, .cs-topic-search, .cs-mod-topic-edit-box .mod-head .img, .cs-inbox-read .mod-footer li .cs-item, .cs-inbox .mod-footer li .cs-user-img img, .cs-invite-list ul li img, .cs-mod-search-result .cs-item .cs-user-img img, .cs-mod-search-result .cs-item .cs-topic-img img, .cs-mod-search-result .cs-search-result-tags, .cs-file-uploader dl, .cs-card-tips, .cs-card-tips .mod-head .img img, .cs-first-login .cs-complete-data .side-bar img, .cs-first-login .cs-card-box-list .cs-topic-img img, .cs-first-login .cs-card-box-list .img img, .cs-first-login .cs-card-box-list li>span, .cs-replay-box .mod-body, .cs-publish-box .cs-publish-title .dropdown .dropdown-toggle, .markitup-box code, #markItUpPreviewFrames code, .cs-publish-title.active input, #cs-loading, .cs-user-nav>a img {
+
+.cs-dropdown-list li.user a img, .cs-question-tags, .cs-mod.topic-nav ul > li > p a, .cs-mod.topic-nav ul > li > a, .cs-border-radius-5, .cs-border-radius-5 img, .cs-load-more-content, .cs-user-name img, .cs-topic-name img, .cs-topic-name span, .cs-topic-img img, .cs-dropdown-menu img, .cs-login-register a img, .cs-login-register .cs-user-head img, .cs-dropdown, .category dl dt img, .category .span12 > ul > li, .cs-mod.side-nav ul li a, .topic-edit-notes li, .cs-notopic-sort, .cs-comment-box, .cs-topic-detail-title .mod-body img, .cs-topic-search, .cs-mod-topic-edit-box .mod-head .img, .cs-inbox-read .mod-footer li .cs-item, .cs-inbox .mod-footer li .cs-user-img img, .cs-invite-list ul li img, .cs-mod-search-result .cs-item .cs-user-img img, .cs-mod-search-result .cs-item .cs-topic-img img, .cs-mod-search-result .cs-search-result-tags, .cs-file-uploader dl, .cs-card-tips, .cs-card-tips .mod-head .img img, .cs-first-login .cs-complete-data .side-bar img, .cs-first-login .cs-card-box-list .cs-topic-img img, .cs-first-login .cs-card-box-list .img img, .cs-first-login .cs-card-box-list li > span, .cs-replay-box .mod-body, .cs-publish-box .cs-publish-title .dropdown .dropdown-toggle, .markitup-box code, #markItUpPreviewFrames code, .cs-publish-title.active input, #cs-loading, .cs-user-nav > a img {
     border-radius: 4px;
 }
+
 /*******************user home end************************************/
+
+/***************文本溢出省略号***************/
+.text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.notopstyle {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
