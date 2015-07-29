@@ -63,7 +63,7 @@
             </#list>
         </div>
         <div class="list-group">
-            <#list recommendArticleList as a>
+            <#list newArticleList as a>
                 <a href="/article/view?id=${a.id}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"
                    class="list-group-item${(a_index==0)?string(' active','')}">${(a_index==0)?string('[文章]','')}${a.title}
                 </a>
