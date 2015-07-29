@@ -76,16 +76,14 @@
 <div class="row">
     <div class="col-md-12">
         <#list categoryList as cat>
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-3" title="${cat.name}">
                 <div class="thumbnail">
-                    <img data-src="holder.js/100%x100" alt="100%x100"
+                    <img  data-src="holder.js/100%x100" alt="100%x100"
                          style="height: 100px; width: 100%; display: block;"
                          src="${cat.poster}"
                          data-holder-rendered="true" onerror="javascript:this.src='/images/nopic.gif'">
 
                     <div class="caption">
-                        <h3>${cat.name}</h3>
-
                         <p><a href="/question/index?categoryId=${cat.id}" class="btn btn-primary" role="button">问答</a>
                             <a href="/article/index?categoryId=${cat.id}" class="btn btn-default"
                                role="button">文章</a></p>
