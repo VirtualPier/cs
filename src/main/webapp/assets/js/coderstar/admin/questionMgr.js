@@ -22,7 +22,24 @@ $(function () {
             {field: 'attentionNum', title: '关注数', width: 25},
             {field: 'replyNum', title: '回复数', width: 25},
             {field: 'viewNum', title: '浏览数', width: 25},
-            {field: 'createDate', title: '创建时间', width: 50}
+            {
+                field: "recommendNum", title: "推荐数"
+            },
+            {
+                field: 'createDate', title: '创建时间', width: 50, formatter: function (value) {
+                return Date.convertTxtFormat(value);
+            }
+            },
+            {
+                field: "poster", title: "海报", formatter: function (value) {
+                return "<img src='" + value + "'/ width=100 height=80 onerror='javascript:this.src=\"/images/nopic.gif\"'>";
+            }
+            },
+            {
+                field: "recommend", title: "推荐", formatter: function (value, row, index) {
+                return "<input type='button' value='推荐' onclick='recommendQuestion(" + row.id + ")'/>";
+            }
+            }
         ]],
         nowrap: false,
         toolbar: [{
@@ -47,6 +64,11 @@ $(function () {
                 syncQuestionIndex();
             }
         }]
+    });
+
+    $("#recommendForm").form({
+        url: baseUrl + "articleMgr/recommendQuestion",
+        ajax: false
     });
 });
 function syncQuestionIndex() {
@@ -132,4 +154,40 @@ function deleteQuestion() {
             $.messager.alert('提示', '删除失败!', 'error');
         }
     })
+}
+
+
+function recommendQuestion(questionId) {
+    $("#recommendForm").find("input[name='id']").val(questionId);
+    $("#recommendDlg").dialog("open");
+}
+function submitRecommendForm() {
+    //$("#recommendForm").form("submit");
+    var rf = $("#recommendForm");
+    var poster = document.getElementById("poster");
+    var id = rf.find("input[name='id']").val();
+    var recommendNum = rf.find("input[name='recommendNum']").val();
+
+    var formData = new FormData();
+    formData.append("poster", poster.files[0]);
+    formData.append("id", id);
+    formData.append("recommendNum", recommendNum);
+    $.ajax({
+        url: "/questionMgr/recommendQuestion",
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data1) {
+            if (data1.success) {
+                $("#recommendDlg").dialog("close");
+                $('#tt').datagrid('reload');
+            } else {
+                alert(data1.msg);
+            }
+        },
+        error: function (data2) {
+            alert(data2);
+        }
+    });
 }

@@ -589,9 +589,11 @@ public class ArticleServiceImpl implements ArticleService {
                 e.printStackTrace();
             }
             String oldUrl = article.getPoster();
-            File oldFile = new File(Bootstrap.webRoot, oldUrl);
-            if (oldFile.exists()) {
-                oldFile.delete();
+            if (oldUrl != null) {
+                File oldFile = new File(Bootstrap.webRoot, oldUrl);
+                if (oldFile.exists()) {
+                    oldFile.delete();
+                }
             }
             article.setPoster(url);
             article.setRecommendNum(recommendNum);

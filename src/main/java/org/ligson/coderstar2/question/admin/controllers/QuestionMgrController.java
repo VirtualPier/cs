@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.question.admin.controllers;
 
+import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -133,6 +135,13 @@ public class QuestionMgrController {
             idArray[i++] = Long.parseLong(idStr);
         }
         return categoryService.deleteCategoryList(user, idArray);
+    }
+
+    @RequestMapping("/recommendQuestion")
+    @ResponseBody
+    public Map<String, Object> recommendQuestion(@RequestParam("id") long id, @RequestParam(value = "recommendNum", defaultValue = "0") int recommendNum, @RequestParam(value = "poster", required = false) CommonsMultipartFile poster) {
+        Question question = questionService.findQuestionById(id);
+        return questionService.recommendQuestion(question, recommendNum, poster);
     }
 
     public static String getPrefix() {

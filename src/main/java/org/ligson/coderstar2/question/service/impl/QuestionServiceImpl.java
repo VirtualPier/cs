@@ -1,5 +1,7 @@
 package org.ligson.coderstar2.question.service.impl;
 
+import com.boful.common.file.utils.FileType;
+import com.boful.common.file.utils.FileUtils;
 import org.apache.log4j.Logger;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.pay.service.PayService;
@@ -13,6 +15,7 @@ import org.ligson.coderstar2.question.rate.dao.RateDao;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.dao.CategoryDao;
 import org.ligson.coderstar2.system.category.service.CategoryService;
+import org.ligson.coderstar2.system.conf.utils.Bootstrap;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.service.FullTextSearchService;
@@ -20,7 +23,10 @@ import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.dao.UserDao;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -606,5 +612,39 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
         return questionDao.findAllQuestionByUserAndTitleLikeOrder(user, title, offset, max, sort, order);
+    }
+
+    @Override
+    public Map<String, Object> recommendQuestion(Question question, int recommendNum, CommonsMultipartFile poster) {
+        Map<String, Object> result = new HashMap<>();
+        if (FileType.isImage(poster.getOriginalFilename())) {
+            String fileType = FileUtils.getFileSufix(poster.getOriginalFilename());
+            String url = "/upload/question/" + question.getId() + "/" + UUID.randomUUID().toString() + "." + fileType;
+            File destFile = new File(Bootstrap.webRoot, url);
+            if (!destFile.getParentFile().exists()) {
+                destFile.mkdirs();
+            }
+            try {
+                poster.transferTo(destFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String oldUrl = question.getPoster();
+            if (oldUrl != null) {
+                File oldFile = new File(Bootstrap.webRoot, oldUrl);
+                if (oldFile.exists()) {
+                    oldFile.delete();
+                }
+            }
+            question.setPoster(url);
+            question.setRecommendNum(recommendNum);
+            questionDao.saveOrUpdate(question);
+            result.put("success", true);
+            result.put("url", url);
+        } else {
+            result.put("success", false);
+            result.put("msg", "不是图片类型");
+        }
+        return result;
     }
 }

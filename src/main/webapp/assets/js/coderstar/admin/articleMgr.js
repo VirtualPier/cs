@@ -23,8 +23,16 @@ $(function () {
             {field: 'replyNum', title: '回复数', width: 25},
             {field: 'viewNum', title: '浏览数', width: 25},
             {
+                field: "recommendNum", title: "推荐数"
+            },
+            {
                 field: 'createDate', title: '创建时间', width: 50, formatter: function (value) {
                 return Date.convertTxtFormat(value);
+            }
+            },
+            {
+                field: "poster", title: "海报", formatter: function (value) {
+                return "<img src='" + value + "'/ width=100 height=80 onerror='javascript:this.src=\"/images/nopic.gif\"'>";
             }
             },
             {
@@ -57,6 +65,12 @@ $(function () {
             }
         }]
     });
+
+    $("#recommendForm").form({
+        url: baseUrl + "articleMgr/recommendArticle",
+        ajax: false
+    });
+
 });
 function syncQuestionIndex() {
     $.post("/articleMgr/syncIndex", {}, function (data) {
@@ -143,6 +157,37 @@ function deleteArticle() {
     })
 }
 
-function recommendArticle(articleId){
+function recommendArticle(articleId) {
+    $("#recommendForm").find("input[name='id']").val(articleId);
+    $("#recommendDlg").dialog("open");
+}
+function submitRecommendForm() {
+    //$("#recommendForm").form("submit");
+    var rf = $("#recommendForm");
+    var poster = document.getElementById("poster");
+    var id = rf.find("input[name='id']").val();
+    var recommendNum = rf.find("input[name='recommendNum']").val();
 
+    var formData = new FormData();
+    formData.append("poster", poster.files[0]);
+    formData.append("id", id);
+    formData.append("recommendNum", recommendNum);
+    $.ajax({
+        url: "/articleMgr/recommendArticle",
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data1) {
+            if (data1.success) {
+                $("#recommendDlg").dialog("close");
+                $('#tt').datagrid('reload');
+            } else {
+                alert(data1.msg);
+            }
+        },
+        error: function (data2) {
+            alert(data2);
+        }
+    });
 }

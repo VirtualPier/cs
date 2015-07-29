@@ -6,6 +6,7 @@ import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -190,4 +191,6 @@ public interface QuestionService {
     public int countByCreatorAndStateAndTitleLike(User user, int state, String title);
 
     public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
+
+    public Map<String, Object> recommendQuestion(Question question, int recommendNum, CommonsMultipartFile poster);
 }

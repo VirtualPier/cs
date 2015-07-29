@@ -22,5 +22,25 @@
 
     </div>
 </div>
+
+<div id="recommendDlg" title="推荐问题" class="easyui-dialog" closed="true" style="width:400px;height:180px;">
+    <form id="recommendForm" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value=""/>
+        <table style="margin-top:10px;margin-left:10px;">
+            <tr>
+                <td><label>推荐度:</label></td>
+                <td><input class="easyui-textbox" type="text" name="recommendNum" data-options="required:true"/></td>
+            </tr>
+            <tr>
+                <td><label>海报:</label></td>
+                <td><input class="input" name="poster" type="file" id="poster"/></td>
+            </tr>
+        </table>
+        <div style="text-align:center;padding:5px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitRecommendForm()">提交</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">取消</a>
+        </div>
+    </form>
+</div>
 </@override>
 <@extends name="layout/questionMgr.ftl"/>
