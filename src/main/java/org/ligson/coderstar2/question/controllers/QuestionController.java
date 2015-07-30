@@ -13,6 +13,7 @@ import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.service.FullTextSearchService;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
+import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -50,6 +51,17 @@ public class QuestionController {
     @Autowired
     @Qualifier("sysTagService")
     private SysTagService sysTagService;
+    @Autowired
+    @Qualifier("userService")
+    private UserService userService;
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public SysTagService getSysTagService() {
         return sysTagService;
@@ -144,6 +156,8 @@ public class QuestionController {
         Map result = questionService.createQuestion(id, user, title, description, tagArr, categoryIdArray, money);
         boolean success = (boolean) result.get("success");
         if (success) {
+            User user1 = userService.findUserById(user.getId());
+            request.getSession().setAttribute("user", user1);
             return "redirect:/user/myPublish";
         } else {
             return "redirect:/question/create";

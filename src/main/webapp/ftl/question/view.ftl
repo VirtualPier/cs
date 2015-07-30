@@ -111,7 +111,7 @@
                                     </#if>
                                 <#else>
                                     <#if user??>
-                                        <#if user.id==question.creator.id>
+                                        <#if (user.id==question.creator.id)&&(question.creator.id!=ask.user.id)>
                                             <button class="btn btn-success pull-right" name="selectRightAskBtn"
                                                     onclick="selectRightAsk(${ask.id})">设为最佳答案
                                             </button>

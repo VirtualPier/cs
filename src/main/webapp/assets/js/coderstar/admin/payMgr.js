@@ -57,6 +57,7 @@ $(function () {
             var result = eval("(" + data + ")");
             if (result.success) {
                 $("#withdrawDlg").dialog("close");
+                userGrid.datagrid("reload");
             } else {
                 alert(result.msg);
             }

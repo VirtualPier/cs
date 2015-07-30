@@ -19,6 +19,7 @@ import org.ligson.coderstar2.user.domains.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -225,11 +226,29 @@ public class PayServiceImpl implements PayService {
             result.put("msg", "自己创建文章不允许奖励。");
             return result;
         }
-        if (money > fromUser.getBalance()) {
-            result.put("success", false);
-            result.put("msg", "余额不足!");
-            return result;
+
+        if (tradeType == 1) {
+            List<String> propList = new ArrayList<>();
+            List<Object> propValues = new ArrayList<>();
+            propList.add("user.id");
+            propList.add("objType");
+            propList.add("objId");
+            propValues.add(fromUser.getId());
+            propValues.add(1);
+            propValues.add(tradeObjId);
+            BlockedFund blockedFund = blockedFundDao.findByAnd(propList, propValues);
+            if (!(blockedFund != null && blockedFund.getMoney() == money)) {
+                result.put("success", false);
+                result.put("msg", "用户取消悬赏!");
+            }
+        } else if (tradeType == 2) {
+            if (money > fromUser.getBalance()) {
+                result.put("success", false);
+                result.put("msg", "余额不足!");
+                return result;
+            }
         }
+
         //支出
         TradeRecord tradeRecord = new TradeRecord();
         tradeRecord.setMoney(money);
@@ -247,11 +266,14 @@ public class PayServiceImpl implements PayService {
         tradeRecord2.setObjId(tradeObjId);
         tradeRecord2.setObjType(tradeType);
         //支出账户
+        BigDecimal fromUserBalance = new BigDecimal(fromUser.getBalance());
+        BigDecimal moneyDecimal = new BigDecimal(money);
         tradeRecordDao.saveOrUpdate(tradeRecord2);
-        fromUser.setBalance(fromUser.getBalance() - money);
+        fromUser.setBalance(fromUserBalance.subtract(moneyDecimal).doubleValue());
         userDao.saveOrUpdate(fromUser);
         //收入账户
-        toUser.setBalance(toUser.getBalance() + money);
+        BigDecimal toUserBalance = new BigDecimal(toUser.getBalance());
+        toUser.setBalance(toUserBalance.add(moneyDecimal).doubleValue());
         userDao.saveOrUpdate(toUser);
 
         result.put("success", true);
@@ -270,10 +292,13 @@ public class PayServiceImpl implements PayService {
             blockedFund.setObjType(objType);
             blockedFund.setObjId(objId);
             blockedFundDao.saveOrUpdate(blockedFund);
-
-            user.setBlockedFund(user.getBlockedFund() + money);
-            if (user.getBalance() - money >= 0) {
-                user.setBalance(user.getBalance() - money);
+            BigDecimal moneyDecimal = new BigDecimal(money);
+            BigDecimal bigDecimal = new BigDecimal(user.getBlockedFund());
+            BigDecimal blcokedFund = bigDecimal.add(moneyDecimal);
+            BigDecimal balanceDecimal = new BigDecimal(user.getBalance());
+            user.setBlockedFund(blcokedFund.doubleValue());
+            if (balanceDecimal.subtract(moneyDecimal).doubleValue() >= 0) {
+                user.setBalance(balanceDecimal.subtract(moneyDecimal).doubleValue());
             }
             userDao.saveOrUpdate(user);
 
@@ -424,7 +449,7 @@ public class PayServiceImpl implements PayService {
             //用户实际提现金额
             double trueMoney = money > 0 ? money : withdraw.getMoney();
             User user = withdraw.getUser();
-            double userBlockedFundMoney = user.getBlockedFund() - trueMoney;
+            double userBlockedFundMoney = new BigDecimal(user.getBlockedFund()).subtract(new BigDecimal(trueMoney)).doubleValue();
             if (userBlockedFundMoney >= 0.0) {
                 user.setBlockedFund(userBlockedFundMoney);
                 userDao.saveOrUpdate(user);

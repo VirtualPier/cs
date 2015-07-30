@@ -131,7 +131,8 @@
             <div role="tabpanel" class="tab-pane" id="offerQuestion">
                 <#list offerQuestionList as q>
                     <li class="list-group-item${(q_index==0)?string(" notopstyle","")}">
-                        <a href="/question/view?id=${q.id}">${q.title}</a>
+                        <span class="label label-warning">${q.money}MB</span><a
+                            href="/question/view?id=${q.id}">${q.title}</a>
                     </li>
                 </#list>
             </div>
