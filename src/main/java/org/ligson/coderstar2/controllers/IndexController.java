@@ -21,9 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.mail.Session;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +59,18 @@ public class IndexController {
     @Autowired
     @Qualifier("payService")
     private PayService payService;
+
+   /* @Autowired
+    @Qualifier("captchaService")
+    private ImageCaptchaService captchaService;
+
+    public ImageCaptchaService getCaptchaService() {
+        return captchaService;
+    }
+
+    public void setCaptchaService(ImageCaptchaService captchaService) {
+        this.captchaService = captchaService;
+    }*/
 
     public PayService getPayService() {
         return payService;
@@ -316,5 +333,33 @@ public class IndexController {
         User user = (User) request.getSession().getAttribute("user");
         Map<String, Object> result = userService.uploadFile(user, upload);
         return;
+    }
+
+    @RequestMapping("/forgotpassword")
+    public void forgotpassword() {
+    }
+
+    @RequestMapping("/captcha")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
+            String captchaId = request.getSession().getId();
+            BufferedImage challenge = null;//captchaService.getImageChallengeForID(captchaId, request.getLocale());
+
+            response.setHeader("Cache-Control", "no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setDateHeader("Expires", 0L);
+            response.setContentType("image/jpeg");
+
+            ImageIO.write(challenge, "jpeg", jpegOutputStream);
+            byte[] captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
+
+            ServletOutputStream respOs = response.getOutputStream();
+            respOs.write(captchaChallengeAsJpeg);
+            respOs.flush();
+            respOs.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

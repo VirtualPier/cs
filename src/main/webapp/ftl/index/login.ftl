@@ -43,6 +43,7 @@
                     </div>
 
                     <div class="col-md-4 text-center">
+                        <a href="/index/forgotpassword" class="pull-right" style="margin-top:10px;margin-left:10px;">忘记密码?</a>
                         <input type="submit" class="pull-right btn btn-large btn-primary" value="登录"/>
                     </div>
                 </div>

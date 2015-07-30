@@ -1,0 +1,64 @@
+<@override name="title">忘记密码?</@override>
+<@override name="header">
+<link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
+<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="${basePath}js/coderstar/front/login.js"></script>
+</@override>
+<@override name="body">
+<div class="row">
+    <div class="col-md-3"></div>
+
+    <div class="cs-login-box col-md-6">
+        <div class="mod-body">
+            <form action="/index/saveUser" id="register_form" name="register_form" class="form-horizontal"
+                  method="post">
+                <div class="form-group has-feedback">
+                    <label class="col-md-4 control-label" for="cellphone">手机号码</label>
+
+                    <div class="col-md-8">
+                        <i></i>
+                        <span class="glyphicon glyphicon-phone-alt form-control-feedback"></span>
+                        <input style="display:none;"/>
+                        <input type="text" class="form-control" id="cellphone" name="cellphone" placeholder="手机号码"
+                               autocomplete="off" value="${cellphone}"/>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-md-4 control-label"
+                           for="email">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+
+                    <div class="col-md-8">
+                        <i></i>
+                        <span class="glyphicon  glyphicon-envelope  form-control-feedback"></span>
+                        <input style="display:none;"/>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="邮箱地址"
+                               autocomplete="off" value="${email}"/>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-md-4 control-label"
+                           for="email">验证码:</label>
+                    <div class="col-md-8">
+                        <i></i>
+                        <span class="glyphicon  glyphicon-envelope  form-control-feedback"></span>
+                        <input style="display:none;"/>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="邮箱地址"
+                               autocomplete="off" value="${email}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="pull-right btn btn-large btn-primary">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="col-md-3"></div>
+</div>
+</@override>
+<@extends name="layout/index.ftl"/>
