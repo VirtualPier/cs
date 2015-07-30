@@ -51,7 +51,7 @@ $(function () {
                 return Date.convertTxtFormat(row.createDate);
             },
             "delOper": function (col, row) {
-                return "<a href='" + baseUrl + "user/deleteQuestion?id=" + row.id + "'>删除</a>";
+                return "<a href='" + baseUrl + "user/deleteQuestion?ids=" + row.id + "'>删除</a>";
             },
             "editOper": function (col, row) {
                 return "<a href='" + baseUrl + "question/edit?id=" + row.id + "'>编辑</a>";
