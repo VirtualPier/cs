@@ -340,6 +340,7 @@ public class PayServiceImpl implements PayService {
                         payOrder.setOutOrder(trade_no);
                         user.setBalance(user.getBalance() + payOrder.getMoney());
                         userDao.saveOrUpdate(user);
+                        request.getSession().setAttribute("user", user);
                     }
                     result.put("success", true);
                     result.put("msg", "交易成功!");
