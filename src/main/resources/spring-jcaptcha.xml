@@ -81,7 +81,7 @@
         </constructor-arg>
         <!--背景高度-->
         <constructor-arg index="1">
-            <value>32</value>
+            <value>30</value>
         </constructor-arg>
     </bean>
 
@@ -92,7 +92,7 @@
         </constructor-arg>
         <!--最小字符长度-->
         <constructor-arg type="java.lang.Integer" index="1">
-            <value>4</value>
+            <value>5</value>
         </constructor-arg>
         <!--文本颜色-->
         <constructor-arg index="2">

@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.controllers;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.octo.captcha.service.image.ImageCaptchaService;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.pay.domains.Withdraw;
@@ -60,7 +61,7 @@ public class IndexController {
     @Qualifier("payService")
     private PayService payService;
 
-   /* @Autowired
+    @Autowired
     @Qualifier("captchaService")
     private ImageCaptchaService captchaService;
 
@@ -70,7 +71,7 @@ public class IndexController {
 
     public void setCaptchaService(ImageCaptchaService captchaService) {
         this.captchaService = captchaService;
-    }*/
+    }
 
     public PayService getPayService() {
         return payService;
@@ -344,7 +345,7 @@ public class IndexController {
         try {
             ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
             String captchaId = request.getSession().getId();
-            BufferedImage challenge = null;//captchaService.getImageChallengeForID(captchaId, request.getLocale());
+            BufferedImage challenge = captchaService.getImageChallengeForID(captchaId, request.getLocale());
 
             response.setHeader("Cache-Control", "no-store");
             response.setHeader("Pragma", "no-cache");

@@ -2,7 +2,7 @@
 <@override name="header">
 <link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
 <script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/front/login.js"></script>
+<script type="text/javascript" src="${basePath}js/coderstar/front/forgotpassword.js"></script>
 </@override>
 <@override name="body">
 <div class="row">
@@ -12,17 +12,6 @@
         <div class="mod-body">
             <form action="/index/saveUser" id="register_form" name="register_form" class="form-horizontal"
                   method="post">
-                <div class="form-group has-feedback">
-                    <label class="col-md-4 control-label" for="cellphone">手机号码</label>
-
-                    <div class="col-md-8">
-                        <i></i>
-                        <span class="glyphicon glyphicon-phone-alt form-control-feedback"></span>
-                        <input style="display:none;"/>
-                        <input type="text" class="form-control" id="cellphone" name="cellphone" placeholder="手机号码"
-                               autocomplete="off" value="${cellphone}"/>
-                    </div>
-                </div>
                 <div class="form-group has-feedback">
                     <label class="col-md-4 control-label"
                            for="email">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
@@ -39,12 +28,17 @@
                 <div class="form-group has-feedback">
                     <label class="col-md-4 control-label"
                            for="email">验证码:</label>
+
                     <div class="col-md-8">
-                        <i></i>
-                        <span class="glyphicon  glyphicon-envelope  form-control-feedback"></span>
-                        <input style="display:none;"/>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="邮箱地址"
-                               autocomplete="off" value="${email}"/>
+                        <div class="input-group">
+                            <input style="display:none;"/>
+                            <input type="text" class="form-control" id="code" name="code" placeholder="输入右侧验证码"
+                                   autocomplete="off" value=""/>
+
+                            <div class="input-group-addon" style="padding-top:1px;padding-bottom:1px;"><img
+                                    src="/index/captcha"></div>
+                        </div>
+
                     </div>
                 </div>
 
