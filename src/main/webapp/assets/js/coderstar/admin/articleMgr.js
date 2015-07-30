@@ -37,7 +37,7 @@ $(function () {
             },
             {
                 field: "recommend", title: "推荐", formatter: function (value, row, index) {
-                return "<input type='button' value='推荐' onclick='recommendArticle(" + row.id + ")'/>";
+                return "<input type='button' value='推荐' onclick='recommendArticle(" + row.id + "," + row.recommendNum + ")'/>";
             }
             }
         ]],
@@ -157,9 +157,10 @@ function deleteArticle() {
     })
 }
 
-function recommendArticle(articleId) {
+function recommendArticle(articleId, recommendNum) {
     $("#recommendForm").find("input[name='id']").val(articleId);
     $("#recommendDlg").dialog("open");
+    $("#recommendNumTbx").textbox("setText",recommendNum);
 }
 function submitRecommendForm() {
     //$("#recommendForm").form("submit");

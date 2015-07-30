@@ -78,7 +78,7 @@
         <#list categoryList as cat>
             <div class="col-sm-6 col-md-3" title="${cat.name}">
                 <div class="thumbnail">
-                    <img  data-src="holder.js/100%x100" alt="100%x100"
+                    <img data-src="holder.js/100%x100" alt="100%x100"
                          style="height: 100px; width: 100%; display: block;"
                          src="${cat.poster}"
                          data-holder-rendered="true" onerror="javascript:this.src='/images/nopic.gif'">
@@ -148,13 +148,18 @@
         <div class="list-group">
             <a href="#" class="list-group-item active">热门作者</a>
             <#list hotAuthors as u>
-                <a href="/user/view?id=${u.id}" class="list-group-item">${u.nickName}</a>
+                <a href="/user/view?id=${u.id}" class="list-group-item">
+                    <img src="${u.poster}" class="img-thumbnail" style="width:60px;height:60px;"
+                         onerror="javascript:this.src='/images/nopic.gif'"/>&nbsp;&nbsp;${u.nickName}</a>
             </#list>
         </div>
         <div class="list-group">
             <a href="#" class="list-group-item active">问题专家</a>
             <#list hotAuthors as u>
-                <a href="/user/view?id=${u.id}" class="list-group-item">${u.nickName}</a>
+                <a href="/user/view?id=${u.id}" class="list-group-item"><img src="${u.poster}" class="img-thumbnail"
+                                                                             style="width:60px;height:60px;"
+                                                                             onerror="javascript:this.src='/images/nopic.gif'"/>&nbsp;&nbsp;${u.nickName}
+                </a>
             </#list>
         </div>
     </div>
