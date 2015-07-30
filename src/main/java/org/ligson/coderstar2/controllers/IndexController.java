@@ -207,6 +207,26 @@ public class IndexController {
         }
     }
 
+    @RequestMapping("/checkEmailExist")
+    @ResponseBody
+    public Map<String, Object> checkEmailExist(String email) {
+        Map<String, Object> result = new HashMap<>();
+        boolean isUnique = userService.emailIsUnique(email);
+        result.put("success", isUnique);
+        result.put("valid", isUnique);
+        return result;
+    }
+
+    @RequestMapping("/checkCellphoneExist")
+    @ResponseBody
+    public Map<String, Object> checkCellphoneExist(String cellphone) {
+        Map<String, Object> result = new HashMap<>();
+        boolean isUnique = userService.cellphoneIsUnique(cellphone);
+        result.put("success", isUnique);
+        result.put("valid", isUnique);
+        return result;
+    }
+
     @RequestMapping("/responseJson")
     @ResponseBody
     public Map<String, Object> responseJson(@RequestParam(value = "success") boolean success, @RequestParam(value = "msg") String msg) {

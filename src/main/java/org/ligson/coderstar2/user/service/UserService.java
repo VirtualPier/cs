@@ -176,4 +176,6 @@ public interface UserService {
     public List<User> hotAuthors(int max);
 
     public List<User> hotReplyers(int max);
+
+    public boolean cellphoneIsUnique(String cellphone);
 }

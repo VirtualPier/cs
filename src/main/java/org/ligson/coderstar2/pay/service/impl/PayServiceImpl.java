@@ -363,7 +363,10 @@ public class PayServiceImpl implements PayService {
                         payOrder.setState(PayOrder.STATE_SUCEESS);
                         payOrder.setComments("支付宝订单号:" + trade_no);
                         payOrder.setOutOrder(trade_no);
-                        user.setBalance(user.getBalance() + payOrder.getMoney());
+                        BigDecimal userBalance = new BigDecimal(user.getBalance());
+                        BigDecimal orderMoney = new BigDecimal(payOrder.getMoney());
+                        BigDecimal newBalance = userBalance.add(orderMoney);
+                        user.setBalance(newBalance.doubleValue());
                         userDao.saveOrUpdate(user);
                         request.getSession().setAttribute("user", user);
                     }

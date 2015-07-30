@@ -13,7 +13,15 @@ function loadMyRechangeLog() {
                 html += "   <td>" + rechangeItem.money + "</td>";
                 var date = Date.convertTxtFormat(rechangeItem.createDate);
                 html += "   <td>" + date + "</td>";
-                html += "   <td>成功</td>";
+                var stateString = "";
+                if (rechangeItem.state == 1) {
+                    stateString = "正在充值";
+                } else if (rechangeItem.state == 2) {
+                    stateString = "充值成功";
+                } else {
+                    stateString = "充值失败";
+                }
+                html += "   <td>" + stateString + "</td>";
                 html += "   <td>" + rechangeItem.comments + "</td>";
                 html += "</tr>";
             }

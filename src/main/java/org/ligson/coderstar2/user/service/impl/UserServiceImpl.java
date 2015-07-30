@@ -373,4 +373,9 @@ public class UserServiceImpl implements UserService {
     public List<User> hotReplyers(int max) {
         return userDao.hotReplyers(max);
     }
+
+    @Override
+    public boolean cellphoneIsUnique(String cellphone) {
+        return userDao.countBy("cellphone", cellphone) == 0;
+    }
 }

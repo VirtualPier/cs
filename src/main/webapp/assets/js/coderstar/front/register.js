@@ -24,6 +24,12 @@ $(function () {
                     }, regexp: {
                         regexp: /^1\d{10}$/,
                         message: "请输入正确的手机号!"
+                    },
+                    remote: {
+                        url: "/index/checkCellphoneExist",
+                        type: "POST",
+                        delay: 1000,
+                        message: "手机号已经存在!"
                     }
                 }
             },
@@ -34,6 +40,11 @@ $(function () {
                     }, regexp: {
                         regexp: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/,
                         message: "请输入正确的邮箱地址!"
+                    }, remote: {
+                        url: "/index/checkEmailExist",
+                        type: "POST",
+                        delay: 1000,
+                        message: "邮箱已经存在!"
                     }
                 }
             },
