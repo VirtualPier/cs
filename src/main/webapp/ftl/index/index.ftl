@@ -5,30 +5,17 @@
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
-                <#list recommendQuestionList as q>
-                    <li data-target="#carousel-example-generic" data-slide-to="${q_index}"></li>
-                </#list>
                 <#list recommendArticleList as a>
                     <li data-target="#carousel-example-generic"
-                        data-slide-to="${(a_index+(recommendQuestionList?size))}"></li>
+                        data-slide-to="${a_index}"></li>
+                </#list>
+                <#list recommendQuestionList as q>
+                    <li data-target="#carousel-example-generic"
+                        data-slide-to="${(q_index+(recommendArticleList?size))}"></li>
                 </#list>
             </ol>
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
-                <#list recommendQuestionList as q>
-                    <div class="item ${(q_index==0)?string("active","")}">
-                        <img src="${q.poster}"
-                             alt="..." onerror="javascript:this.src='/images/nopic.gif'"
-                             style="width:100%;height:420px;">
-
-                        <div class="carousel-caption">
-                            <h3>[问题]<a style="color:#ffffff;" href="/question/view?id=${q.id}">${q.title}</a></h3>
-
-                            <p></p>
-                        </div>
-                    </div>
-                </#list>
-
                 <#list recommendArticleList as a>
                     <div class="item">
                         <img src="${a.poster}"
@@ -37,6 +24,19 @@
 
                         <div class="carousel-caption">
                             <h3>[文章]<a style="color:#ffffff;" href="/article/view?id=${a.id}">${a.title}</a></h3>
+
+                            <p></p>
+                        </div>
+                    </div>
+                </#list>
+                <#list recommendQuestionList as q>
+                    <div class="item ${(q_index==0)?string("active","")}">
+                        <img src="${q.poster}"
+                             alt="..." onerror="javascript:this.src='/images/nopic.gif'"
+                             style="width:100%;height:420px;">
+
+                        <div class="carousel-caption">
+                            <h3>[问题]<a style="color:#ffffff;" href="/question/view?id=${q.id}">${q.title}</a></h3>
 
                             <p></p>
                         </div>
@@ -149,14 +149,14 @@
             <a href="#" class="list-group-item active">热门作者</a>
             <#list hotAuthors as u>
                 <a href="/user/view?id=${u.id}" class="list-group-item">
-                    <img src="${u.poster}" class="img-thumbnail" style="width:60px;height:60px;"
+                    <img src="${u.photo}" class="img-thumbnail" style="width:60px;height:60px;"
                          onerror="javascript:this.src='/images/nopic.gif'"/>&nbsp;&nbsp;${u.nickName}</a>
             </#list>
         </div>
         <div class="list-group">
             <a href="#" class="list-group-item active">问题专家</a>
             <#list hotAuthors as u>
-                <a href="/user/view?id=${u.id}" class="list-group-item"><img src="${u.poster}" class="img-thumbnail"
+                <a href="/user/view?id=${u.id}" class="list-group-item"><img src="${u.photo}" class="img-thumbnail"
                                                                              style="width:60px;height:60px;"
                                                                              onerror="javascript:this.src='/images/nopic.gif'"/>&nbsp;&nbsp;${u.nickName}
                 </a>
