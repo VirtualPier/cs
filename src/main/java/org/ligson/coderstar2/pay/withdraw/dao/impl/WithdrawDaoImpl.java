@@ -7,6 +7,7 @@ import org.ligson.coderstar2.pay.withdraw.dao.WithdrawDao;
 import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -33,5 +34,15 @@ public class WithdrawDaoImpl extends BaseDaoImpl<Withdraw> implements WithdrawDa
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<Withdraw> findAllByStateOrderBy(int stateApproved, String sort, String order, int offset, int max) {
+        Query query = getCurrentSession().createQuery("from Withdraw w where w.state=:state order by w." + sort + " " + order);
+        query.setInteger("state",stateApproved);
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Withdraw> withdraws = (List<Withdraw>) query.list();
+        return withdraws;
     }
 }

@@ -59,4 +59,5 @@ public interface PayService {
 
     public Map<String, Object> allowWithDraw(User operator, long withrawId, double money);
 
+    public List<Withdraw> newestWithdraw(int max);
 }

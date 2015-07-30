@@ -472,4 +472,9 @@ public class PayServiceImpl implements PayService {
         return result;
     }
 
+    @Override
+    public List<Withdraw> newestWithdraw(int max) {
+        return withdrawDao.findAllByStateOrderBy(Withdraw.STATE_APPROVED, "allowDate", "desc", 0, max);
+    }
+
 }

@@ -147,6 +147,15 @@
     </div>
     <div class="col-md-3">
         <div class="list-group">
+            <a href="#" class="list-group-item active">最新提现</a>
+            <#list withdrawList as w>
+                <a href="/user/view?id=${w.user.id}" class="list-group-item">
+                    <img src="${w.user.photo}" class="img-thumbnail" style="width:60px;height:60px;"
+                         onerror="javascript:this.src='/images/nopic.gif'"/>&nbsp;&nbsp;${w.user.nickName}&nbsp;提现${w.trueMoney}
+                    元</a>
+            </#list>
+        </div>
+        <div class="list-group">
             <a href="#" class="list-group-item active">热门作者</a>
             <#list hotAuthors as u>
                 <a href="/user/view?id=${u.id}" class="list-group-item">

@@ -3,6 +3,8 @@ package org.ligson.coderstar2.controllers;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
+import org.ligson.coderstar2.pay.domains.Withdraw;
+import org.ligson.coderstar2.pay.service.PayService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
@@ -49,6 +51,17 @@ public class IndexController {
     @Qualifier("categoryService")
     private CategoryService categoryService;
 
+    @Autowired
+    @Qualifier("payService")
+    private PayService payService;
+
+    public PayService getPayService() {
+        return payService;
+    }
+
+    public void setPayService(PayService payService) {
+        this.payService = payService;
+    }
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -98,14 +111,15 @@ public class IndexController {
         List<Question> recommendQuestionList = questionService.questionListOrderBy(0, 3, "recommendNum", "desc");
         List<Article> recommendArticleList = articleService.articleListOrderBy(0, 3, "recommendNum", "desc");
 
-        List<Question> hotQuestions = questionService.findHotQuestion(10);
-        Map<String, Object> result = questionService.searchQuestion(-1, -1, false, "createDate", 10, 0);
+        List<Question> hotQuestions = questionService.findHotQuestion(20);
+        Map<String, Object> result = questionService.searchQuestion(-1, -1, false, "createDate", 20, 0);
         List<Question> waitQuestionList = (List<Question>) result.get("questionList");
-        List<Question> offerQuestionList = questionService.findOfferQuesiton(10);
-        List<Article> hotArticles = articleService.findHotArticle(10);
+        List<Question> offerQuestionList = questionService.findOfferQuesiton(20);
+        List<Article> hotArticles = articleService.findHotArticle(20);
         List<User> hotAuthors = userService.hotAuthors(5);
         List<User> hotReplyers = userService.hotReplyers(5);
-
+        List<Withdraw> withdrawList = payService.newestWithdraw(5);
+        request.setAttribute("withdrawList", withdrawList);
         request.setAttribute("hotAuthors", hotAuthors);
         request.setAttribute("hotReplyers", hotReplyers);
         request.setAttribute("hotQuestions", hotQuestions);
