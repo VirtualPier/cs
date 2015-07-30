@@ -126,7 +126,7 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
-    public String saveQuestion(@RequestParam(value = "id", defaultValue = "-1", required = false) long id, @RequestParam(value = "title", required = true) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, @RequestParam(value = "money", required = false, defaultValue = "0") int money, HttpServletRequest request) {
+    public String saveQuestion(@RequestParam(value = "id", defaultValue = "-1", required = false) long id, @RequestParam(value = "title", required = true) String title, @RequestParam(value = "description", required = false) String description, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "categoryIds", required = true) String categoryIds, @RequestParam(value = "money", required = false, defaultValue = "0") double money, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         String[] categoryIdStringArray = categoryIds.split(",");
         long[] categoryIdArray = new long[categoryIdStringArray.length];
@@ -233,7 +233,7 @@ public class QuestionController {
         request.setAttribute("categoryList", categoryList);
         Set<QuestionCategory> questionCategories = question.getQuestionCategories();
         List<Category> questionCategoryList = new ArrayList<>();
-        for(QuestionCategory questionCategory:questionCategories){
+        for (QuestionCategory questionCategory : questionCategories) {
             questionCategoryList.add(questionCategory.getCategory());
         }
         request.setAttribute("questionCategoryList", questionCategoryList);
