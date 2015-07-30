@@ -285,13 +285,13 @@ public class IndexController {
             //article
             words = articleService.hotKey(key, maxWorld);
         }
-        List<Map<String, String>> ll = new ArrayList<>();
-        Map<String, String> hotKeyMap = new HashMap<>();
-        for (String word : words) {
-            hotKeyMap.put("value", word);
-        }
-        if (!hotKeyMap.isEmpty()) {
-            ll.add(hotKeyMap);
+        List<Map<String,String>> ll = new ArrayList<>();
+        for(String word:words){
+            Map<String,String> hotKeyMap = new HashMap<>();
+            hotKeyMap.put("value",word);
+            if(!hotKeyMap.isEmpty()){
+                ll.add(hotKeyMap);
+            }
         }
         map.put("hotKeys", ll);
         return map;
