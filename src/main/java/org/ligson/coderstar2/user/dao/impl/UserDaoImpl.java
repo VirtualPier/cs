@@ -22,7 +22,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
     @Override
     public List<User> hotReplyers(int max) {
-        Query query = getCurrentSession().createQuery("select a.creator from Question a where a.rightAsk is not null group by a.creator order by count(a.id) desc");
+        Query query = getCurrentSession().createQuery("select a.rightAsk.user from Question a where a.rightAsk is not null group by a.rightAsk.user order by count(a.id) desc");
         query.setFirstResult(0);
         query.setMaxResults(max);
         List<User> userList = (List<User>) query.list();

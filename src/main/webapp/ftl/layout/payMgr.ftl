@@ -14,7 +14,7 @@
                 <li><a href="/payMgr/index">提现申请</a>
                 </li>
                 <!--统计接入APP超市的分布与数量以及名称-->
-                <li><a href="/payMgr/rechargeLog">充值记录</a></li>
+                <#--<li><a href="/payMgr/rechargeLog">充值记录</a></li>-->
                 <!--统计商品的销售情况-->
                 <li><a href="/payMgr/payOrder">支付订单</a></li>
                 <!--统计商品的销售情况-->

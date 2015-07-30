@@ -156,7 +156,7 @@
         </div>
         <div class="list-group">
             <a href="#" class="list-group-item active">问题专家</a>
-            <#list hotAuthors as u>
+            <#list hotReplyers as u>
                 <a href="/user/view?id=${u.id}" class="list-group-item"><img src="${u.photo}" class="img-thumbnail"
                                                                              style="width:60px;height:60px;"
                                                                              onerror="javascript:this.src='/images/nopic.gif'"/>&nbsp;&nbsp;${u.nickName}
