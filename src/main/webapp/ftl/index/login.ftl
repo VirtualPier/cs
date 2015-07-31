@@ -52,7 +52,8 @@
 
         <div class="mod-footer">
             <span>还没有账号?</span>&nbsp;&nbsp;
-            <a href="/index/register">立即注册</a>
+            <a href="/index/register">立即注册</a>&nbsp;&nbsp;
+            <img src="/images/qq_login_logo.png" onclick="qqLogin()">
         </div>
     </div>
 
