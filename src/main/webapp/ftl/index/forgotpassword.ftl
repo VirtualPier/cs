@@ -49,7 +49,7 @@
                                    autocomplete="off" value=""/>
 
                             <div class="input-group-addon" style="padding-top:1px;padding-bottom:1px;"><img
-                                    src="/index/captcha" id="codeImg">
+                                    src="/index/captcha" id="codeImg" style="width:80px;height:30px;">
                                 <span class="glyphicon glyphicon-repeat repeatCode" title="看不清,重新生成!"></span>
                             </div>
                         </div>
