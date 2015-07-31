@@ -4,6 +4,7 @@
     <title><@block name="title">标题</@block>${appconfig.name}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta property="qc:admins" content="55716664776374524734126375" />
     <meta name="Keywords" content="程序员，码农,编程,C语言,程序员,源代码,源码,源码下载,创业，合作，交流">
     <META name="Description" content="关注程序员的职业生涯，即使的解决各种问题，纯干货！">
     <link rel="shortcut icon" href="/images/logo.ico" type="image/x-icon">
