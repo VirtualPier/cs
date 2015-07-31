@@ -419,7 +419,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
                 ScoreDoc scoreDoc = scoreDocs[i];
                 Document document = searcher.doc(scoreDoc.doc);
                 String idString = document.get("id");
-                System.out.println(idString);
+                //System.out.println(idString);
                 long id = Long.parseLong(idString);
                 Article article1 = articleService.findArticleById(id);
                 if (article1 != null) {
