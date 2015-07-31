@@ -378,4 +378,38 @@ public class UserServiceImpl implements UserService {
     public boolean cellphoneIsUnique(String cellphone) {
         return userDao.countBy("cellphone", cellphone) == 0;
     }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userDao.findBy("email", email);
+    }
+
+    @Override
+    public String emailResetPasswordKey(User user) {
+        String key = UUID.randomUUID().toString().replaceAll("-", "");
+        user.setEmailKey(key);
+        userDao.saveOrUpdate(user);
+        return key;
+    }
+
+    @Override
+    public Map<String, Object> resetPwdByIdAndKey(long id, String key, String password) {
+        Map<String, Object> result = new HashMap<>();
+        User user = findUserById(id);
+        if (user == null) {
+            result.put("success", false);
+            result.put("msg", "用户不存在");
+            return result;
+        }
+        if (!key.equals(user.getEmailKey())) {
+            result.put("success", false);
+            result.put("msg", "找回密码key失效,请尝试重新找回!");
+            return result;
+        }
+        user.setPassword(PasswordCodec.encode(password));
+        user.setEmailKey(null);
+        userDao.saveOrUpdate(user);
+        result.put("success", true);
+        return result;
+    }
 }

@@ -30,9 +30,7 @@
     <bean id="wordgen" class="com.octo.captcha.component.word.wordgenerator.RandomWordGenerator">
         <!--可选字符-->
         <constructor-arg>
-            <value>
-                0123456789abcdefghijklmnopqrstuvwxyz
-            </value>
+            <value>0123456789abcdefghijklmnopqrstuvwxyz</value>
         </constructor-arg>
     </bean>
 
@@ -48,6 +46,18 @@
         </constructor-arg>
     </bean>
 
+    <bean id="rFont" name="rFont" class="java.awt.Font">
+        <constructor-arg index="0">
+            <value>Arial</value>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <value>0</value>
+        </constructor-arg>
+        <constructor-arg index="2">
+            <value>20</value>
+        </constructor-arg>
+    </bean>
+
     <bean id="fontGenRandom" class="com.octo.captcha.component.image.fontgenerator.RandomFontGenerator">
         <!--最小字体-->
         <constructor-arg index="0">
@@ -59,17 +69,7 @@
         </constructor-arg>
         <constructor-arg index="2">
             <list>
-                <bean class="java.awt.Font">
-                    <constructor-arg index="0">
-                        <value>Arial</value>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <value>0</value>
-                    </constructor-arg>
-                    <constructor-arg index="2">
-                        <value>20</value>
-                    </constructor-arg>
-                </bean>
+                <ref bean="rFont"/>
             </list>
         </constructor-arg>
     </bean>
@@ -92,7 +92,7 @@
         </constructor-arg>
         <!--最小字符长度-->
         <constructor-arg type="java.lang.Integer" index="1">
-            <value>5</value>
+            <value>4</value>
         </constructor-arg>
         <!--文本颜色-->
         <constructor-arg index="2">

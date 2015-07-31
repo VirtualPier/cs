@@ -1,7 +1,9 @@
 package org.ligson.coderstar2.controllers;
 
+import com.boful.common.date.utils.DateUtils;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.octo.captcha.service.image.ImageCaptchaService;
+import org.apache.log4j.Logger;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.pay.domains.Withdraw;
@@ -10,6 +12,7 @@ import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.system.mail.utils.SendCloudConfig;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
@@ -30,10 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -41,6 +41,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/index")
 public class IndexController {
+    private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
     @Qualifier("userService")
     private UserService userService;
@@ -64,6 +65,18 @@ public class IndexController {
     @Autowired
     @Qualifier("captchaService")
     private ImageCaptchaService captchaService;
+
+    @Autowired
+    @Qualifier("sendCloudConfig")
+    private SendCloudConfig cloudConfig;
+
+    public SendCloudConfig getCloudConfig() {
+        return cloudConfig;
+    }
+
+    public void setCloudConfig(SendCloudConfig cloudConfig) {
+        this.cloudConfig = cloudConfig;
+    }
 
     public ImageCaptchaService getCaptchaService() {
         return captchaService;
@@ -195,10 +208,13 @@ public class IndexController {
     }
 
     @RequestMapping("/saveUser")
-    public String saveUser(@RequestParam(value = "nickName") String nickName, @RequestParam(value = "cellphone") String cellphone, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email, HttpServletRequest request) {
+    public String saveUser(@RequestParam(value = "nickName") String nickName, @RequestParam(value = "cellphone") String cellphone, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email, HttpServletRequest request, Model model) {
         Map<String, Object> result = userService.register(email, nickName, cellphone, password);
         boolean success = (boolean) result.get("success");
         if (success) {
+            User user = (User) result.get("user");
+            model.addAttribute("name", user.getEmail());
+            model.addAttribute("msg", "请您登陆！");
             return "redirect:/index/login";
         } else {
             request.setAttribute("nickName", nickName);
@@ -285,11 +301,11 @@ public class IndexController {
             //article
             words = articleService.hotKey(key, maxWorld);
         }
-        List<Map<String,String>> ll = new ArrayList<>();
-        for(String word:words){
-            Map<String,String> hotKeyMap = new HashMap<>();
-            hotKeyMap.put("value",word);
-            if(!hotKeyMap.isEmpty()){
+        List<Map<String, String>> ll = new ArrayList<>();
+        for (String word : words) {
+            Map<String, String> hotKeyMap = new HashMap<>();
+            hotKeyMap.put("value", word);
+            if (!hotKeyMap.isEmpty()) {
                 ll.add(hotKeyMap);
             }
         }
@@ -337,7 +353,14 @@ public class IndexController {
     }
 
     @RequestMapping("/forgotpassword")
-    public void forgotpassword() {
+    public String forgotpassword(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "msg", required = false) String msg, HttpServletRequest request) {
+        if (email != null) {
+            request.setAttribute("email", email);
+        }
+        if (msg != null) {
+            request.setAttribute("msg", msg);
+        }
+        return "index/forgotpassword";
     }
 
     @RequestMapping("/captcha")
@@ -361,6 +384,74 @@ public class IndexController {
             respOs.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("/submitMail")
+    public String submitMail(String email, String code, HttpServletRequest request, Model model) {
+        boolean isUnique = userService.emailIsUnique(email);
+        boolean isValid = captchaService.validateResponseForID(request.getSession().getId(), code);
+
+        model.addAttribute("email", email);
+        if (isUnique) {
+            model.addAttribute("msg", "邮箱不存在");
+            return "redirect:/index/forgotpassword";
+        }
+        if (!isValid) {
+            model.addAttribute("msg", "验证码过期");
+            return "redirect:/index/forgotpassword";
+        }
+        return "redirect:/index/waitCheckEmail";
+    }
+
+    @RequestMapping("/waitCheckEmail")
+    public String waitCheckEmail(String email, HttpServletRequest request) {
+        User user = userService.findUserByEmail(email);
+        if (user != null) {
+            Map<String, String> varMap = new HashMap<>();
+            varMap.put("appName", cloudConfig.getAppName());
+            varMap.put("appDomain", cloudConfig.getAppDomain());
+            varMap.put("email", email);
+            varMap.put("nickName", user.getNickName());
+            String key = userService.emailResetPasswordKey(user);
+            String url = cloudConfig.getAppDomain() + "/index/resetPwd?id=" + user.getId() + "&key=" + key;
+            varMap.put("url", url);
+            varMap.put("date", DateUtils.format(new Date(), DateUtils.FORMAT_2));
+            boolean isSuccess = cloudConfig.sendMail(email, "resetpwd", varMap);
+            logger.debug("send mail to " + email + " is success:" + isSuccess);
+            request.setAttribute("success", isSuccess);
+        } else {
+            request.setAttribute("success", false);
+        }
+        request.setAttribute("email", email);
+        return "index/waitResult";
+    }
+
+    @RequestMapping("/resetPwd")
+    public String resetPwd(@RequestParam(value = "id", required = true) long id, @RequestParam(value = "key", required = true) String key, @RequestParam(value = "msg", required = false) String msg, HttpServletRequest request) {
+        request.setAttribute("id", id);
+        request.setAttribute("key", key);
+        if (msg != null) {
+            request.setAttribute("msg", msg);
+        }
+        return "index/resetPwd";
+    }
+
+    @RequestMapping("/resetUserPwd")
+    public String resetUserPwd(long id, String key, String password, Model model) {
+        Map<String, Object> result = userService.resetPwdByIdAndKey(id, key, password);
+        boolean success = (boolean) result.get("success");
+        if (success) {
+            User user = userService.findUserById(id);
+            model.addAttribute("name", user.getEmail());
+            model.addAttribute("msg", "请您登陆！");
+            return "redirect:/index/login";
+        } else {
+            String msg = result.get("msg").toString();
+            model.addAttribute("id", id);
+            model.addAttribute("key", key);
+            model.addAttribute("msg", msg);
+            return "redirect:/index/resetPwd";
         }
     }
 }

@@ -178,4 +178,10 @@ public interface UserService {
     public List<User> hotReplyers(int max);
 
     public boolean cellphoneIsUnique(String cellphone);
+
+    public User findUserByEmail(String email);
+
+    public String emailResetPasswordKey(User user);
+
+    public Map<String, Object> resetPwdByIdAndKey(long id, String key, String password);
 }

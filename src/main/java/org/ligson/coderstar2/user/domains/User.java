@@ -34,6 +34,7 @@ public class User {
     private double balance = 0;
     //冻结资金
     private double blockedFund = 0;
+    private String emailKey;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -207,6 +208,14 @@ public class User {
         this.blockedFund = blockedFund;
     }
 
+    @Column(nullable = true, name = "email_key")
+    public String getEmailKey() {
+        return emailKey;
+    }
+
+    public void setEmailKey(String emailKey) {
+        this.emailKey = emailKey;
+    }
 
     public static final Map<Integer, String> stateCnName = new HashMap<>();
     public static final Map<Integer, String> roleCnName = new HashMap<>();

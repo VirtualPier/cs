@@ -13,6 +13,13 @@
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:cs-config.properties"/>
     </bean>
+    <bean id="sendCloudConfig" name="sendCloudConfig" class="org.ligson.coderstar2.system.mail.utils.SendCloudConfig">
+        <property name="apiKey" value="${mail.sendcloud.apiKey}"/>
+        <property name="apiUser" value="${mail.sendcloud.apiUser}"/>
+        <property name="fromEmail" value="${mail.fromEmail}"/>
+        <property name="appDomain" value="${appconfig.domain}"/>
+        <property name="appName" value="${appconfig.name}"/>
+    </bean>
 
     <!--数据源相关配置-->
     <import resource="spring-conf-data.xml"/>
