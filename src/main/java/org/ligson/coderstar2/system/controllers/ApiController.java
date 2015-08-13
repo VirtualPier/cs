@@ -19,6 +19,7 @@ import java.util.Map;
 
 /**
  * Created by ligson on 2015/8/13.
+ * 系统对外接口
  */
 @Controller
 @RequestMapping("/api")
@@ -58,6 +59,11 @@ public class ApiController {
         this.categoryService = categoryService;
     }
 
+    /***
+     * 获取分类列表
+     *
+     * @return categoryList的json数据
+     */
     @RequestMapping("/listCategory")
     @ResponseBody
     public Map<String, Object> listCategory() {
@@ -68,6 +74,14 @@ public class ApiController {
         return result;
     }
 
+    /***
+     * 根据分类查找文章
+     *
+     * @param categoryId 分类id
+     * @param offset     开始记录数
+     * @param max        查询多少条记录
+     * @return {total:总记录数,articleList:文章列表}
+     */
     @RequestMapping("/listArticleByCategory")
     @ResponseBody
     public Map<String, Object> listArticleByCategory(long categoryId, int offset, int max) {
@@ -80,6 +94,14 @@ public class ApiController {
         return result;
     }
 
+    /***
+     * 根据分类查找分类下的问题
+     *
+     * @param categoryId 分类id
+     * @param offset     开始记录偏移量
+     * @param max        一页有多少条记录
+     * @return {total:记录总数,questionList:问题列表}
+     */
     @RequestMapping("/listQuestionByCategory")
     @ResponseBody
     public Map<String, Object> listQuestionByCategory(long categoryId, int offset, int max) {
@@ -92,6 +114,12 @@ public class ApiController {
         return result;
     }
 
+    /***
+     * 查看文章内容
+     *
+     * @param articleId 文章id
+     * @return 文章信息
+     */
     @RequestMapping("/viewArticle")
     @ResponseBody
     public Map<String, Object> viewArticle(long articleId) {
@@ -101,6 +129,12 @@ public class ApiController {
         return result;
     }
 
+    /***
+     * 查看问题内容
+     *
+     * @param questionId 问题id
+     * @return 问题信息
+     */
     @RequestMapping("/viewQuestion")
     @ResponseBody
     public Map<String, Object> viewQuestion(long questionId) {
@@ -110,12 +144,28 @@ public class ApiController {
         return result;
     }
 
+    /***
+     * 加载文章的评论
+     *
+     * @param articleId 文章id
+     * @param offset    偏移量
+     * @param max       一夜记录数
+     * @return {total:总记录,remarkList:评论列表}
+     */
     @RequestMapping("/listArticleRemark")
     @ResponseBody
     public Map<String, Object> listArticleRemark(long articleId, int offset, int max) {
         return articleService.listArticleRemark(articleId, offset, max);
     }
 
+    /***
+     * 加载问题评论
+     *
+     * @param questionId 问题id
+     * @param offset     便宜量
+     * @param max        一页记录数
+     * @return {total:总记录,askList:评论列表}
+     */
     @RequestMapping("/listQuestionRemark")
     @ResponseBody
     public Map<String, Object> listQuestionRemark(long questionId, int offset, int max) {
