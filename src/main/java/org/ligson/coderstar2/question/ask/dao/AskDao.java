@@ -13,4 +13,6 @@ public interface AskDao extends BaseDao<Ask> {
     public List<Ask> findAllByQuestion(Question question);
 
     public List<Ask> findAllByQuestionOrder(Question question, String askSort);
+
+    public List<Ask> findAllByQuestion(Question question, int offset, int max);
 }

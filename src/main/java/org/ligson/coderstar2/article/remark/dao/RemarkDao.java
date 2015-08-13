@@ -15,4 +15,6 @@ public interface RemarkDao extends BaseDao<Remark> {
     public RemarkRate findByUserAndRemark(User currentUser, Remark remark);
 
     public List<Remark> findAllByArticleOrderBy(Article article, String remarkSort, String desc);
+
+    public List<Remark> findAllByArticleOrderBy(Article article, int offset, int max, String sort, String order);
 }

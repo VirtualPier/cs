@@ -31,4 +31,15 @@ public class AskDaoImpl extends BaseDaoImpl<Ask> implements AskDao {
         List<Ask> asks = (List<Ask>) query.list();
         return asks;
     }
+
+    @Override
+    public List<Ask> findAllByQuestion(Question question, int offset, int max) {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Ask a where a.question.id=:qid");
+        query.setLong("qid", question.getId());
+        query.setMaxResults(max);
+        query.setFirstResult(offset);
+        List<Ask> asks = (List<Ask>) query.list();
+        return asks;
+    }
 }

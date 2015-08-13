@@ -54,6 +54,7 @@ public class QuestionServiceImpl implements QuestionService {
     private SysTagService sysTagService;
     private FullTextSearchService fullTextSearchService;
 
+
     public FullTextSearchService getFullTextSearchService() {
         return fullTextSearchService;
     }
@@ -651,5 +652,20 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> questionListOrderBy(int offset, int max, String sort, String order) {
         return questionDao.findAllByStateOrderBy(Question.STATE_PUBLISH, sort, order, offset, max);
+    }
+
+    @Override
+    public int countByCategory(Category category) {
+        return questionDao.countByCategoryAndState(category, Question.STATE_PUBLISH);
+    }
+
+    @Override
+    public Map<String, Object> listQuestionRemark(long questionId, int offset, int max) {
+        Map<String, Object> result = new HashMap<>();
+        Question question = findQuestionById(questionId);
+        List<Ask> askList = askDao.findAllByQuestion(question, offset, max);
+        result.put("askList", askList);
+        result.put("total", question.getAsks().size());
+        return result;
     }
 }

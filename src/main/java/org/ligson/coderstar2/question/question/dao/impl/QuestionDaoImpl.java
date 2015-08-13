@@ -228,6 +228,14 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         return questionList;
     }
 
+    @Override
+    public int countByCategoryAndState(Category category, int statePublish) {
+        Query query = getCurrentSession().createQuery("select distinct(ac.question) from QuestionCategory ac where ac.category.id=:cId and ac.question.state=:aState");
+        query.setLong("cId", category.getId());
+        query.setInteger("aState", statePublish);
+        return query.list().size();
+    }
+
 
     /**
      * 组装需要删除的语句

@@ -195,4 +195,8 @@ public interface QuestionService {
     public Map<String, Object> recommendQuestion(Question question, int recommendNum, CommonsMultipartFile poster);
 
     public List<Question> questionListOrderBy(int offset, int max, String sort, String order);
+
+    public int countByCategory(Category category);
+
+    public Map<String, Object> listQuestionRemark(long questionId, int offset, int max);
 }

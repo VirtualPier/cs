@@ -34,4 +34,14 @@ public class RemarkDaoImpl extends BaseDaoImpl<Remark> implements RemarkDao {
         List<Remark> remarks = (List<Remark>) query.list();
         return remarks;
     }
+
+    @Override
+    public List<Remark> findAllByArticleOrderBy(Article article, int offset, int max, String sort, String order) {
+        Query query = getCurrentSession().createQuery("from Remark r where r.article.id=:aId order by " + sort + " " + order);
+        query.setLong("aId", article.getId());
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        List<Remark> remarks = (List<Remark>) query.list();
+        return remarks;
+    }
 }

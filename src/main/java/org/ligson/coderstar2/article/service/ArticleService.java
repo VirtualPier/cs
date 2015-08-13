@@ -211,4 +211,8 @@ public interface ArticleService {
     public Map<String, Object> recommendArticle(Article article, int recommendNum, CommonsMultipartFile poster);
 
     public List<Article> articleListOrderBy(int offset, int max, String sort, String order);
+
+    public int countByCategory(Category category);
+
+    public Map<String, Object> listArticleRemark(long articleId, int offset, int max);
 }

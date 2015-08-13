@@ -218,6 +218,14 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         return articles;
     }
 
+    @Override
+    public int countByCategoryAndState(Category category, int statePublish) {
+        Query query = getCurrentSession().createQuery("select distinct(ac.article) from ArticleCategory ac where ac.category.id=:cId and ac.article.state=:aState");
+        query.setLong("cId", category.getId());
+        query.setInteger("aState", statePublish);
+        return query.list().size();
+    }
+
 
     /**
      * 组装需要删除的语句

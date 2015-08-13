@@ -612,6 +612,22 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDao.findAllByStateOrderBy(Article.STATE_PUBLISH, sort, order, offset, max);
     }
 
+    @Override
+    public int countByCategory(Category category) {
+        return articleDao.countByCategoryAndState(category, Article.STATE_PUBLISH);
+    }
+
+    @Override
+    public Map<String, Object> listArticleRemark(long articleId, int offset, int max) {
+        Article article = findArticleById(articleId);
+        List<Remark> remarks = remarkDao.findAllByArticleOrderBy(article, offset, max, "createDate", "desc");
+        int total = article.getRemarks().size();
+        Map<String, Object> result = new HashMap<>();
+        result.put("remarks", remarks);
+        result.put("total", total);
+        return result;
+    }
+
     public ArticleCategoryDao getArticleCategoryDao() {
         return articleCategoryDao;
     }

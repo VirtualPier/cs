@@ -35,4 +35,6 @@ public interface ArticleDao extends BaseDao<Article> {
     public int countByCreatorAndStateAndTitleLike(User user, int state, String title);
 
     public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order);
+
+    public int countByCategoryAndState(Category category, int statePublish);
 }
