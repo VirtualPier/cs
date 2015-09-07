@@ -35,7 +35,7 @@
     <distributionManagement>
         <repository>
             <id>boful</id>
-            <url>http://repos.ouknow.com:8081/nexus/content/repositories/boful</url>
+            <url>http://ouknowrepos3.3322.org:8081/nexus/content/groups/public/</url>
         </repository>
     </distributionManagement>
     <build>
