@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <title><@block name="title">标题</@block>${appconfig.name}</title>
+     <meta name="baidu-site-verification" content="vDC6CHwEsN" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta property="qc:admins" content="55716664776374524734126375" />
