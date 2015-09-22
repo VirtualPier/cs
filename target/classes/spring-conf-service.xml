@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                     http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://www.springframework.org/schema/tx
+                     http://www.springframework.org/schema/tx/spring-tx.xsd
+                     http://www.springframework.org/schema/aop
+                     http://www.springframework.org/schema/aop/spring-aop.xsd ">
+
+    <bean id="userService" name="userService" class="org.ligson.coderstar2.user.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="questionService" name="questionService"
+          class="org.ligson.coderstar2.question.service.impl.QuestionServiceImpl">
+        <property name="questionDao" ref="questionDao"/>
+        <property name="questionTagDao" ref="questionTagDao"/>
+        <property name="questionCategoryDao" ref="questionCategoryDao"/>
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="askDao" ref="askDao"/>
+        <property name="rateDao" ref="rateDao"/>
+        <property name="attentionQuestionDao" ref="attentionQuestionDao"/>
+        <property name="sysTagDao" ref="sysTagDao"/>
+        <property name="payService" ref="payService"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="sysTagService" ref="sysTagService"/>
+        <property name="categoryService" ref="categoryService"/>
+        <property name="fullTextSearchService" ref="fullTextSearchService"/>
+    </bean>
+    <bean id="questionAskService" name="questionAskService"
+          class="org.ligson.coderstar2.question.ask.service.impl.QuestionAskServiceImpl">
+        <property name="askDao" ref="askDao"/>
+        <property name="questionDao" ref="questionDao"/>
+        <property name="askReplyDao" ref="askReplyDao"/>
+        <property name="rateDao" ref="rateDao"/>
+    </bean>
+    <bean id="categoryService" name="categoryService"
+          class="org.ligson.coderstar2.system.category.service.impl.CategoryServiceImpl">
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="articleCategoryDao" ref="articleCategoryDao"/>
+        <property name="questionCategoryDao" ref="questionCategoryDao"/>
+        <property name="articleService" ref="articleService"/>
+        <property name="questionService" ref="questionService"/>
+    </bean>
+    <bean id="articleService" name="articleService"
+          class="org.ligson.coderstar2.article.service.impl.ArticleServiceImpl">
+        <property name="articleDao" ref="articleDao"/>
+        <property name="articleCategoryDao" ref="articleCategoryDao"/>
+        <property name="articleTagDao" ref="articleTagDao"/>
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="sysTagService" ref="sysTagService"/>
+        <property name="articleRateDao" ref="articleRateDao"/>
+        <property name="attentionArticleDao" ref="attentionArticleDao"/>
+        <property name="categoryService" ref="categoryService"/>
+        <property name="payService" ref="payService"/>
+        <property name="remarkDao" ref="remarkDao"/>
+        <property name="remarkRate" ref="remarkRate"/>
+        <property name="remarkRateDao" ref="remarkRateDao"/>
+        <property name="sysTagDao" ref="sysTagDao"/>
+        <property name="fullTextSearchService" ref="fullTextSearchService"/>
+    </bean>
+
+    <bean id="payService" name="payService"
+          class="org.ligson.coderstar2.pay.service.impl.PayServiceImpl">
+        <property name="withdrawDao" ref="withdrawDao"/>
+        <property name="payOrderDao" ref="payOrderDao"/>
+        <property name="tradeRecordDao" ref="tradeRecordDao"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="blockedFundDao" ref="blockedFundDao"/>
+        <property name="appName" value="${appconfig.name}"/>
+        <property name="basePath" value="${appconfig.domain}"/>
+    </bean>
+    <bean name="sysTagService"
+          class="org.ligson.coderstar2.system.systag.service.impl.SysTagServiceImpl">
+        <property name="sysTagDao" ref="sysTagDao"/>
+        <property name="questionTagDao" ref="questionTagDao"/>
+        <property name="articleTagDao" ref="articleTagDao"/>
+    </bean>
+
+
+    <bean id="smartcnAnalyzer" name="smartcnAnalyzer"
+          class="org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer"/>
+
+    <bean id="spellcheckDic" name="spellcheckDic" class="java.io.File">
+        <constructor-arg type="java.lang.String" value="${search.spellcheckDic}"/>
+    </bean>
+    <bean id="indexDir" name="indexDir" class="java.io.File">
+        <constructor-arg type="java.lang.String" value="${search.indexDir}"/>
+    </bean>
+    <bean name="fullTextSearchService" class="org.ligson.coderstar2.system.service.impl.FullTextSearchServiceImpl"
+          init-method="init" destroy-method="destory">
+        <property name="articleService" ref="articleService"/>
+        <property name="questionService" ref="questionService"/>
+        <property name="analyzer" ref="smartcnAnalyzer"/>
+        <property name="spellcheckDic" ref="spellcheckDic"/>
+        <property name="indexDir" ref="indexDir"/>
+    </bean>
+
+</beans>

@@ -9,12 +9,11 @@ $(function () {
         ['Subscript', 'Superscript'],
         ['NumberedList', 'BulletedList'],
         ['Outdent', 'Indent'],
-        ['Blockquote'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         ['Image', 'Flash', 'Table'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         ['Link', 'Unlink', 'Anchor'],
         ['Smiley', 'SpecialChar', 'PageBreak'],
-        ['CodeSnippet', 'Preview','Source']
+        ['CodeSnippet', 'Preview', 'Source']
     ];
     var config = {
         readOnly: !pageConfig.isLogin,
@@ -22,7 +21,8 @@ $(function () {
         toolbar: toolbar,
         codeSnippet_theme: 'monokai_sublime',
         filebrowserUploadUrl: '/user/uploadFile',
-        filebrowserImageUploadUrl: "/user/uploadImage"
+        filebrowserImageUploadUrl: "/user/uploadImage",
+        skin: "bootstrapck"
     };
 
     CKEDITOR.replace('ckeditor01', config);

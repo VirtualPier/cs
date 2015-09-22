@@ -7,6 +7,7 @@ em {
     font-style: normal
 }
 
+/*
 input[type=radio], input[type=checkbox] {
     margin: 0
 }
@@ -14,6 +15,7 @@ input[type=radio], input[type=checkbox] {
 input[type=radio]:focus, input[type=checkbox]:focus {
     outline: 0
 }
+*/
 
 form {
     margin: 0

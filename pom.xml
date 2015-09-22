@@ -34,8 +34,8 @@
     </properties>
     <distributionManagement>
         <repository>
-            <id>boful</id>
-            <url>http://ouknowrepos3.3322.org:8081/nexus/content/groups/public/</url>
+            <id>nexus</id>
+            <url>http://nexus.codertostar.com/content/groups/public/</url>
         </repository>
     </distributionManagement>
     <build>
@@ -73,11 +73,11 @@
     <repositories>
         <repository>
             <id>nexus</id>
-            <url>http://ouknowrepos3.3322.org:8081/nexus/content/groups/public/</url>
+            <url>http://nexus.codertostar.com/content/groups/public/</url>
         </repository>
         <repository>
-            <id>boful</id>
-            <url>http://ouknowrepos3.3322.org:8081/nexus/content/repositories/boful/</url>
+            <id>ligson</id>
+            <url>http://nexus.codertostar.com/content/repositories/ligson/</url>
         </repository>
     </repositories>
     <dependencies>

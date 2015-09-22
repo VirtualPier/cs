@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                     http://www.springframework.org/schema/beans/spring-beans.xsd  
+                     http://www.springframework.org/schema/tx  
+                     http://www.springframework.org/schema/tx/spring-tx.xsd  
+                     http://www.springframework.org/schema/aop  
+                     http://www.springframework.org/schema/aop/spring-aop.xsd ">
+
+    <bean id="baseDao" class="org.ligson.coderstar2.base.dao.impl.BaseDaoImpl">
+        <property name="sessionFactory" ref="mySessionFactory">
+        </property>
+    </bean>
+
+    <bean id="attentionArticleDao" class="org.ligson.coderstar2.article.arrentionarticle.dao.impl.AttentionArticleDaoImpl" parent="baseDao"/>
+    <bean id="articleDao" class="org.ligson.coderstar2.article.article.dao.impl.ArticleDaoImpl" parent="baseDao"/>
+    <bean id="articleCategoryDao" class="org.ligson.coderstar2.article.articlecategory.dao.impl.ArticleCategoryDaoImpl" parent="baseDao"/>
+    <bean id="articleRateDao" class="org.ligson.coderstar2.article.articlerate.dao.impl.ArticleRateDaoImpl" parent="baseDao"/>
+    <bean id="articleTagDao" class="org.ligson.coderstar2.article.articletag.dao.impl.ArticleTagDaoImpl" parent="baseDao"/>
+    <bean id="remarkDao" class="org.ligson.coderstar2.article.remark.dao.impl.RemarkDaoImpl" parent="baseDao"/>
+    <bean id="remarkRateDao" class="org.ligson.coderstar2.article.remarkrate.dao.impl.RemarkRateDaoImpl" parent="baseDao"/>
+    <bean id="remarkReplyDao" class="org.ligson.coderstar2.article.remarkreply.dao.impl.RemarkReplyDaoImpl" parent="baseDao"/>
+    <bean id="blockedFundDao" class="org.ligson.coderstar2.pay.blockedfund.dao.impl.BlockedFundDaoImpl" parent="baseDao"/>
+    <bean id="payOrderDao" class="org.ligson.coderstar2.pay.payorder.dao.impl.PayOrderDaoImpl" parent="baseDao"/>
+    <bean id="tradeRecordDao" class="org.ligson.coderstar2.pay.traderecord.dao.impl.TradeRecordDaoImpl" parent="baseDao"/>
+    <bean id="withdrawDao" class="org.ligson.coderstar2.pay.withdraw.dao.impl.WithdrawDaoImpl" parent="baseDao"/>
+    <bean id="askDao" class="org.ligson.coderstar2.question.ask.dao.impl.AskDaoImpl" parent="baseDao"/>
+    <bean id="askReplyDao" class="org.ligson.coderstar2.question.askreply.dao.impl.AskReplyDaoImpl" parent="baseDao"/>
+    <bean id="attentionQuestionDao" class="org.ligson.coderstar2.question.attentionquestion.dao.impl.AttentionQuestionDaoImpl" parent="baseDao"/>
+    <bean id="questionDao" class="org.ligson.coderstar2.question.question.dao.impl.QuestionDaoImpl" parent="baseDao"/>
+    <bean id="questionCategoryDao" class="org.ligson.coderstar2.question.questioncategory.dao.impl.QuestionCategoryDaoImpl" parent="baseDao"/>
+    <bean id="questionTagDao" class="org.ligson.coderstar2.question.questiontag.dao.impl.QuestionTagDaoImpl" parent="baseDao"/>
+    <bean id="rateDao" class="org.ligson.coderstar2.question.rate.dao.impl.RateDaoImpl" parent="baseDao"/>
+    <bean id="categoryDao" class="org.ligson.coderstar2.system.category.dao.impl.CategoryDaoImpl" parent="baseDao"/>
+    <bean id="sysTagDao" class="org.ligson.coderstar2.system.systag.dao.impl.SysTagDaoImpl" parent="baseDao"/>
+    <bean id="userDao" class="org.ligson.coderstar2.user.dao.impl.UserDaoImpl" parent="baseDao"/>
+
+
+</beans>
