@@ -244,7 +244,7 @@ public class ArticleController {
         if (tags == null) {
             tagArr = new String[0];
         } else {
-            tagArr = tags.split(";");
+            tagArr = tags.split(",");
         }
         //(long id,String title, String content, User creator, String[] tags, long[] categroyIds)
         Map result = articleService.createArticle(id, title, description, user, tagArr, categoryIdArray);
