@@ -1,11 +1,54 @@
+/***
+ * String方法扩展
+ * @author ligson
+ */
+
 String.prototype.trim = function () {
     return this.replace(/(^\s*)|(\s*$)/g, "");
 };
+/***
+ * 空串或者null或者trim后是空串
+ * @returns {boolean}
+ */
 String.prototype.isEmpty = function () {
-    return this.trim() == "";
+    if (this && (this + "").trim() != "") {
+        return false;
+    } else {
+        return true;
+    }
 };
+/***
+ * 验证邮箱格式
+ * @returns {boolean}
+ */
 String.prototype.isEmail = function () {
     var pattern = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    return pattern.test(this);
+};
+/***
+ * 验证身份证格式
+ * @returns {boolean}
+ */
+String.prototype.isIdCardNumber = function () {
+    var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    return pattern.test(this);
+};
+
+/***
+ * 验证电话或者传真
+ * @returns {boolean}
+ */
+String.prototype.isPhone = function () {
+    var pattern = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
+    return pattern.test(this);
+};
+
+/***
+ * 验证手机号,可以含-
+ * @returns {boolean}
+ */
+String.prototype.isMobile = function () {
+    var pattern = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
     return pattern.test(this);
 };
 String.prototype.cut = function (maxLen) {
@@ -100,6 +143,4 @@ String.prototype.ascW = function () {
 
 String.prototype.replaceAll = function (s1, s2) {
     return this.replace(new RegExp(s1, "gm"), s2);
-}
-
-
+};
