@@ -116,3 +116,27 @@ Date.parseFromText = function (text, parttern) {
 Date.convertTxtFormat = function (text) {
     return Date.parseFromText(text, "yyyyMMddHHmmss").format("yyyy年MM月dd日 HH:mm:ss");
 };
+
+Date.prototype.before = function (when) {
+    return this.getMilliseconds() < when.getMilliseconds();
+};
+Date.prototype.after = function (when) {
+    return this.getMilliseconds() > when.getMilliseconds();
+};
+/***
+ * 是否闰年
+ * @param intYear
+ * @returns {boolean}
+ */
+Date.isLeapYear = function (intYear) {
+    if (intYear % 100 == 0) {
+        if (intYear % 400 == 0) {
+            return true;
+        }
+    } else {
+        if ((intYear % 4) == 0) {
+            return true;
+        }
+    }
+    return false;
+};

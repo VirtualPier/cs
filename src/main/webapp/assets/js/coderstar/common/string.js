@@ -17,6 +17,32 @@ String.prototype.isEmpty = function () {
         return true;
     }
 };
+
+/***
+ * 字符串测试
+ * @param str
+ * @returns {boolean}
+ */
+String.isEmpty = function (str) {
+    if (str && (str + "").trim() != "") {
+        return false;
+    } else {
+        return true;
+    }
+};
+
+String.prototype.passwordLevel = function () {
+    var reg1 = /^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i;
+    if (reg1.test(this)) {
+        return 2;
+    }
+
+    if (this.match(/\W/g) != null && this.match(/\d/g) != null && this.match(/[a-zA-Z]/g) != null) {
+        return 3;
+    }
+
+    return 1;
+};
 /***
  * 验证邮箱格式
  * @returns {boolean}
@@ -30,8 +56,7 @@ String.prototype.isEmail = function () {
  * @returns {boolean}
  */
 String.prototype.isIdCardNumber = function () {
-    var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    return pattern.test(this);
+    return new IdcardValidator().isValidatedAllIdcard(this);
 };
 
 /***
@@ -48,7 +73,7 @@ String.prototype.isPhone = function () {
  * @returns {boolean}
  */
 String.prototype.isMobile = function () {
-    var pattern = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
+    var pattern = /^((\(\d{2,3}\))|(\d{3}\-))?1\d{10}$/;
     return pattern.test(this);
 };
 String.prototype.cut = function (maxLen) {
@@ -143,4 +168,8 @@ String.prototype.ascW = function () {
 
 String.prototype.replaceAll = function (s1, s2) {
     return this.replace(new RegExp(s1, "gm"), s2);
+};
+
+String.prototype.equalsIgnoreCase = function (s1) {
+    return this.toUpperCase() == s1.toUpperCase();
 };

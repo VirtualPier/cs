@@ -9,7 +9,7 @@
     <packaging>war</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.1.1.RELEASE</spring.version>
+        <spring.version>4.1.8.RELEASE</spring.version>
         <hibernate.verion>4.2.0.Final</hibernate.verion>
         <struts2.version>2.3.8</struts2.version>
         <log4j.version>1.2.17</log4j.version>
@@ -78,6 +78,10 @@
         <repository>
             <id>ligson</id>
             <url>http://nexus.codertostar.com/content/repositories/ligson/</url>
+        </repository>
+        <repository>
+            <id>boful</id>
+            <url>http://nexus-boful.3322.org:81/content/repositories/boful/</url>
         </repository>
     </repositories>
     <dependencies>
