@@ -1,13 +1,18 @@
 package org.ligson.coderstar2.base.dao.impl;
 
+import org.apache.commons.lang.ClassUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.ligson.coderstar2.base.dao.BaseDao;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ReflectionUtils;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -87,7 +92,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Transactional("transactionManager")
     @Override
     public long countBy(String propertyName, Object propertyValue) {
-        return countExceptUserBy(propertyName,propertyValue,null);
+        return countExceptUserBy(propertyName, propertyValue, null);
     }
 
     @Transactional
@@ -96,8 +101,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         String hql;
         if (propertyName != null) {
             String exceptUser = "";
-            if(user != null){
-                exceptUser = " and id <> " +user.getId();
+            if (user != null) {
+                exceptUser = " and id <> " + user.getId();
             }
             if (propertyValue instanceof String) {
                 hql = "select count(*) from " + this.getGenericTypeName()
@@ -111,6 +116,46 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         }
         Query query = getCurrentSession().createQuery(hql);
         return (Long) query.uniqueResult();
+    }
+
+    @Override
+    public List<T> findByExample(T t, int offset, int max) {
+        PropertyDescriptor[] props = BeanUtils.getPropertyDescriptors(t.getClass());
+        List<String> propNames = new ArrayList<String>();
+        List<Object> propValues = new ArrayList<Object>();
+        for (PropertyDescriptor prop : props) {
+            try {
+                Field field = t.getClass().getField(prop.getName());
+                Object value = ReflectionUtils.getField(field, t);
+                if (value != null) {
+                    propNames.add(prop.getName());
+                    propValues.add(value);
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+        return findAllByAnd(propNames, propValues, max, offset);
+    }
+
+    @Override
+    public long countByExample(T t) {
+        PropertyDescriptor[] props = BeanUtils.getPropertyDescriptors(t.getClass());
+        List<String> propNames = new ArrayList<String>();
+        List<Object> propValues = new ArrayList<Object>();
+        for (PropertyDescriptor prop : props) {
+            try {
+                Field field = t.getClass().getField(prop.getName());
+                Object value = ReflectionUtils.getField(field, t);
+                if (value != null) {
+                    propNames.add(prop.getName());
+                    propValues.add(value);
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+        return countByAnd(propNames, propValues);
     }
 
     @Override
@@ -340,13 +385,11 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T getById(long id) {
-        // TODO Auto-generated method stub
         return (T) getCurrentSession().get(getGenericType(0), id);
     }
 
     @Override
     public void updateProperty(String property, String propertyValue, long id) {
-        // TODO Auto-generated method stub
         String hql;
         if (propertyValue instanceof String) {
             hql = "update " + this.getGenericTypeName() + " set " + property
@@ -398,7 +441,6 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
     @Override
     public void saveOrUpdate(T t) {
-        // TODO Auto-generated method stub
         getCurrentSession().saveOrUpdate(t);
     }
 

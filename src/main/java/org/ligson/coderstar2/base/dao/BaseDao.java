@@ -46,10 +46,15 @@ public interface BaseDao<T> {
 
     /**
      * 除了制定用户之外下的属性和值
-     * @param propertyName 属性名称
+     *
+     * @param propertyName  属性名称
      * @param propertyValue 属性值
-     * @param user 除此用户之外
+     * @param user          除此用户之外
      * @return 数据库中含有的个数
      */
     long countExceptUserBy(String propertyName, Object propertyValue, User user);
+
+    public List<T> findByExample(T t, int offset, int max);
+
+    public long countByExample(T t);
 }
