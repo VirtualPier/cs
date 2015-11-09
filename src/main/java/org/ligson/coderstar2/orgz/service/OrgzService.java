@@ -14,5 +14,5 @@ public interface OrgzService {
 
     public List<OrgDetail> query(OrgDetail orgDetail, int max, int offset);
 
-    public List<OrgDetail> count(OrgDetail orgDetail);
+    public long count(OrgDetail orgDetail);
 }
