@@ -1,51 +1,51 @@
-<div class="admin-con" data-options="region:'north'" style="height:100px;overflow:hidden;border:0">
-    <div class="container-fluid">
+<div class="ui-mask">
+    <p>正在加载页面,请稍后...</p>
+</div>
+<div class="admin-con" data-options="region:'north',border:false" style="height:72px;background:#666;text-align:center">
+    <div id="header-inner">
+        <table cellpadding="0" cellspacing="0" style="width:100%;">
+            <tbody>
+            <tr>
+                <td rowspan="2" style="width:20px;">
+                </td>
+                <td style="height:52px;">
+                    <div style="color:#fff;font-size:22px;font-weight:bold;">
+                        <a style="color:#fff;font-size:22px;font-weight:bold;text-decoration:none">康老汇后台管理</a>
+                    </div>
+                    <div style="color:#fff">
+                        <a style="color:#fff;text-decoration:none">让一切XX使用的更方便!</a>
+                    </div>
+                </td>
+                <td style="padding-right:5px;text-align:right;vertical-align:bottom;">
+                    <div id="topmenu">
+                        <a href="/articleMgr/index">文章管理</a>
+                        <a href="/questionMgr/index">问题管理</a>
+                        <a href="/userMgr/index">用户管理</a>
+                        <a href="/payMgr/index">支付管理</a>
+                        <a href="/systemMgr/userList">系统管理</a>
+                    </div>
+
+                </td>
+                <td style="padding-right:5px;text-align:right;vertical-align:bottom;">
+                    <div id="user_toolbar">
+                        <p>欢迎你,<a style="color:#FFF" iconCls="icon-user" class="easyui-linkbutton" plain="true"
+                                  id="login_username">${adminUser.nickName}</a>&nbsp;&nbsp;
+                            <a style="color:#FFF" class="easyui-linkbutton" iconCls="icon-control_power_blue"
+                               plain="true" href="${basePath}admin/logout">退出</a></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container-fluid" style="display:none;">
         <div class="row">
             <div class="ism_logo logo-width col-md-2">
                 <h1 class="logo-img">后台管理系统</h1>
             </div>
 
             <div class="ism_nav col-md-8">
-                <div class="ism_nav_item">
-                <#if springMacroRequestContext.requestUri?contains("/questionMgr")>
-                    <a class="btn btn-default btn-block active" href="/questionMgr/index">问题管理</a>
-                <#else >
-                    <a class="btn btn-default btn-block " href="/questionMgr/index">问题管理</a>
-                </#if>
-                </div>
 
-                <div class="ism_nav_item">
-                <#if springMacroRequestContext.requestUri?contains("/userMgr")>
-                    <a class="btn btn-default btn-block active" href="/userMgr/index">用户管理</a>
-                <#else >
-                    <a class="btn btn-default btn-block" href="/userMgr/index">用户管理</a>
-                </#if>
-                </div>
-
-
-                <div class="ism_nav_item">
-                <#if springMacroRequestContext.requestUri?contains("/articleMgr")>
-                    <a class="btn btn-default btn-block active" href="/articleMgr/index">文章管理</a>
-                <#else >
-                    <a class="btn btn-default btn-block" href="/articleMgr/index">文章管理</a>
-                </#if>
-                </div>
-
-                <div class="ism_nav_item">
-                <#if springMacroRequestContext.requestUri?contains("/payMgr")>
-                    <a class="btn btn-default btn-block active" href="/payMgr/index">支付管理</a>
-                <#else >
-                    <a class="btn btn-default btn-block" href="/payMgr/index/">支付管理</a>
-                </#if>
-                </div>
-
-                <div class="ism_nav_item">
-                <#if springMacroRequestContext.requestUri?contains("/systemMgr")>
-                    <a class="btn btn-default btn-block active" href="/systemMgr/userList">系统管理</a>
-                <#else >
-                    <a class="btn btn-default btn-block" href="/systemMgr/userList/">系统管理</a>
-                </#if>
-                </div>
             </div>
 
 

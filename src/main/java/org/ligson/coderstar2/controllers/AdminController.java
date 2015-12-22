@@ -50,12 +50,18 @@ public class AdminController {
         if (success) {
             User user = (User) result.get("user");
             request.getSession().setAttribute("adminUser", user);
-            return "redirect:/userMgr/index";
+            return "redirect:/articleMgr/index";
         } else {
             String msg = (String) result.get("msg");
             model.addAttribute("name", name);
             model.addAttribute("msg", msg);
             return "redirect:/admin/index";
         }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/admin/index";
     }
 }

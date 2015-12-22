@@ -5,6 +5,7 @@ $(function () {
 
     var userGrid = $("#tt");
     userGrid.datagrid({
+        fit:true,
         columns: [[
             {field: 'ck', title: 'ckID', width: 40, checkbox: 'true'},
             {field: 'id', title: 'ID', width: 40},
