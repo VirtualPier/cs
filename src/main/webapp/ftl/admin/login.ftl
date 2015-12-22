@@ -8,7 +8,9 @@
     <script type="text/javascript" src="${basePath}assets/js/lib/jquery.cookie.js"></script>
     <script type="text/javascript" src="${basePath}assets/js/lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${basePath}assets/js/coderstar/common/string.js"></script>
+    <script type="text/javascript" src="/assets/js/coderstar/common/date.js"></script>
     <script type="text/javascript" src="${basePath}assets/js/coderstar/admin/login.js"></script>
+
 </head>
 <body>
 <div class="login-container">

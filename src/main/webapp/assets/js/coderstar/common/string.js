@@ -104,7 +104,8 @@ String.prototype.isNumeric = function () {
 String.prototype.isInt = function () {
     if (this == "NaN")
         return false;
-    return this == parseInt(this).toString();
+    var reg = /^-?\d+$/;
+    return reg.test(this);
 };
 // 合并多个空白为一个空白
 String.prototype.resetBlank = function () {

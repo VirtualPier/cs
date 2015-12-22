@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminController extends BaseController {
 
     @Autowired
     @Qualifier("userService")
@@ -44,12 +44,12 @@ public class AdminController {
     }
 
     @RequestMapping("/login")
-    public String login(@RequestParam("name") String name, @RequestParam("password") String password, Model model, HttpServletRequest request) {
+    public String login(@RequestParam("name") String name, @RequestParam("password") String password, Model model) {
         Map<String, Object> result = userService.login(name, password);
         boolean success = (boolean) result.get("success");
         if (success) {
             User user = (User) result.get("user");
-            request.getSession().setAttribute("adminUser", user);
+            session.setAttribute("adminUser", user);
             return "redirect:/articleMgr/index";
         } else {
             String msg = (String) result.get("msg");
@@ -60,8 +60,8 @@ public class AdminController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        request.getSession().invalidate();
+    public String logout() {
+        session.invalidate();
         return "redirect:/admin/index";
     }
 }

@@ -50,39 +50,85 @@ Date.parseFromText = function (text, parttern) {
     var yearOffset = parttern.indexOf("yyyy");
     var year = null;
     if (yearOffset != -1) {
-        year = parseInt(text.substring(yearOffset, yearOffset + 4));
+        var yearString = text.substring(yearOffset, yearOffset + 4);
+        if (!yearString.isInt()) {
+            throw "年份无效";
+        }
+        year = parseInt(yearString);
     }
     var monthOffset = parttern.indexOf("MM");
     var month = null;
     if (monthOffset != -1) {
-        month = parseInt(text.substring(monthOffset, monthOffset + 2));
+        var monthString = text.substring(monthOffset, monthOffset + 2);
+        if (!monthString.isInt()) {
+            throw "月份无效";
+        }
+        month = parseInt(monthString)-1;
+        if (month < 1 || month > 12) {
+            throw "月份无效";
+        }
     }
     var dayOffset = parttern.indexOf("dd");
     var day = null;
     if (dayOffset != -1) {
-        day = parseInt(text.substring(dayOffset, dayOffset + 2));
+        var dayString = text.substring(dayOffset, dayOffset + 2);
+        if (!dayString.isInt()) {
+            throw  "日期无效";
+        }
+        day = parseInt(dayString);
+        if (day < 1 || day > 31) {
+            throw  "日期无效";
+        }
     }
     var hourOffset = parttern.indexOf("HH");
     var hour = null;
     if (hourOffset != -1) {
-        hour = parseInt(text.substring(hourOffset, hourOffset + 2));
+        var hourString = text.substring(hourOffset, hourOffset + 2);
+        if (!hourString.isInt()) {
+            throw  "小时无效";
+        }
+        hour = parseInt(hourString);
+        if (hour < 0 || hour > 59) {
+            throw  "小时无效";
+        }
     }
     var minuteOffset = parttern.indexOf("mm");
     var minute = null;
     if (minute != -1) {
-        minute = parseInt(text.substring(minuteOffset, minuteOffset + 2));
+        var minuteString = text.substring(minuteOffset, minuteOffset + 2);
+        if (!minuteString.isInt()) {
+            throw  "分钟无效";
+        }
+        minute = parseInt(minuteString);
+        if (minute < 0 || minute > 59) {
+            throw  "分钟无效";
+        }
     }
 
     var secondOffset = parttern.indexOf("ss");
     var second = null;
     if (secondOffset != -1) {
-        second = parseInt(text.substring(secondOffset, secondOffset + 2));
+        var secondString = text.substring(secondOffset, secondOffset + 2);
+        if (!secondString.isInt()) {
+            throw "秒数无效";
+        }
+        second = parseInt(secondString);
+        if (second < 0 || second > 59) {
+            throw  "秒数无效";
+        }
     }
 
     var msecondOffset = parttern.indexOf("S");
     var msecond = null;
     if (msecondOffset != -1) {
-        msecond = parseInt(text.substring(msecondOffset, msecondOffset + 1));
+        var msecondString = text.substring(msecondOffset, msecondOffset + 1);
+        if (!msecondString.isInt()) {
+            throw "毫秒无效";
+        }
+        msecond = parseInt(msecondString);
+        if (msecond < 0 || msecond > 999) {
+            throw "毫秒无效";
+        }
     }
     var date = new Date();
     if (year) {
@@ -106,7 +152,12 @@ Date.parseFromText = function (text, parttern) {
     if (msecond) {
         date.setMilliseconds(msecond);
     }
-    return date;
+
+    if (date.format(parttern) == text) {
+        return date;
+    } else {
+        throw  "日期无效";
+    }
 };
 
 /***

@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.question.admin.controllers;
 
 import org.ligson.coderstar2.article.domains.Article;
+import org.ligson.coderstar2.controllers.BaseController;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
@@ -24,7 +25,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/questionMgr")
-public class QuestionMgrController {
+public class QuestionMgrController extends BaseController{
     private static final String prefix = "admin/questionMgr/";
     @Autowired
     @Qualifier("questionService")
