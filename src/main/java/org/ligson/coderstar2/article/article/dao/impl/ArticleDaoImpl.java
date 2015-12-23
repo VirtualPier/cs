@@ -238,4 +238,12 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
         return "DELETE FROM " + tableName + " WHERE article_id=" + articleId + ";";
     }
 
+    @Override
+    public List<Article> list(int offset, int max) {
+        //String title, long id, String createDate, int state, long replyNum, long viewNum, long attentionNum, String poster, int recommendNum
+        Query query = getCurrentSession().createQuery("select new Article(title,id,createDate,state,replyNum,viewNum,attentionNum,poster,recommendNum) from Article");
+        query.setFirstResult(offset);
+        query.setMaxResults(max);
+        return query.list();
+    }
 }

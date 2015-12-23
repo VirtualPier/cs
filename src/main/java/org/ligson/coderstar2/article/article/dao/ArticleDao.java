@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Ruby on 2015/7/16.
+ * Created by ligson on 2015/7/16.
+ * 文章
  */
 public interface ArticleDao extends BaseDao<Article> {
     public List<List> countByArticleGroupByUser(String preWeek);

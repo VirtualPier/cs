@@ -200,4 +200,8 @@ public class Question implements Serializable {
         stateCnName.put(STATE_PUBLISH, "发布");
         stateCnName.put(STATE_APPLY, "审核");
     }
+
+    public Question() {
+    }
+
 }

@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta property="qc:admins" content="55716664776374524734126375"/>
-    <meta name="Keywords" content="程序员，码农,编程,C语言,程序员,源代码,源码,源码下载,创业，合作，交流">
-    <META name="Description" content="关注程序员的职业生涯，即时的解决各种问题，纯干货！">
+    <meta name="Keywords" content="程序员,码农,编程,C语言,程序员,源代码,源码,源码交易,创业，合作，交流">
+    <META name="Description" content="关注程序员的职业生涯，即时的解决工作中的各种问题，纯干货！">
     <link rel="shortcut icon" href="/assets/images/logo.ico" type="image/x-icon">
     <script type="text/javascript">
         var pageConfig = {};
@@ -34,7 +34,7 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only">切换</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>

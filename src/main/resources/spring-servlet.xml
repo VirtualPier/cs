@@ -60,6 +60,7 @@
                 <entry key="override" value-ref="override"/>
                 <entry key="extends" value-ref="extends"/>
                 <entry key="basePath" value="${appconfig.domain}/"/>
+                <entry key="assetsPath" value="${appconfig.domain}/"/>
                 <entry key="appName" value="${appconfig.name}"/>
             </map>
         </property>

@@ -178,4 +178,19 @@ public class Article {
         stateCnName.put(STATE_PUBLISH, "发布");
         stateCnName.put(STATE_APPLY, "审核");
     }
+
+    public Article(String title, long id, String createDate, int state, long replyNum, long viewNum, long attentionNum, String poster, int recommendNum) {
+        this.title = title;
+        this.id = id;
+        this.createDate = createDate;
+        this.state = state;
+        this.replyNum = replyNum;
+        this.viewNum = viewNum;
+        this.attentionNum = attentionNum;
+        this.poster = poster;
+        this.recommendNum = recommendNum;
+    }
+
+    public Article() {
+    }
 }
