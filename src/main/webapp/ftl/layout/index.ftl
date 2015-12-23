@@ -8,23 +8,24 @@
     <meta property="qc:admins" content="55716664776374524734126375"/>
     <meta name="Keywords" content="程序员,码农,编程,C语言,程序员,源代码,源码,源码交易,创业，合作，交流">
     <META name="Description" content="关注程序员的职业生涯，即时的解决工作中的各种问题，纯干货！">
-    <link rel="shortcut icon" href="/assets/images/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="${assetsPath}images/logo.ico" type="image/x-icon">
     <script type="text/javascript">
         var pageConfig = {};
         pageConfig.isLogin = ${user???string("true","false")};
+        pageConfig.basePath = "${assetsPath}";
     </script>
 
-    <script type="text/javascript" src="/assets/js/lib/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/assets/js/lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/lib/jquery.cookie.js"></script>
     <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/js/lib/bootstrap-typeahead/example.css">
+    <link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/bootstrap-typeahead/example.css">
     <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/assets/js/lib/bootstrap-select/css/bootstrap-select.min.css"/>
-    <script type="text/javascript" src="/assets/js/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/bootstrap-select/css/bootstrap-select.min.css"/>
+    <script type="text/javascript" src="${assetsPath}js/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
     <!----百度统计---->
-    <script type="text/javascript" src="/assets/js/coderstar/front/baidustatistics.js"></script>
-    <link rel="stylesheet" type="text/css" href="/assets/css/cs/base.css"/>
-    <script type="text/javascript" src="/assets/js/coderstar/front/common.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/coderstar/front/baidustatistics.js"></script>
+    <link rel="stylesheet" type="text/css" href="${assetsPath}css/cs/base.css"/>
+    <script type="text/javascript" src="${assetsPath}js/coderstar/front/common.js"></script>
 <@block name="header"></@block>
 </head>
 <body>
