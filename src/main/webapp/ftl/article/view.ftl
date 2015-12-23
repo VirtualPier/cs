@@ -1,7 +1,6 @@
 <#import "includes/date.ftl" as df/>
-<@override name="title">${question.title}</@override>
+<@override name="title">${article.title}</@override>
 <@override name="header">
-<title>${article.title}</title>
 <link rel="stylesheet" charset="UTF-8" href="${assetsPath}js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
 <script type="text/javascript" src="${assetsPath}js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
 <link rel="stylesheet" type="text/css"

@@ -1,18 +1,17 @@
 <#import "includes/date.ftl" as df/>
 <@override name="title">${question.title}</@override>
 <@override name="header">
-<title>${question.title}</title>
-<link rel="stylesheet" charset="UTF-8" href="/js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
-<script type="text/javascript" src="/js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/js/lib/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css"/>
-<script type="text/javascript" src="/js/lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
+<link rel="stylesheet" charset="UTF-8" href="${assetsPath}js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css"/>
+<script type="text/javascript" src="${assetsPath}js/lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
-    var CKEDITOR_BASEPATH = "/js/lib/ckeditor/";
+    var CKEDITOR_BASEPATH = "${assetsPath}js/lib/ckeditor/";
     var rightAskId = ${question.rightAsk???string(question.rightAsk.id,"-1")};
 </script>
-<script src="/js/lib/ckeditor/ckeditor.js" type="text/javascript"></script>
-<script src="/js/coderstar/common/ckconfig.js" type="text/javascript"></script>
-<script src="/js/coderstar/front/viewQuestion.js" type="text/javascript"></script>
+<script src="${assetsPath}js/lib/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="${assetsPath}js/coderstar/common/ckconfig.js" type="text/javascript"></script>
+<script src="${assetsPath}js/coderstar/front/viewQuestion.js" type="text/javascript"></script>
 </@override>
 <@override name="body">
 
