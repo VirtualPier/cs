@@ -43,7 +43,6 @@
                         <a href="/article/index?tagId=${ta.tag.id}" class="cs-question-tags">${ta.tag.name}</a>
                     </#list>
                 </p>
-                <#include "includes/share.ftl">
             </div>
 
             <div class="mod-body">
@@ -55,6 +54,7 @@
             <div class="mod-footer">
                 <div class="meta">
                     <span class="text-color-999"><@df.dateFormat article.createDate/>发布</span>
+                    <#include "includes/share.ftl">
                 </div>
             </div>
         </div>

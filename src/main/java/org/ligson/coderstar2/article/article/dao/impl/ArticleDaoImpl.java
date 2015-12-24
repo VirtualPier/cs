@@ -202,7 +202,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
 
     @Override
     public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
-        String hql = "from Article a where a.creator.id=:userId ";
+        String hql = "select new Article(title,id,createDate,state,replyNum,viewNum,attentionNum,poster,recommendNum) from Article a where a.creator.id=:userId ";
         if (StringUtils.isNotBlank(title)) {
             hql += " and a.title like :title";
         }

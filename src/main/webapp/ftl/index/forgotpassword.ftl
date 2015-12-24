@@ -1,8 +1,8 @@
 <@override name="title">忘记密码?</@override>
 <@override name="header">
-<link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
-<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/front/forgotpassword.js"></script>
+<link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/forgotpassword.js"></script>
 <style type="text/css">
     .repeatCode {
         cursor: pointer;
@@ -23,7 +23,7 @@
     <div class="cs-login-box col-md-6">
         <div class="mod-body">
 
-            <form action="/index/submitMail" id="register_form" name="register_form" class="form-horizontal"
+            <form action="${basePath}index/submitMail" id="register_form" name="register_form" class="form-horizontal"
                   method="post">
                 <div class="form-group has-feedback">
                     <label class="col-md-4 control-label"

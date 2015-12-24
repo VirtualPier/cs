@@ -1,8 +1,8 @@
 <@override name="title">登陆</@override>
 <@override name="header">
-<link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
-<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/front/login.js"></script>
+<link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/login.js"></script>
 </@override>
 <@override name="body">
 <div class="row">
@@ -14,7 +14,7 @@
         </div>
 
         <div class="mod-body">
-            <form action="/index/checkLogin" name="login_form" class="form-horizontal">
+            <form action="${basePath}index/checkLogin" name="login_form" class="form-horizontal" id="login_form">
                 <div class="form-group has-feedback">
                     <div class="col-md-12">
                         <i></i>

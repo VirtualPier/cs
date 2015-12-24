@@ -49,7 +49,6 @@
                 <#list question.tags as tag>
                     <a href="/question/index?tagId=${tag.tag.id}" class="cs-question-tags">${tag.tag.name}</a>
                 </#list>
-                <#include "includes/share.ftl">
             </p>
 
         </div>
@@ -63,6 +62,7 @@
         <div class="mod-footer">
             <div class="meta">
                 <span class="text-color-999"><@df.dateFormat question.createDate/>发布</span>
+                <#include "includes/share.ftl">
             </div>
         </div>
     </div>
