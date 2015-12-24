@@ -339,7 +339,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
         List<Question> questionList = new ArrayList<>();
         try {
             QueryParser queryParser = new QueryParser("title", analyzer);
-            Query query = queryParser.parse(question.getTitle());
+            Query query = queryParser.parse(QueryParser.escape(question.getTitle()));
             IndexSearcher searcher = new IndexSearcher(getQuestionReader());
             TopDocs topDocs = searcher.search(query, max + 1);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
@@ -409,7 +409,7 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
         List<Article> articleList = new ArrayList<>();
         try {
             QueryParser queryParser = new QueryParser("title", analyzer);
-            Query query = queryParser.parse(article.getTitle());
+            Query query = queryParser.parse(QueryParser.escape(article.getTitle()));
 
             IndexSearcher searcher = new IndexSearcher(getArticleReader());
             TopDocs topDocs = searcher.search(query, max + 1);
