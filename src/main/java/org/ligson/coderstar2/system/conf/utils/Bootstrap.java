@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.system.conf.utils;
 
 import org.apache.log4j.Logger;
+import org.ligson.coderstar2.system.cache.SysCache;
 import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -14,6 +15,15 @@ public class Bootstrap implements InitializingBean {
     private static Logger logger = Logger.getLogger(Bootstrap.class);
     public static File webRoot = null;
     private UserService userService;
+    private SysCache sysCache;
+
+    public SysCache getSysCache() {
+        return sysCache;
+    }
+
+    public void setSysCache(SysCache sysCache) {
+        this.sysCache = sysCache;
+    }
 
     public UserService getUserService() {
         return userService;
@@ -29,15 +39,19 @@ public class Bootstrap implements InitializingBean {
         webRoot = file;
     }
 
-    public void initSuper(){
+    public void initSuper() {
         userService.initSuper();
     }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         setWebRootPath();
 
 
         initSuper();
+
+        logger.info("加载缓存!");
+        sysCache.init();
         logger.info("系统启动!");
         logger.info("webRoot" + webRoot.getAbsolutePath());
 

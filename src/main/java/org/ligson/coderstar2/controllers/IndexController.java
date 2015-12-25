@@ -10,6 +10,7 @@ import org.ligson.coderstar2.pay.domains.Withdraw;
 import org.ligson.coderstar2.pay.service.PayService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
+import org.ligson.coderstar2.system.cache.SysCache;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.mail.utils.SendCloudConfig;
@@ -40,7 +41,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/index")
-public class IndexController {
+public class IndexController extends BaseController {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
     @Qualifier("userService")
@@ -70,86 +71,26 @@ public class IndexController {
     @Qualifier("sendCloudConfig")
     private SendCloudConfig cloudConfig;
 
-    public SendCloudConfig getCloudConfig() {
-        return cloudConfig;
-    }
-
-    public void setCloudConfig(SendCloudConfig cloudConfig) {
-        this.cloudConfig = cloudConfig;
-    }
-
-    public ImageCaptchaService getCaptchaService() {
-        return captchaService;
-    }
-
-    public void setCaptchaService(ImageCaptchaService captchaService) {
-        this.captchaService = captchaService;
-    }
-
-    public PayService getPayService() {
-        return payService;
-    }
-
-    public void setPayService(PayService payService) {
-        this.payService = payService;
-    }
-
-    public CategoryService getCategoryService() {
-        return categoryService;
-    }
-
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
-    public SysTagService getSysTagService() {
-        return sysTagService;
-    }
-
-    public void setSysTagService(SysTagService sysTagService) {
-        this.sysTagService = sysTagService;
-    }
-
-    public QuestionService getQuestionService() {
-        return questionService;
-    }
-
-    public void setQuestionService(QuestionService questionService) {
-        this.questionService = questionService;
-    }
-
-    public ArticleService getArticleService() {
-        return articleService;
-    }
-
-    public void setArticleService(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    @Qualifier("sysCache")
+    private SysCache sysCache;
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request) {
-        List<Question> newQuestionList = questionService.newestQuestion(5);
-        List<Article> newArticleList = articleService.newestArticle(5);
-        List<Category> categoryList = categoryService.list();
-        List<Question> recommendQuestionList = questionService.questionListOrderBy(0, 3, "recommendNum", "desc");
-        List<Article> recommendArticleList = articleService.articleListOrderBy(0, 3, "recommendNum", "desc");
+        List<Question> newQuestionList = sysCache.getNewestQuestionList();
+        List<Article> newArticleList = sysCache.getNewestArticleList();
+        List<Category> categoryList = sysCache.getCategoryList();
+        List<Question> recommendQuestionList = sysCache.getRecommendQuestionList();
+        List<Article> recommendArticleList = sysCache.getRecommendArticleList();
 
-        List<Question> hotQuestions = questionService.findHotQuestion(20);
-        Map<String, Object> result = questionService.searchQuestion(-1, -1, false, "createDate", 20, 0);
-        List<Question> waitQuestionList = (List<Question>) result.get("questionList");
-        List<Question> offerQuestionList = questionService.findOfferQuesiton(20);
-        List<Article> hotArticles = articleService.findHotArticle(20);
-        List<User> hotAuthors = userService.hotAuthors(5);
-        List<User> hotReplyers = userService.hotReplyers(5);
-        List<Withdraw> withdrawList = payService.newestWithdraw(5);
+        List<Question> hotQuestions = sysCache.getHotQuestions();
+        List<Question> waitQuestionList = sysCache.getWaitQuestionList();
+        List<Question> offerQuestionList = sysCache.getOfferQuestionList();
+        List<Article> hotArticles = sysCache.getHotArticles();
+        List<User> hotAuthors = sysCache.getHotAuthors();
+        List<User> hotReplyers = sysCache.getHotReplyers();
+        List<Withdraw> withdrawList = sysCache.getWithdrawList();
+
         request.setAttribute("withdrawList", withdrawList);
         request.setAttribute("hotAuthors", hotAuthors);
         request.setAttribute("hotReplyers", hotReplyers);

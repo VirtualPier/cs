@@ -90,6 +90,8 @@
     };
     $(document).ready(function(q){
         new Search();
+
+        $.post("/index/");
     });
 })(window.jQuery);
 
