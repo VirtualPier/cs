@@ -1,8 +1,9 @@
 <@override name="title">充值记录</@override>
 <@override name="header">
-<script type="text/javascript" src="/js/coderstar/common/baseurl.js"></script>
-<script type="text/javascript" src="/js/coderstar/common/date.js"></script>
-<script type="text/javascript" src="/js/coderstar/front/user/myRechangeLog.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/baseurl.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/string.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/date.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/user/myRechangeLog.js"></script>
 </@override>
 <@override name="body">
 <div class="row">

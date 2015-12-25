@@ -1,6 +1,6 @@
 <@override name="title">提现申请</@override>
 <@override name="header">
-<script type="text/javascript" src="${basePath}js/coderstar/admin/payMgr.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/admin/payMgr.js"></script>
 </@override>
 <@override name="body">
 <table id="tt" title="申请列表" class="easyui-datagrid" style="height:500px; width: 100%;"

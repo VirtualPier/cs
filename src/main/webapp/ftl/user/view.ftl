@@ -4,9 +4,9 @@
 <script type="text/javascript">
     var userId = ${viewUser.id};
 </script>
-<script src="${basePath}js/coderstar/common/string.js"></script>
-<script src="${basePath}js/coderstar/common/date.js"></script>
-<script src="${basePath}js/coderstar/front/user/view.js"></script>
+<script src="${assetsPath}js/coderstar/common/string.js"></script>
+<script src="${assetsPath}js/coderstar/common/date.js"></script>
+<script src="${assetsPath}js/coderstar/front/user/view.js"></script>
 </@override>
 <@override name="body">
 <div class="row">

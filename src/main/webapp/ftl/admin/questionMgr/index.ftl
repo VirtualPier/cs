@@ -1,6 +1,6 @@
 <@override name="title">问题列表</@override>
 <@override name="header">
-<script type="text/javascript" src="${basePath}js/coderstar/admin/questionMgr.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/admin/questionMgr.js"></script>
 </@override>
 <@override name="body">
 <table id="tt" title="问题列表" class="easyui-datagrid" style="height:500px; width: 100%;"

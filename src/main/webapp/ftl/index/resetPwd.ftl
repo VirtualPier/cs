@@ -1,8 +1,8 @@
 <@override name="title">重置密码</@override>
 <@override name="header">
-<link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
-<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/front/emailResetPwd.js"></script>
+<link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/emailResetPwd.js"></script>
 <style type="text/css">
     .repeatCode {
         cursor: pointer;

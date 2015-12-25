@@ -1,20 +1,20 @@
 <@override name="title">提问问题</@override>
 <@override name="header">
-<link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
-<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
 
 <link rel="stylesheet" type="text/css" charset="UTF-8"
-      href="${basePath}js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
-<script type="text/javascript" src="${basePath}js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
-<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/language/zh_CN.js"></script>
+      href="${assetsPath}js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap-validator/js/language/zh_CN.js"></script>
 
 <script type="text/javascript">
     var CKEDITOR_BASEPATH = "/js/lib/ckeditor/";
     var maxMoney = ${user.balance};
 </script>
-<script type="text/javascript" src="${basePath}js/lib/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/common/ckconfig.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/front/create.js"></script>
+<script type="text/javascript" src="${assetsPath}js/lib/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/ckconfig.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/create.js"></script>
 </@override>
 <@override name="body">
 <div class="col-sm-12 col-md-9 cs-main-content">

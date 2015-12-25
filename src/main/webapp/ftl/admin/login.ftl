@@ -2,14 +2,14 @@
 <head>
     <title>用户登陆</title>
     <meta http-equiv=Content-Type content="text/html;charset=utf-8">
-    <link href="${basePath}assets/js/lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" rel="stylesheet" href="${basePath}assets/css/admin/admin-login.css"/>
-    <script type="text/javascript" src="${basePath}assets/js/lib/jquery-easyui-1.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="${basePath}assets/js/lib/jquery.cookie.js"></script>
-    <script type="text/javascript" src="${basePath}assets/js/lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="${basePath}assets/js/coderstar/common/string.js"></script>
-    <script type="text/javascript" src="/assets/js/coderstar/common/date.js"></script>
-    <script type="text/javascript" src="${basePath}assets/js/coderstar/admin/login.js"></script>
+    <link href="${assetsPath}js/lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="${assetsPath}css/admin/admin-login.css"/>
+    <script type="text/javascript" src="${assetsPath}js/lib/jquery-easyui-1.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/coderstar/common/string.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/coderstar/common/date.js"></script>
+    <script type="text/javascript" src="${assetsPath}js/coderstar/admin/login.js"></script>
 
 </head>
 <body>
@@ -46,13 +46,13 @@
 
         <div class="ui-mask-list">
             <a href="http://chrome.360.cn/" title="360极速浏览器"><img
-                    src="${basePath}images/browser/360chrome.png"/></a>
+                    src="${assetsPath}images/browser/360chrome.png"/></a>
             <a href="http://rj.baidu.com/soft/detail/14744.html?ald" title="谷歌chrome极速浏览器"><img
-                    src="${basePath}images/browser/compatible_chrome.gif"/></a>
+                    src="${assetsPath}images/browser/compatible_chrome.gif"/></a>
             <a href="http://www.firefox.com.cn/download/" title="火狐浏览器"><img
-                    src="${basePath}images/browser/compatible_firefox.gif"/></a>
+                    src="${assetsPath}images/browser/compatible_firefox.gif"/></a>
             <a href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-9-worldwide-languages" title="IE9浏览器"><img
-                    src="${basePath}images/browser/compatible_ie.gif"/></a>
+                    src="${assetsPath}images/browser/compatible_ie.gif"/></a>
         </div>
     </div>
 </div>

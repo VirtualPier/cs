@@ -3,10 +3,10 @@
 <link rel="stylesheet" type="text/css" charset="UTF-8" href="/css/cs/user-setting.css"/>
 <link rel="stylesheet" type="text/css" charset="UTF-8" charset="UTF-8"
       href="/js/lib/bootstrap3-dialog/css/bootstrap-dialog.min.css"/>
-<script type="text/javascript" src="${basePath}js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
-<link rel="stylesheet" type="text/css" href="${basePath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
-<script type="text/javascript" src="${basePath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
-<script type="text/javascript" src="${basePath}js/coderstar/front/user/profile.js"></script>
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${assetsPath}js/lib/bootstrap-validator/css/bootstrapValidator.min.css">
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/user/profile.js"></script>
 </@override>
 <@override name="body">
 <div class="row">

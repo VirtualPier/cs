@@ -1,6 +1,6 @@
 <@override name="title">订单</@override>
 <@override name="header">
-<script type="text/javascript" src="${basePath}js/coderstar/admin/payOrder.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/admin/payOrder.js"></script>
 </@override>
 <@override name="body">
 <table id="tt" title="订单" class="easyui-datagrid" style="height:500px; width: 100%;"

@@ -1,6 +1,6 @@
 <@override name="title">用户列表</@override>
 <@override name="header">
-<script type="text/javascript" src="${basePath}js/coderstar/admin/userList.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/admin/userList.js"></script>
 </@override>
 <@override name="body">
 <table id="tt" title="用户列表" class="easyui-datagrid" style="height:500px; width: 100%;"

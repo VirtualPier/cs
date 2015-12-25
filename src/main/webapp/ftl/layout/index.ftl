@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <image src="${basePath}images/logo.png"
+            <image src="${assetsPath}images/logo.png"
                    style="width:40px;height:40px;float: left;margin-top:5px;border:0;"/>
             <a href="/index/index" class="navbar-brand" style="margin-left:5px;">${appName}</a>
 
@@ -167,6 +167,6 @@
         <a href="/index/friendLinks">友情链接</a>
     </p>
 </div>
-<script type="text/javascript" src="${basePath}js/lib/bootstrap-typeahead/typeahead.bundle.js"></script>
+<script type="text/javascript" src="${assetsPath}js/lib/bootstrap-typeahead/typeahead.bundle.js"></script>
 </body>
 </html>

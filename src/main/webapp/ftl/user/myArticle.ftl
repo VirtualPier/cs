@@ -1,10 +1,11 @@
 <@override name="title">我发布的文章</@override>
 <@override name="header">
-<script type="text/javascript" src="/js/coderstar/common/baseurl.js"></script>
-<link href="/js/lib/jquery-bootgrid/jquery.bootgrid.min.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="/js/lib/jquery-bootgrid/jquery.bootgrid.min.js"></script>
-<script type="text/javascript" src="/js/coderstar/common/date.js"></script>
-<script type="text/javascript" src="/js/coderstar/front/user/myArticle.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/baseurl.js"></script>
+<link href="${assetsPath}js/lib/jquery-bootgrid/jquery.bootgrid.min.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="${assetsPath}js/lib/jquery-bootgrid/jquery.bootgrid.min.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/string.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/date.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/user/myArticle.js"></script>
 <style type="text/css">
     .column-header-anchor {
         text-align: center;

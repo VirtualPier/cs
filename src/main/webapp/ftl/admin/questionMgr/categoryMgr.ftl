@@ -1,6 +1,6 @@
 <@override name="title">分类列表</@override>
 <@override name="header">
-<script type="text/javascript" src="${basePath}js/coderstar/admin/categoryMgr.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/admin/categoryMgr.js"></script>
 </@override>
 <@override name="body">
 <table id="tt" title="分类列表" class="easyui-datagrid" style="height:300px; width: 100%;"

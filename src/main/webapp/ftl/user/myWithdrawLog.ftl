@@ -1,7 +1,8 @@
 <@override name="title">提现记录</@override>
 <@override name="header">
-<script type="text/javascript" src="/js/coderstar/common/date.js"></script>
-<script type="text/javascript" src="/js/coderstar/front/user/myWithdrawLog.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/string.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/common/date.js"></script>
+<script type="text/javascript" src="${assetsPath}js/coderstar/front/user/myWithdrawLog.js"></script>
 </@override>
 <@override name="body">
 <div class="row">

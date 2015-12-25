@@ -120,6 +120,9 @@
                     <includes>
                         <include>**/*.js</include>
                         <include>**/*.css</include>
+                        <include>**/*.png</include>
+                        <include>**/*.gif</include>
+                        <include>**/*.jpg</include>
                     </includes>
                     <!-- 以下目录和文件不会被压缩 -->
                     <!-- <excludes>
