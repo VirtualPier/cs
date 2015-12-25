@@ -15,7 +15,7 @@
         </div>
 
         <div class="mod-body">
-            <form action="/index/saveUser" id="register_form" name="register_form" class="form-horizontal"
+            <form action="/saveUser" id="register_form" name="register_form" class="form-horizontal"
                   method="post">
 
 

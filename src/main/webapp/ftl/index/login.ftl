@@ -14,7 +14,7 @@
         </div>
 
         <div class="mod-body">
-            <form action="${basePath}index/checkLogin" name="login_form" class="form-horizontal" id="login_form">
+            <form action="${basePath}checkLogin" name="login_form" class="form-horizontal" id="login_form">
                 <div class="form-group has-feedback">
                     <div class="col-md-12">
                         <i></i>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="col-md-4 text-center">
-                        <a href="/index/forgotpassword" class="pull-right" style="margin-top:10px;margin-left:10px;">忘记密码?</a>
+                        <a href="/forgotpassword" class="pull-right" style="margin-top:10px;margin-left:10px;">忘记密码?</a>
                         <input type="submit" class="pull-right btn btn-large btn-primary" value="登录"/>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
         <div class="mod-footer">
             <span>还没有账号?</span>&nbsp;&nbsp;
-            <a href="/index/register">立即注册</a>&nbsp;&nbsp;
+            <a href="/register">立即注册</a>&nbsp;&nbsp;
             <#--<img src="/images/qq_login_logo.png" onclick="qqLogin()">-->
         </div>
     </div>

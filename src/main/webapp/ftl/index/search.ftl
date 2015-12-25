@@ -13,7 +13,7 @@
 
             <div class="col-md-11">
                 <#list categoryList as category>
-                    <a href="/index/search?categoryId=${category.id}&searchType=${searchType}&title=${title}">${category.name}</a>&nbsp;&nbsp;
+                    <a href="/search?categoryId=${category.id}&searchType=${searchType}&title=${title}">${category.name}</a>&nbsp;&nbsp;
                 </#list>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
             <div class="col-md-11">
                 <#list tagCount as tag>
-                    <a href="/index/search?tagId=${tag[0].id}&searchType?searchType=${searchType}&title=${title}"
+                    <a href="/search?tagId=${tag[0].id}&searchType?searchType=${searchType}&title=${title}"
                        class="cs-question-tags">${tag[0].name}</a>
                 </#list>
             </div>
@@ -40,13 +40,13 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs cs-nav-tabs active" id="list_nav">
                     <li ${(sort=="viewNum")?string("class='active'","")}><a
-                            href="/index/search?sort=viewNum&searchType=${searchType}&title=${title}">浏览量</a>
+                            href="/search?sort=viewNum&searchType=${searchType}&title=${title}">浏览量</a>
                     </li>
                     <li ${(sort=="createDate")?string("class='active'","")}><a
-                            href="/index/search?sort=createDate&searchType=${searchType}&title=${title}">发布日期</a>
+                            href="/search?sort=createDate&searchType=${searchType}&title=${title}">发布日期</a>
                     </li>
                     <li ${(sort=="replyNum")?string("class='active'","")}><a
-                            href="/index/search?sort=replyNum&searchType=${searchType}&title=${title}">回复量</a>
+                            href="/search?sort=replyNum&searchType=${searchType}&title=${title}">回复量</a>
                     </li>
                 </ul>
             </div>
@@ -71,11 +71,11 @@
                                     <label>分类:</label>
                                     <#if searchType==1>
                                         <#list model.questionCategories as category>
-                                            <a href="/index/search?categoryId=${category.id}&searchType=${searchType}">${category.category.name}</a>
+                                            <a href="/search?categoryId=${category.id}&searchType=${searchType}">${category.category.name}</a>
                                         </#list>
                                     <#else>
                                         <#list model.articleCategories as category>
-                                            <a href="/index/search?categoryId=${category.id}&searchType=${searchType}">${category.category.name}</a>
+                                            <a href="/search?categoryId=${category.id}&searchType=${searchType}">${category.category.name}</a>
                                         </#list>
                                     </#if>
                                     <label>作者:</label>
@@ -84,7 +84,7 @@
 
                                 <p>
                                     <#list model.tags as tag>
-                                        <a href="/index/search?tagId=${tag.tag.id}&searchType=${searchType}"
+                                        <a href="/search?tagId=${tag.tag.id}&searchType=${searchType}"
                                            class="cs-question-tags">${tag.tag.name}</a>
                                     </#list>
                                 </p>
@@ -104,7 +104,7 @@
 
         <div class="mod-footer">
             <div class="page-control pagination  pull-right" style="padding-right:10px;">
-                <@pager.pagination offset=offset max=max total=total url="/index/search?searchType=${searchType}&title=${title}&tagId=${tagId}&categoryId=${categoryId}&sort=${sort}&order=${order}"/>
+                <@pager.pagination offset=offset max=max total=total url="/search?searchType=${searchType}&title=${title}&tagId=${tagId}&categoryId=${categoryId}&sort=${sort}&order=${order}"/>
             </div>
         </div>
     </div>

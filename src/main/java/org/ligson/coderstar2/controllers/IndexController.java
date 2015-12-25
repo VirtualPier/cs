@@ -38,9 +38,9 @@ import java.util.*;
 
 /**
  * Created by ligson on 2015/7/16.
+ * souye
  */
 @Controller
-@RequestMapping("/index")
 public class IndexController extends BaseController {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
@@ -75,7 +75,7 @@ public class IndexController extends BaseController {
     @Qualifier("sysCache")
     private SysCache sysCache;
 
-    @RequestMapping("/index")
+    @RequestMapping("/index.html")
     public String index(HttpServletRequest request) {
         List<Question> newQuestionList = sysCache.getNewestQuestionList();
         List<Article> newArticleList = sysCache.getNewestArticleList();
@@ -124,12 +124,12 @@ public class IndexController extends BaseController {
         if (success) {
             User user = (User) result.get("user");
             request.getSession().setAttribute("user", user);
-            return "redirect:/index/index";
+            return "redirect:/index.html";
         } else {
             String msg = (String) result.get("msg");
             model.addAttribute("msg", msg);
             model.addAttribute("name", name);
-            return "redirect:/index/login";
+            return "redirect:/login";
         }
 
     }
@@ -156,13 +156,13 @@ public class IndexController extends BaseController {
             User user = (User) result.get("user");
             model.addAttribute("name", user.getEmail());
             model.addAttribute("msg", "请您登陆！");
-            return "redirect:/index/login";
+            return "redirect:/login";
         } else {
             request.setAttribute("nickName", nickName);
             request.setAttribute("cellphone", cellphone);
             request.setAttribute("email", email);
             request.setAttribute("password", password);
-            return "redirect:/index/register";
+            return "redirect:/register";
         }
     }
 
@@ -170,15 +170,15 @@ public class IndexController extends BaseController {
     public String logout(HttpServletRequest request) {
         Map<String, Object> result = userService.logout(request);
         boolean success = (boolean) result.get("success");
-        return "redirect:/index/index";
+        return "redirect:/index";
     }
 
     @RequestMapping("/nologin")
     public String nologin(@RequestParam(value = "format", required = false) String format) {
         if ("html".equals(format) || format == null) {
-            return "redirect:/index/login";
+            return "redirect:/login";
         } else {
-            return "redirect:/index/responseJson";
+            return "redirect:/responseJson";
         }
     }
 
@@ -336,13 +336,13 @@ public class IndexController extends BaseController {
         model.addAttribute("email", email);
         if (isUnique) {
             model.addAttribute("msg", "邮箱不存在");
-            return "redirect:/index/forgotpassword";
+            return "redirect:/forgotpassword";
         }
         if (!isValid) {
             model.addAttribute("msg", "验证码过期");
-            return "redirect:/index/forgotpassword";
+            return "redirect:/forgotpassword";
         }
-        return "redirect:/index/waitCheckEmail";
+        return "redirect:/waitCheckEmail";
     }
 
     @RequestMapping("/waitCheckEmail")
@@ -392,7 +392,7 @@ public class IndexController extends BaseController {
             model.addAttribute("id", id);
             model.addAttribute("key", key);
             model.addAttribute("msg", msg);
-            return "redirect:/index/resetPwd";
+            return "redirect:/resetPwd";
         }
     }
 }

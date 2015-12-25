@@ -43,7 +43,7 @@
 
             <image src="${assetsPath}images/logo.png"
                    style="width:40px;height:40px;float: left;margin-top:5px;border:0;"/>
-            <a href="/index/index" class="navbar-brand" style="margin-left:5px;">${appName}</a>
+            <a href="/index.html" class="navbar-brand" style="margin-left:5px;">${appName}</a>
 
         </div>
 
@@ -70,7 +70,7 @@
             </#if>
 
             </ul>
-            <form action="/index/search" class="navbar-form form-inline navbar-left" role="search">
+            <form action="/search" class="navbar-form form-inline navbar-left" role="search">
                 <div class="form-group">
                     <select class="form-control selectpicker" name="searchType" data-style="btn-inverse">
                         <option value="1" ${(searchType=="1")?string("selected","")}>问答</option>
@@ -162,9 +162,9 @@
 
 <div class="container ligson-footer">
     <p class="text-center">
-        <a href="/index/ad">广告服务</a>
-        <a href="/index/contact">联系我们</a>
-        <a href="/index/friendLinks">友情链接</a>
+        <a href="/ad">广告服务</a>
+        <a href="/contact">联系我们</a>
+        <a href="/friendLinks">友情链接</a>
     </p>
 </div>
 <script type="text/javascript" src="${assetsPath}js/lib/bootstrap-typeahead/typeahead.bundle.js"></script>

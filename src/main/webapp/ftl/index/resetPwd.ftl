@@ -23,7 +23,7 @@
     <div class="cs-login-box col-md-6">
         <div class="mod-body">
 
-            <form action="/index/resetUserPwd" id="resetpwd_form" name="register_form" class="form-horizontal"
+            <form action="/resetUserPwd" id="resetpwd_form" name="register_form" class="form-horizontal"
                   method="post">
                 <input type="hidden" name="id" value="${id}"/>
                 <input type="hidden" name="key" value="${key}">
