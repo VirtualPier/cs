@@ -43,7 +43,7 @@
 
             <image src="${assetsPath}images/logo.png"
                    style="width:40px;height:40px;float: left;margin-top:5px;border:0;"/>
-            <a href="/index.html" class="navbar-brand" style="margin-left:5px;">${appName}</a>
+            <a href="${basePath}" class="navbar-brand" style="margin-left:5px;">${appName}</a>
 
         </div>
 
@@ -136,16 +136,16 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="/index/logout">注销</a>
+                            <a href="/logout">注销</a>
                         </li>
                     </ul>
                 </li>
             <#else >
                 <li>
-                    <a href="/index/login">登录</a>
+                    <a href="/login">登录</a>
                 </li>
                 <li>
-                    <a href="/index/register">注册</a>
+                    <a href="/register">注册</a>
                 </li>
             </#if>
 

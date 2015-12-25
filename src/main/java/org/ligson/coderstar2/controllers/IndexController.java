@@ -75,7 +75,7 @@ public class IndexController extends BaseController {
     @Qualifier("sysCache")
     private SysCache sysCache;
 
-    @RequestMapping("/index.html")
+    @RequestMapping("/")
     public String index(HttpServletRequest request) {
         List<Question> newQuestionList = sysCache.getNewestQuestionList();
         List<Article> newArticleList = sysCache.getNewestArticleList();
@@ -124,7 +124,7 @@ public class IndexController extends BaseController {
         if (success) {
             User user = (User) result.get("user");
             request.getSession().setAttribute("user", user);
-            return "redirect:/index.html";
+            return "redirect:/";
         } else {
             String msg = (String) result.get("msg");
             model.addAttribute("msg", msg);
