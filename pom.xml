@@ -133,17 +133,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/webapp/assets</directory>
-                <includes>
-                    <include>**/**.min.js</include>
-                    <include>**/**.gif</include>
-                    <include>**/**.jpg</include>
-                    <include>**/**.png</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
     <repositories>
         <repository>
