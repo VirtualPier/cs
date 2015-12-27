@@ -22,7 +22,7 @@
                         <a href="/questionMgr/index">问题管理</a>
                         <a href="/userMgr/index">用户管理</a>
                         <a href="/payMgr/index">支付管理</a>
-                        <a href="/systemMgr/userList">系统管理</a>
+                        <a href="/systemMgr/index">系统管理</a>
                     </div>
 
                 </td>
