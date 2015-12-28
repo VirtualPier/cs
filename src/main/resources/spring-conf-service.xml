@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                      http://www.springframework.org/schema/beans/spring-beans.xsd
                      http://www.springframework.org/schema/tx
@@ -9,7 +11,8 @@
                      http://www.springframework.org/schema/aop
                      http://www.springframework.org/schema/aop/spring-aop.xsd ">
 
-    <bean id="userService" name="userService" class="org.ligson.coderstar2.user.service.impl.UserServiceImpl">
+    <bean id="userService" name="userService"
+          class="org.ligson.coderstar2.user.service.impl.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
     <bean id="questionService" name="questionService"
@@ -83,12 +86,14 @@
           class="org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer"/>
 
     <bean id="spellcheckDic" name="spellcheckDic" class="java.io.File">
-        <constructor-arg type="java.lang.String" value="${search.spellcheckDic}"/>
+        <constructor-arg type="java.lang.String"
+                         value="${search.spellcheckDic}"/>
     </bean>
     <bean id="indexDir" name="indexDir" class="java.io.File">
         <constructor-arg type="java.lang.String" value="${search.indexDir}"/>
     </bean>
-    <bean name="fullTextSearchService" class="org.ligson.coderstar2.system.service.impl.FullTextSearchServiceImpl"
+    <bean name="fullTextSearchService"
+          class="org.ligson.coderstar2.system.service.impl.FullTextSearchServiceImpl"
           init-method="init" destroy-method="destory">
         <property name="articleService" ref="articleService"/>
         <property name="questionService" ref="questionService"/>

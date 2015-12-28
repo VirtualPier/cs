@@ -40,6 +40,8 @@
         <jaxen.version>1.1.6</jaxen.version>
         <lucene.version>5.2.1</lucene.version>
         <jcaptcha.version>1.0-RC6</jcaptcha.version>
+        <jedis.version>2.7.3</jedis.version>
+        <kryo.version>2.24.0</kryo.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <distributionManagement>
@@ -565,6 +567,18 @@
                     <artifactId>xmlParserAPIs</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esotericsoftware.kryo</groupId>
+            <artifactId>kryo</artifactId>
+            <version>${kryo.version}</version>
         </dependency>
     </dependencies>
 

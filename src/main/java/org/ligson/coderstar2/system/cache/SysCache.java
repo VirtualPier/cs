@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.system.cache;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.pay.domains.Withdraw;
@@ -8,9 +9,12 @@ import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
+import org.ligson.coderstar2.system.redis.utils.RedisClient;
 import org.ligson.coderstar2.user.domains.User;
 import org.ligson.coderstar2.user.service.UserService;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -18,177 +22,213 @@ import java.util.Map;
  * Created by ligson on 2015/12/25.
  * 系统缓存
  */
-
+@Component(value = "sysCache")
 public class SysCache {
+    @Resource
     private QuestionService questionService;
+    @Resource
     private ArticleService articleService;
+    @Resource
     private CategoryService categoryService;
+    @Resource
     private UserService userService;
+    @Resource
     private PayService payService;
-
-    private List<Question> newestQuestionList;
-    private List<Article> newestArticleList;
-    private List<Category> categoryList;
-    private List<Question> recommendQuestionList;
-    private List<Article> recommendArticleList;
-    private List<Question> hotQuestions;
-    private List<Question> waitQuestionList;
-    private List<Question> offerQuestionList;
-    private List<Article> hotArticles;
-    private List<User> hotAuthors;
-    private List<User> hotReplyers;
-    private List<Withdraw> withdrawList;
+    @Resource
+    private RedisClient redisClient;
 
     public void init() {
-        newestQuestionList = questionService.newestQuestion(5);
-        newestArticleList = articleService.newestArticle(5);
-        categoryList = categoryService.list();
-        recommendQuestionList = questionService.questionListOrderBy(0, 3, "recommendNum", "desc");
-        recommendArticleList = articleService.articleListOrderBy(0, 3, "recommendNum", "desc");
-        hotQuestions = questionService.findHotQuestion(20);
-        Map<String, Object> result = questionService.searchQuestion(-1, -1, false, "createDate", 20, 0);
-        waitQuestionList = (List<Question>) result.get("questionList");
-        offerQuestionList = questionService.findOfferQuesiton(20);
-        hotArticles = articleService.findHotArticle(20);
-        hotAuthors = userService.hotAuthors(5);
-        hotReplyers = userService.hotReplyers(5);
-        withdrawList = payService.newestWithdraw(5);
+        cacheNewestQuestionList();
+        cacheNewestArticleList();
+        cacheCategoryList();
+        cacheRecommendQuestionList();
+        cacheRecommendArticleList();
+        cacheHotQuestions();
+        cacheHotArticles();
+        cacheWaitQuestionList();
+
+        cacheHotAuthors();
+        cacheHotReplyers();
+
+        cacheOfferQuestionList();
+        cacheWithdrawList();
+
     }
 
-    public QuestionService getQuestionService() {
-        return questionService;
-    }
-
-    public void setQuestionService(QuestionService questionService) {
-        this.questionService = questionService;
-    }
-
-    public ArticleService getArticleService() {
-        return articleService;
-    }
-
-    public void setArticleService(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
-    public CategoryService getCategoryService() {
-        return categoryService;
-    }
-
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public PayService getPayService() {
-        return payService;
-    }
-
-    public void setPayService(PayService payService) {
-        this.payService = payService;
+    public void cacheNewestQuestionList() {
+        List<Question> newestQuestionList = questionService.newestQuestion(5);
+        redisClient.set("newestQuestionList", newestQuestionList);
     }
 
     public List<Question> getNewestQuestionList() {
-        return newestQuestionList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("newestQuestionList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheNewestQuestionList();
+        }
+        return (List<Question>) list;
     }
 
-    public void setNewestQuestionList(List<Question> newestQuestionList) {
-        this.newestQuestionList = newestQuestionList;
+
+    public void cacheNewestArticleList() {
+        List<Article> newestArticleList = articleService.newestArticle(5);
+        redisClient.set("newestArticleList", newestArticleList);
     }
 
     public List<Article> getNewestArticleList() {
-        return newestArticleList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("newestArticleList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheNewestQuestionList();
+        }
+        return (List<Article>) list;
     }
 
-    public void setNewestArticleList(List<Article> newestArticleList) {
-        this.newestArticleList = newestArticleList;
+
+    public void cacheCategoryList() {
+        List<Category> categoryList = categoryService.list();
+        redisClient.set("categoryList", categoryList);
     }
 
     public List<Category> getCategoryList() {
-        return categoryList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("categoryList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheCategoryList();
+        }
+        return (List<Category>) list;
     }
 
-    public void setCategoryList(List<Category> categoryList) {
-        this.categoryList = categoryList;
+    public void cacheRecommendQuestionList() {
+        List<Question> recommendQuestionList = questionService.questionListOrderBy(0, 3, "recommendNum", "desc");
+        redisClient.set("recommendQuestionList", recommendQuestionList);
     }
+
 
     public List<Question> getRecommendQuestionList() {
-        return recommendQuestionList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("recommendQuestionList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheRecommendQuestionList();
+        }
+        return (List<Question>) list;
     }
 
-    public void setRecommendQuestionList(List<Question> recommendQuestionList) {
-        this.recommendQuestionList = recommendQuestionList;
+    public void cacheRecommendArticleList() {
+        List<Article> recommendArticleList = articleService.articleListOrderBy(0, 3, "recommendNum", "desc");
+        redisClient.set("recommendArticleList", recommendArticleList);
     }
+
 
     public List<Article> getRecommendArticleList() {
-        return recommendArticleList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("recommendArticleList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheRecommendArticleList();
+        }
+        return (List<Article>) list;
     }
 
-    public void setRecommendArticleList(List<Article> recommendArticleList) {
-        this.recommendArticleList = recommendArticleList;
+    public void cacheHotQuestions() {
+        List<Question> hotQuestions = questionService.findHotQuestion(20);
+        redisClient.set("hotQuestions", hotQuestions);
     }
 
     public List<Question> getHotQuestions() {
-        return hotQuestions;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("hotQuestions", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheHotQuestions();
+        }
+        return (List<Question>) list;
     }
 
-    public void setHotQuestions(List<Question> hotQuestions) {
-        this.hotQuestions = hotQuestions;
+    public void cacheWaitQuestionList() {
+        Map<String, Object> result = questionService.searchQuestion(-1, -1, false, "createDate", 20, 0);
+        List<Question> waitQuestionList = (List<Question>) result.get("questionList");
+        redisClient.set("waitQuestionList", waitQuestionList);
     }
 
     public List<Question> getWaitQuestionList() {
-        return waitQuestionList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("waitQuestionList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheWaitQuestionList();
+        }
+        return (List<Question>) list;
     }
 
-    public void setWaitQuestionList(List<Question> waitQuestionList) {
-        this.waitQuestionList = waitQuestionList;
+
+    public void cacheOfferQuestionList() {
+        List<Question> offerQuestionList = questionService.findOfferQuesiton(20);
+        redisClient.set("offerQuestionList", offerQuestionList);
     }
 
     public List<Question> getOfferQuestionList() {
-        return offerQuestionList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("offerQuestionList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheOfferQuestionList();
+        }
+        return (List<Question>) list;
     }
 
-    public void setOfferQuestionList(List<Question> offerQuestionList) {
-        this.offerQuestionList = offerQuestionList;
+
+    public void cacheHotArticles() {
+        List<Article> hotArticles = articleService.findHotArticle(20);
+        redisClient.set("hotArticles", hotArticles);
     }
 
     public List<Article> getHotArticles() {
-        return hotArticles;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("hotArticles", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheHotArticles();
+        }
+        return (List<Article>) list;
     }
 
-    public void setHotArticles(List<Article> hotArticles) {
-        this.hotArticles = hotArticles;
+    public void cacheHotAuthors() {
+        List<User> hotAuthors = userService.hotAuthors(5);
+        redisClient.set("hotAuthors", hotAuthors);
     }
 
     public List<User> getHotAuthors() {
-        return hotAuthors;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("hotAuthors", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheHotAuthors();
+        }
+        return (List<User>) list;
     }
 
-    public void setHotAuthors(List<User> hotAuthors) {
-        this.hotAuthors = hotAuthors;
+    public void cacheHotReplyers() {
+        List<User> hotReplyers = userService.hotReplyers(5);
+        redisClient.set("hotReplyers", hotReplyers);
     }
 
     public List<User> getHotReplyers() {
-        return hotReplyers;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("hotReplyers", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheHotReplyers();
+        }
+        return (List<User>) list;
     }
 
-    public void setHotReplyers(List<User> hotReplyers) {
-        this.hotReplyers = hotReplyers;
+    public void cacheWithdrawList() {
+        List<Withdraw> withdrawList = payService.newestWithdraw(5);
+        redisClient.set("withdrawList", withdrawList);
     }
 
     public List<Withdraw> getWithdrawList() {
-        return withdrawList;
+        Class<List> clazz = List.class;
+        List list = redisClient.get("withdrawList", clazz);
+        if (CollectionUtils.isEmpty(list)) {
+            cacheWithdrawList();
+        }
+        return (List<Withdraw>) list;
     }
 
-    public void setWithdrawList(List<Withdraw> withdrawList) {
-        this.withdrawList = withdrawList;
-    }
 
 }

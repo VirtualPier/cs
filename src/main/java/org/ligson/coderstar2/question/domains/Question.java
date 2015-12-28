@@ -21,9 +21,9 @@ public class Question implements Serializable {
     private String title;
     private String description;
     private String createDate = DateUtils.format();
-    private Set<Ask> asks = new HashSet<>();
-    private Set<QuestionTag> tags = new HashSet<QuestionTag>();
-    private Set<QuestionCategory> questionCategories = new HashSet<>();
+    //private Set<Ask> asks = new HashSet<>();
+    //private Set<QuestionTag> tags = new HashSet<QuestionTag>();
+    //private Set<QuestionCategory> questionCategories = new HashSet<>();
     private User creator;
     private double money = 0.0;
     private int state = 1;
@@ -76,26 +76,6 @@ public class Question implements Serializable {
         this.createDate = createDate;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    public Set<Ask> getAsks() {
-        return asks;
-    }
-
-    public void setAsks(Set<Ask> asks) {
-        this.asks = asks;
-    }
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Set<QuestionTag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<QuestionTag> tags) {
-        this.tags = tags;
-    }
 
     @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
     @JoinColumn(name = "creator_id", referencedColumnName = "id", nullable = false)
@@ -152,16 +132,7 @@ public class Question implements Serializable {
         this.attentionNum = attentionNum;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "question_id")
-    public Set<QuestionCategory> getQuestionCategories() {
-        return questionCategories;
-    }
 
-    public void setQuestionCategories(Set<QuestionCategory> questionCategories) {
-        this.questionCategories = questionCategories;
-    }
 
     @JsonIgnore
     @ManyToOne

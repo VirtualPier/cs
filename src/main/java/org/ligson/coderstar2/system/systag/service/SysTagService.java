@@ -8,6 +8,7 @@ import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.user.domains.User;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ligson on 2015/7/20.
@@ -28,4 +29,6 @@ public interface SysTagService {
     public void deleteTagByQuestion(Question question);
 
     public List<SysTag> questionHotTags(int max);
+
+    public Set<QuestionTag> findByQuestion(Question question);
 }

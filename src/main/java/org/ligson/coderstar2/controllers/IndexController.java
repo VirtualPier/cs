@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.mail.Session;
 import javax.servlet.ServletOutputStream;
@@ -63,7 +64,7 @@ public class IndexController extends BaseController {
     @Qualifier("payService")
     private PayService payService;
 
-    @Autowired
+    //@Autowired
     @Qualifier("captchaService")
     private ImageCaptchaService captchaService;
 

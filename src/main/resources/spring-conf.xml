@@ -4,17 +4,24 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                     http://www.springframework.org/schema/beans/spring-beans.xsd  
+                     http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                      http://www.springframework.org/schema/tx  
                      http://www.springframework.org/schema/tx/spring-tx.xsd  
                      http://www.springframework.org/schema/aop  
-                     http://www.springframework.org/schema/aop/spring-aop.xsd ">
+                     http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!--<context:annotation-config/>
+    <context:component-scan base-package="org.ligson.coderstar2"/>-->
 
-    <bean id="csConfig"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:cs-config.properties"/>
-    </bean>
+
+    <context:property-placeholder location="classpath:*.properties"/>
+    <util:properties id="csConfig" location="classpath:cs-config.properties"/>
+    <util:properties id="redisConfig" location="classpath:redis.properties"/>
+
+
+
     <bean id="sendCloudConfig" name="sendCloudConfig"
           class="org.ligson.coderstar2.system.mail.utils.SendCloudConfig">
         <property name="apiKey" value="${mail.sendcloud.apiKey}"/>
@@ -43,12 +50,13 @@
     <!--service配置文件-->
     <import resource="spring-conf-service.xml"/>
 
-    <bean id="sysCache" class="org.ligson.coderstar2.system.cache.SysCache">
-        <property name="questionService" ref="questionService"/>
-        <property name="articleService" ref="articleService"/>
-        <property name="payService" ref="payService"/>
-        <property name="categoryService" ref="categoryService"/>
-        <property name="userService" ref="userService"/>
+    <!--redis配置-->
+    <import resource="spring-redis.xml"/>
+
+    <bean id="redisClient"
+          class="org.ligson.coderstar2.system.redis.utils.RedisClient"
+          init-method="init">
+        <property name="shardedJedisPool" ref="shardedJedisPool"/>
     </bean>
 
 </beans>

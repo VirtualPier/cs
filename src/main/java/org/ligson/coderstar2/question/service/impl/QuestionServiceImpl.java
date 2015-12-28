@@ -665,7 +665,8 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = findQuestionById(questionId);
         List<Ask> askList = askDao.findAllByQuestion(question, offset, max);
         result.put("askList", askList);
-        result.put("total", question.getAsks().size());
+        //TODO 总数
+        //result.put("total", question.getAsks().size());
         return result;
     }
 }

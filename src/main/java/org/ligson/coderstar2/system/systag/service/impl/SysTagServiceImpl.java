@@ -10,8 +10,10 @@ import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ligson on 2015/7/20.
@@ -142,5 +144,10 @@ public class SysTagServiceImpl implements SysTagService {
     @Override
     public List<SysTag> questionHotTags(int max) {
         return sysTagDao.findQuestionHotTags(max);
+    }
+
+    @Override
+    public Set<QuestionTag> findByQuestion(Question question) {
+        return null;
     }
 }

@@ -37,6 +37,10 @@ public class QuestionController {
     @Autowired
     @Qualifier("questionService")
     private QuestionService questionService;
+
+    @Autowired
+    @Qualifier("sysTagService")
+    private SysTagService sysTagService;
     @Autowired
     @Qualifier("questionAskService")
     private QuestionAskService questionAskService;
@@ -232,7 +236,7 @@ public class QuestionController {
     public String edit(@RequestParam("id") long id, HttpServletRequest request) {
         Question question = questionService.findQuestionById(id);
         request.setAttribute("question", question);
-        Set<QuestionTag> questionTags = question.getTags();
+        Set<QuestionTag> questionTags = sysTagService.findByQuestion(question);
         List<SysTag> sysTags = new ArrayList<>();
         for (QuestionTag questionTag : questionTags) {
             sysTags.add(questionTag.getTag());
@@ -245,11 +249,7 @@ public class QuestionController {
         request.setAttribute("tags", tags);
         List<Category> categoryList = categoryService.list();
         request.setAttribute("categoryList", categoryList);
-        Set<QuestionCategory> questionCategories = question.getQuestionCategories();
-        List<Category> questionCategoryList = new ArrayList<>();
-        for (QuestionCategory questionCategory : questionCategories) {
-            questionCategoryList.add(questionCategory.getCategory());
-        }
+        List<Category> questionCategoryList = categoryService.findQuestionCategoryList(question);
         request.setAttribute("questionCategoryList", questionCategoryList);
         return "question/edit";
     }
