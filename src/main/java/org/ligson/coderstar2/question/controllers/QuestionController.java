@@ -39,9 +39,6 @@ public class QuestionController {
     private QuestionService questionService;
 
     @Autowired
-    @Qualifier("sysTagService")
-    private SysTagService sysTagService;
-    @Autowired
     @Qualifier("questionAskService")
     private QuestionAskService questionAskService;
     @Autowired

@@ -21,19 +21,18 @@ public class Question implements Serializable {
     private String title;
     private String description;
     private String createDate = DateUtils.format();
-    //private Set<Ask> asks = new HashSet<>();
-    //private Set<QuestionTag> tags = new HashSet<QuestionTag>();
-    //private Set<QuestionCategory> questionCategories = new HashSet<>();
-    private User creator;
+
+    private long creatorId;
     private double money = 0.0;
     private int state = 1;
+
     //回复量
     private long replyNum = 0;
     //浏览量
     private long viewNum = 0;
     //关注量
     private long attentionNum = 0;
-    private Ask rightAsk;
+    private long rightAskId = -1;
     private String poster;
     private int recommendNum = 0;
 
@@ -76,16 +75,6 @@ public class Question implements Serializable {
         this.createDate = createDate;
     }
 
-
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id", nullable = false)
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
 
     @Column(name = "money", nullable = false)
     public double getMoney() {
@@ -132,17 +121,20 @@ public class Question implements Serializable {
         this.attentionNum = attentionNum;
     }
 
-
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "right_ask_id", nullable = true)
-    public Ask getRightAsk() {
-        return rightAsk;
+    public long getCreatorId() {
+        return creatorId;
     }
 
-    public void setRightAsk(Ask rightAsk) {
-        this.rightAsk = rightAsk;
+    public void setCreatorId(long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public long getRightAskId() {
+        return rightAskId;
+    }
+
+    public void setRightAskId(long rightAskId) {
+        this.rightAskId = rightAskId;
     }
 
     @Column(name = "poster", nullable = true)

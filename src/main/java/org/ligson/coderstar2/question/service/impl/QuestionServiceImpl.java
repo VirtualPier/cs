@@ -192,7 +192,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         question.setTitle(title);
         question.setDescription(description);
-        question.setCreator(user);
+        question.setCreatorId(user.getId());
         question.setMoney(money);
         questionDao.saveOrUpdate(question);
 
@@ -468,11 +468,12 @@ public class QuestionServiceImpl implements QuestionService {
         Map<String, Object> result = new HashMap<>();
         Ask ask = askDao.getById(askId);
         Question question = ask.getQuestion();
-        if (question.getRightAsk() != null) {
+
+        if (question.getRightAskId() != -1) {
             result.put("success", false);
             result.put("msg", "已经选择最佳答案");
         } else {
-            User user = question.getCreator();
+            User user = userDao.getById(question.getCreatorId());
             if (user == ask.getUser()) {
                 result.put("success", false);
                 result.put("msg", "不能选择自己的答案!");
@@ -484,7 +485,7 @@ public class QuestionServiceImpl implements QuestionService {
                     return isOk;
                 }
             }
-            question.setRightAsk(ask);
+            question.setRightAskId(ask.getId());
             questionDao.saveOrUpdate(question);
             result.put("success", true);
         }

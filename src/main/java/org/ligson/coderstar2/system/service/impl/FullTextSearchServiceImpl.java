@@ -21,7 +21,10 @@ import org.ligson.coderstar2.article.service.ArticleService;
 import org.ligson.coderstar2.question.domains.Question;
 import org.ligson.coderstar2.question.service.QuestionService;
 import org.ligson.coderstar2.system.service.FullTextSearchService;
+import org.ligson.coderstar2.user.domains.User;
+import org.ligson.coderstar2.user.service.UserService;
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,6 +48,8 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
     private Directory spellcheckerDirectory;
     private File spellcheckDic;
     private SpellChecker spellChecker;
+    @Resource
+    private UserService userService;
 
 
     public File getSpellcheckDic() {
@@ -278,8 +283,9 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
         Field titleField = new TextField("title", question.getTitle(), Field.Store.YES);
         Field contentField = new TextField("description", question.getDescription(), Field.Store.NO);
         Field createDateField = new StringField("createDate", question.getCreateDate(), Field.Store.YES);
-        Field authorId = new LongField("authorId", question.getCreator().getId(), Field.Store.YES);
-        Field authorName = new StringField("authorName", question.getCreator().getNickName(), Field.Store.YES);
+        User creator = userService.findUserById(question.getCreatorId());
+        Field authorId = new LongField("authorId", creator.getId(), Field.Store.YES);
+        Field authorName = new StringField("authorName", creator.getNickName(), Field.Store.YES);
         Field viewNumField = new LongField("viewNum", question.getViewNum(), Field.Store.YES);
         Field replyNumField = new LongField("replyNum", question.getReplyNum(), Field.Store.YES);
         Field attentionNumField = new LongField("attentionNum", question.getAttentionNum(), Field.Store.YES);
