@@ -244,8 +244,9 @@ public class FullTextSearchServiceImpl implements FullTextSearchService {
         Field titleField = new TextField("title", article.getTitle(), Field.Store.YES);
         Field contentField = new TextField("description", article.getDescription(), Field.Store.NO);
         Field createDateField = new StringField("createDate", article.getCreateDate(), Field.Store.YES);
-        Field authorId = new LongField("authorId", article.getCreator().getId(), Field.Store.YES);
-        Field authorName = new StringField("authorName", article.getCreator().getNickName(), Field.Store.YES);
+        User creator = userService.findUserById(article.getCreatorId());
+        Field authorId = new LongField("authorId", creator.getId(), Field.Store.YES);
+        Field authorName = new StringField("authorName", creator.getNickName(), Field.Store.YES);
         Field viewNumField = new LongField("viewNum", article.getViewNum(), Field.Store.YES);
         Field replyNumField = new LongField("replyNum", article.getReplyNum(), Field.Store.YES);
         Field attentionNumField = new LongField("attentionNum", article.getAttentionNum(), Field.Store.YES);

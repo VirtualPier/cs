@@ -31,9 +31,9 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
             sb.append("select distinct(q) from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
         }
         if (hasDeal) {
-            sb.append(" and q.rightAsk is not null ");
+            sb.append(" and q.rightAskId <> -1");
         } else {
-            sb.append(" and q.rightAsk is null ");
+            sb.append(" and q.rightAskId =-1 ");
         }
         sb.append(" order by q.").append(sort).append(" desc ");
         String hql = sb.toString();
@@ -56,9 +56,9 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
             sb.append("select count(q) from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
         }
         if (hasDeal) {
-            sb.append(" and q.rightAsk is not null ");
+            sb.append(" and q.rightAskId <> -1");
         } else {
-            sb.append(" and q.rightAsk is null ");
+            sb.append(" and q.rightAskId = -1 ");
         }
         sb.append(" order by q.").append(sort).append(" desc ");
         String hql = sb.toString();

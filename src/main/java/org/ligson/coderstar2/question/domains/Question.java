@@ -121,6 +121,7 @@ public class Question implements Serializable {
         this.attentionNum = attentionNum;
     }
 
+    @Column(name = "creator_id")
     public long getCreatorId() {
         return creatorId;
     }
@@ -129,6 +130,7 @@ public class Question implements Serializable {
         this.creatorId = creatorId;
     }
 
+    @Column(name = "right_ask_id", nullable = true)
     public long getRightAskId() {
         return rightAskId;
     }

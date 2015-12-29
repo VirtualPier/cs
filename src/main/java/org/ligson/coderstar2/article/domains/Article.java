@@ -1,7 +1,6 @@
 package org.ligson.coderstar2.article.domains;
 
 import com.boful.common.date.utils.DateUtils;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
@@ -15,13 +14,10 @@ import java.util.*;
 @Table(name = "article")
 public class Article {
     private long id;
-    private Set<Remark> remarks = new HashSet<>();
-    private Set<ArticleTag> tags = new HashSet<>();
-    private Set<ArticleCategory> articleCategories = new HashSet<>();
     private String title;
     private String description;
     private String createDate = DateUtils.format();
-    private User creator;
+    private long creatorId;
     private int state = 1;
     //回复量
     private long replyNum = 0;
@@ -45,37 +41,6 @@ public class Article {
         this.id = id;
     }
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Set<Remark> getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(Set<Remark> remarks) {
-        this.remarks = remarks;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "article_id")
-    public Set<ArticleTag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<ArticleTag> tags) {
-        this.tags = tags;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "article_id")
-    public Set<ArticleCategory> getArticleCategories() {
-        return articleCategories;
-    }
-
-    public void setArticleCategories(Set<ArticleCategory> articleCategories) {
-        this.articleCategories = articleCategories;
-    }
 
     @Column(name = "title", length = 255, nullable = false)
     public String getTitle() {
@@ -104,16 +69,6 @@ public class Article {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
-    }
-
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
     }
 
     @Column(name = "a_state", nullable = false)
@@ -148,8 +103,17 @@ public class Article {
         return attentionNum;
     }
 
+
     public void setAttentionNum(long attentionNum) {
         this.attentionNum = attentionNum;
+    }
+    @Column(name = "creator_id", nullable = false)
+    public long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(long creatorId) {
+        this.creatorId = creatorId;
     }
 
     @Column(name = "poster", nullable = true)

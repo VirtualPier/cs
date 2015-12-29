@@ -1,0 +1,1 @@
+UPDATE question SET right_ask_id = -1 WHERE right_ask_id is NULL;

@@ -9,6 +9,7 @@ import org.ligson.coderstar2.system.category.service.CategoryService;
 import org.ligson.coderstar2.system.domains.Category;
 import org.ligson.coderstar2.system.domains.SysTag;
 import org.ligson.coderstar2.system.service.FullTextSearchService;
+import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,9 @@ public class ArticleController {
     @Autowired
     @Qualifier("fullTextSearchService")
     private FullTextSearchService fullTextSearchService;
+
+    @Resource
+    private SysTagService sysTagService;
 
     public FullTextSearchService getFullTextSearchService() {
         return fullTextSearchService;
@@ -208,11 +213,10 @@ public class ArticleController {
     public String edit(@RequestParam("id") long id, HttpServletRequest request) {
         Article article = articleService.findArticleById(id);
         request.setAttribute("article", article);
-        Set<ArticleTag> articleTags = article.getTags();
-        List<SysTag> sysTags = new ArrayList<>();
-        for (ArticleTag articleTag : articleTags) {
-            sysTags.add(articleTag.getTag());
-        }
+
+
+        List<SysTag> sysTags = sysTagService.findByArticle(article);
+
         String tags = "";
         for (SysTag sysTag : sysTags) {
             tags += sysTag.getName() + ";";
@@ -221,11 +225,7 @@ public class ArticleController {
         request.setAttribute("tags", tags);
         List<Category> categoryList = categoryService.list();
         request.setAttribute("categoryList", categoryList);
-        Set<ArticleCategory> articleCategories = article.getArticleCategories();
-        List<Category> articleCategoryList = new ArrayList<>();
-        for (ArticleCategory category : articleCategories) {
-            articleCategoryList.add(category.getCategory());
-        }
+        List<Category> articleCategoryList = categoryService.findArticleCategoryList(article);
         request.setAttribute("articleCategoryList", articleCategoryList);
         return "article/edit";
     }

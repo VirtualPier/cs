@@ -25,9 +25,11 @@ import org.ligson.coderstar2.system.service.FullTextSearchService;
 import org.ligson.coderstar2.system.systag.dao.SysTagDao;
 import org.ligson.coderstar2.system.systag.service.SysTagService;
 import org.ligson.coderstar2.user.domains.User;
+import org.ligson.coderstar2.user.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -52,6 +54,9 @@ public class ArticleServiceImpl implements ArticleService {
     private PayService payService;
     private SysTagDao sysTagDao;
     private FullTextSearchService fullTextSearchService;
+
+    @Resource
+    private UserService userService;
 
     public static Logger getLogger() {
         return logger;
@@ -207,7 +212,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         article.setTitle(title);
         article.setDescription(content);
-        article.setCreator(creator);
+        article.setCreatorId(creator.getId());
         article.setState(Article.STATE_APPLY);
         articleDao.saveOrUpdate(article);
         if (id >= 0) {
@@ -303,7 +308,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Map<String, Object> rewardArticle(User currentUser, Article article, double money) {
-        return payService.transfer(currentUser, article.getCreator(), money, 2, article.getId());
+        User user = userService.findUserById(article.getCreatorId());
+        return payService.transfer(currentUser, user, money, 2, article.getId());
     }
 
     @Override
@@ -621,7 +627,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Map<String, Object> listArticleRemark(long articleId, int offset, int max) {
         Article article = findArticleById(articleId);
         List<Remark> remarks = remarkDao.findAllByArticleOrderBy(article, offset, max, "createDate", "desc");
-        int total = article.getRemarks().size();
+        long total = article.getReplyNum();
         Map<String, Object> result = new HashMap<>();
         result.put("remarks", remarks);
         result.put("total", total);

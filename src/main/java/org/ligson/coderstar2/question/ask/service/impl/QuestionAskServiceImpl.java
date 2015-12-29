@@ -64,7 +64,7 @@ public class QuestionAskServiceImpl implements QuestionAskService {
     @Override
     public Map<String, Object> deleteAsk(User user, Ask ask) {
         Map<String, Object> result = new HashMap<>();
-        if (!((user.getId() == ask.getUser().getId()) || (user.getId() == ask.getQuestion().getCreator().getId()))) {
+        if (!((user.getId() == ask.getUser().getId()) || (user.getId() == ask.getQuestion().getCreatorId()))) {
             result.put("success", false);
             result.put("msg", "权限不足！");
             return result;
@@ -79,8 +79,9 @@ public class QuestionAskServiceImpl implements QuestionAskService {
             askReplyDao.delete(askReply);
         }
         Question question = questionDao.getById(ask.getQuestion().getId());
-        if (question.getRightAsk() == ask) {
-            question.setRightAsk(null);
+
+        if (question.getRightAskId() == ask.getId()) {
+            question.setRightAskId(-1);
         }
         if (question.getReplyNum() > 0) {
             question.setReplyNum(question.getReplyNum() - 1);

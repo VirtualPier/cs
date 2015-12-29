@@ -12,8 +12,8 @@
                      http://www.springframework.org/schema/tx/spring-tx.xsd  
                      http://www.springframework.org/schema/aop  
                      http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-    <!--<context:annotation-config/>
-    <context:component-scan base-package="org.ligson.coderstar2"/>-->
+    <context:annotation-config/>
+    <context:component-scan base-package="org.ligson.coderstar2"/>
 
 
     <context:property-placeholder location="classpath:*.properties"/>
