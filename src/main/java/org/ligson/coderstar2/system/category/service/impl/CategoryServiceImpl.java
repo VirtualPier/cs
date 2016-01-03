@@ -96,8 +96,8 @@ public class CategoryServiceImpl implements CategoryService {
         ArticleCategory articleCategory = articleCategoryDao.findByArticleAndCategory(article, category);
         if (articleCategory == null) {
             articleCategory = new ArticleCategory();
-            articleCategory.setArticle(article);
-            articleCategory.setCategory(category);
+            articleCategory.setArticleId(article.getId());
+            articleCategory.setCategoryId(category.getId());
             articleCategoryDao.saveOrUpdate(articleCategory);
             category.setArticleNum(category.getArticleNum() + 1);
             categoryDao.saveOrUpdate(category);
@@ -111,8 +111,8 @@ public class CategoryServiceImpl implements CategoryService {
         QuestionCategory questionCategory = questionCategoryDao.findByQuestionAndCategory(question, category);
         if (questionCategory == null) {
             questionCategory = new QuestionCategory();
-            questionCategory.setQuestion(question);
-            questionCategory.setCategory(category);
+            questionCategory.setQuestionId(question.getId());
+            questionCategory.setCategoryId(category.getId());
             questionCategoryDao.saveOrUpdate(questionCategory);
             category.setArticleNum(category.getArticleNum() + 1);
             categoryDao.saveOrUpdate(category);

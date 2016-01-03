@@ -15,9 +15,9 @@ import javax.persistence.*;
 public class Rate {
     private long id;
     //评价问题
-    private Ask ask;
+    private long askId;
     //评价用户
-    private User user;
+    private long userId;
     //赞一个
     private boolean isSupport = false;
     private String createDate = DateUtils.format();
@@ -32,24 +32,22 @@ public class Rate {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "ask_id", referencedColumnName = "id", nullable = false)
-    public Ask getAsk() {
-        return ask;
+    @Column(nullable = false, name = "question_id")
+    public long getAskId() {
+        return askId;
     }
 
-    public void setAsk(Ask ask) {
-        this.ask = ask;
+    public void setAskId(long askId) {
+        this.askId = askId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     @Column(name = "is_support", nullable = false)

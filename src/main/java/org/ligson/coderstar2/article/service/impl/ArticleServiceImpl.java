@@ -179,8 +179,8 @@ public class ArticleServiceImpl implements ArticleService {
             result.put("msg", "已经关注!");
         } else {
             attentionArticle = new AttentionArticle();
-            attentionArticle.setArticle(article);
-            attentionArticle.setUser(user);
+            attentionArticle.setArticleId(article.getId());
+            attentionArticle.setUserId(user.getId());
             attentionArticleDao.saveOrUpdate(attentionArticle);
             result.put("success", true);
             result.put("msg", "关注成功!");
@@ -315,8 +315,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Map<String, Object> saveRemark(User creator, Article article, String comment) {
         Remark remark = new Remark();
-        remark.setArticle(article);
-        remark.setUser(creator);
+        remark.setArticleId(article.getId());
+        remark.setUserId(creator.getId());
         remark.setContent(comment);
         remarkDao.saveOrUpdate(remark);
 
@@ -341,8 +341,8 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleRate articleRate = articleRateDao.findByUserAndArticle(currentUser, article);
         if (articleRate == null) {
             articleRate = new ArticleRate();
-            articleRate.setArticle(article);
-            articleRate.setUser(currentUser);
+            articleRate.setArticleId(article.getId());
+            articleRate.setUserId(currentUser.getId());
             articleRate.setSupport(isSupport);
             articleRateDao.saveOrUpdate(articleRate);
             result.put("success", true);
@@ -359,8 +359,8 @@ public class ArticleServiceImpl implements ArticleService {
         RemarkRate remarkRate = remarkDao.findByUserAndRemark(currentUser, remark);
         if (remarkRate == null) {
             remarkRate = new RemarkRate();
-            remarkRate.setRemark(remark);
-            remarkRate.setUser(currentUser);
+            remarkRate.setRemarkId(remark.getId());
+            remarkRate.setUserId(currentUser.getId());
             remarkRate.setSupport(isSupport);
             remarkRateDao.saveOrUpdate(remarkRate);
             if (isSupport) {

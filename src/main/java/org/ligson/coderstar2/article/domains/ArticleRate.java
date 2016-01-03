@@ -15,9 +15,9 @@ import java.util.Date;
 @Table(name = "article_rate")
 public class ArticleRate {
     private long id;
-    private Article article;
+    private long articleId;
     //评价用户
-    private User user;
+    private long userId;
     //赞一个
     private boolean isSupport = false;
     private String createDate = DateUtils.format();
@@ -33,24 +33,22 @@ public class ArticleRate {
     }
 
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "article_id", referencedColumnName = "id")
-    public Article getArticle() {
-        return article;
+    @Column(name = "article_id", nullable = false)
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
-        return user;
+    @Column(nullable = false, name = "user_id")
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     @Column(name = "is_support", nullable = false)

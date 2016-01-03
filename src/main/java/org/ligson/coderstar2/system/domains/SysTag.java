@@ -14,7 +14,7 @@ public class SysTag {
     private long id;
     private String name;
     private String createDate = DateUtils.format();
-    private User creator;
+    private long creatorId;
     private long questionNum = 0;
     private long articleNum = 0;
 
@@ -46,14 +46,13 @@ public class SysTag {
         this.createDate = createDate;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id", nullable = false)
-    public User getCreator() {
-        return creator;
+    @Column(name = "creator_id", nullable = false)
+    public long getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreatorId(long creatorId) {
+        this.creatorId = creatorId;
     }
 
     @Column(name = "question_num", nullable = false)

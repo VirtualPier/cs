@@ -96,7 +96,7 @@ public class PayServiceImpl implements PayService {
         payOrder.setComments("码农之星在线充值!");
         payOrder.setMoney(money);
         payOrder.setState(PayOrder.STATE_PAYING);
-        payOrder.setUser(currentUser);
+        payOrder.setUserId(currentUser.getId());
         payOrder.setType(PayOrder.TYPE_ALIPAY);
         payOrderDao.saveOrUpdate(payOrder);
 
@@ -179,7 +179,7 @@ public class PayServiceImpl implements PayService {
             tradeRecord.setMoney(money);
             tradeRecord.setObjId(tradeObjId);
             tradeRecord.setType(TradeRecord.Type_PAY);
-            tradeRecord.setUser(currentUser);
+            tradeRecord.setUserId(currentUser.getId());
             tradeRecordDao.saveOrUpdate(tradeRecord);
             if (isBlocked) {
                 Map<String, Object> result2 = blockedMoney(currentUser, money, "悬赏问题", tradeType, tradeObjId);
@@ -253,7 +253,7 @@ public class PayServiceImpl implements PayService {
         TradeRecord tradeRecord = new TradeRecord();
         tradeRecord.setMoney(money);
         tradeRecord.setType(TradeRecord.Type_PAY);
-        tradeRecord.setUser(fromUser);
+        tradeRecord.setUserId(fromUser.getId());
         tradeRecord.setObjId(tradeObjId);
         tradeRecord.setType(tradeType);
         tradeRecordDao.saveOrUpdate(tradeRecord);
@@ -262,7 +262,7 @@ public class PayServiceImpl implements PayService {
         TradeRecord tradeRecord2 = new TradeRecord();
         tradeRecord2.setMoney(money);
         tradeRecord2.setType(TradeRecord.Type_INCOME);
-        tradeRecord2.setUser(toUser);
+        tradeRecord2.setUserId(toUser.getId());
         tradeRecord2.setObjId(tradeObjId);
         tradeRecord2.setObjType(tradeType);
         //支出账户
@@ -287,7 +287,7 @@ public class PayServiceImpl implements PayService {
             BlockedFund blockedFund = new BlockedFund();
             blockedFund.setMoney(money);
             blockedFund.setComments(comments);
-            blockedFund.setUser(user);
+            blockedFund.setUserId(user.getId());
             blockedFund.setState(BlockedFund.STATE_LOCK);
             blockedFund.setObjType(objType);
             blockedFund.setObjId(objId);
@@ -359,7 +359,8 @@ public class PayServiceImpl implements PayService {
                     //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
                     //如果有做过处理，不执行商户的业务程序
                     if (payOrder.getState() != PayOrder.STATE_SUCEESS) {
-                        User user = payOrder.getUser();
+
+                        User user = userDao.getById(payOrder.getUserId());
                         payOrder.setState(PayOrder.STATE_SUCEESS);
                         payOrder.setComments("支付宝订单号:" + trade_no);
                         payOrder.setOutOrder(trade_no);
@@ -421,7 +422,7 @@ public class PayServiceImpl implements PayService {
             return result;
         }
         Withdraw withdraw = new Withdraw();
-        withdraw.setUser(currentUser);
+        withdraw.setUserId(currentUser.getId());
         withdraw.setComments(comments);
         withdraw.setMoney(money);
         withdraw.setState(Withdraw.STATE_APPLY);
@@ -451,7 +452,7 @@ public class PayServiceImpl implements PayService {
             Withdraw withdraw = withdrawDao.getById(withdrawId);
             //用户实际提现金额
             double trueMoney = money > 0 ? money : withdraw.getMoney();
-            User user = withdraw.getUser();
+            User user = userDao.getById(withdraw.getUserId());
             double userBlockedFundMoney = new BigDecimal(user.getBlockedFund()).subtract(new BigDecimal(trueMoney)).doubleValue();
             if (userBlockedFundMoney >= 0.0) {
                 user.setBlockedFund(userBlockedFundMoney);

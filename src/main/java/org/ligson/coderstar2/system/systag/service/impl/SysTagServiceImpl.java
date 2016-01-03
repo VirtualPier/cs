@@ -52,7 +52,7 @@ public class SysTagServiceImpl implements SysTagService {
         SysTag sysTag = sysTagDao.findBy("name", tagName);
         if (sysTag == null) {
             sysTag = new SysTag();
-            sysTag.setCreator(creator);
+            sysTag.setCreatorId(creator.getId());
             sysTag.setName(tagName);
         } else {
             sysTag.setArticleNum(sysTag.getQuestionNum() + 1);
@@ -62,7 +62,7 @@ public class SysTagServiceImpl implements SysTagService {
         boolean isExist = false;
         ArticleTag articleTag = null;
         for (ArticleTag tag : articleTags) {
-            if ((tag.getTag().getId() == sysTag.getId()) && (tag.getArticle().getId() == article.getId())) {
+            if ((tag.getTagId() == sysTag.getId()) && (tag.getTagId() == article.getId())) {
                 articleTag = tag;
                 isExist = true;
                 break;
@@ -70,8 +70,8 @@ public class SysTagServiceImpl implements SysTagService {
         }
         if (!isExist) {
             articleTag = new ArticleTag();
-            articleTag.setArticle(article);
-            articleTag.setTag(sysTag);
+            articleTag.setArticleId(article.getId());
+            articleTag.setTagId(sysTag.getId());
             articleTagDao.saveOrUpdate(articleTag);
         }
         return articleTag;
@@ -82,7 +82,7 @@ public class SysTagServiceImpl implements SysTagService {
         SysTag sysTag = sysTagDao.findBy("name", tagName);
         if (sysTag == null) {
             sysTag = new SysTag();
-            sysTag.setCreator(creator);
+            sysTag.setCreatorId(creator.getId());
             sysTag.setName(tagName);
         } else {
             sysTag.setArticleNum(sysTag.getQuestionNum() + 1);
@@ -93,7 +93,7 @@ public class SysTagServiceImpl implements SysTagService {
         boolean isExist = false;
         QuestionTag questionTag1 = null;
         for (QuestionTag questionTag : questionList) {
-            if ((questionTag.getQuestion().getId() == question.getId()) && (sysTag.getId() == questionTag.getTag().getId())) {
+            if ((questionTag.getQuestionId() == question.getId()) && (sysTag.getId() == questionTag.getTagId())) {
                 isExist = true;
                 questionTag1 = questionTag;
                 break;
@@ -101,8 +101,8 @@ public class SysTagServiceImpl implements SysTagService {
         }
         if (!isExist) {
             questionTag1 = new QuestionTag();
-            questionTag1.setQuestion(question);
-            questionTag1.setTag(sysTag);
+            questionTag1.setQuestionId(question.getId());
+            questionTag1.setTagId(sysTag.getId());
             questionTagDao.saveOrUpdate(questionTag1);
         }
         return questionTag1;
@@ -147,7 +147,7 @@ public class SysTagServiceImpl implements SysTagService {
     }
 
     @Override
-    public Set<QuestionTag> findByQuestion(Question question) {
-        return null;
+    public List<SysTag> findByQuestion(Question question) {
+        return sysTagDao.findAllByQuestion(question);
     }
 }

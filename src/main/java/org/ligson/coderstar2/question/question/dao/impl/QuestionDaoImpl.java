@@ -24,11 +24,11 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     public List<Question> findByRightAskIsNullAndCategoryIdAndTagIdOrderBy(boolean hasDeal, String sort, long categoryId, long tagId, int max, int offset) {
         StringBuilder sb = new StringBuilder();
         if (categoryId >= 0 && tagId >= 0) {
-            sb.append("select distinct(q) from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.question.id and q.id=qc.question.id and q.state=0 qc.category.id=").append(categoryId);
+            sb.append("select distinct(q) from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.questionId and q.id=qc.questionId and q.state=0 qc.categoryId=").append(categoryId);
         } else if (tagId < 0 && categoryId >= 0) {
-            sb.append("select distinct(q) from Question q,QuestionCategory qc where q.id=qc.question.id and q.state=0");
+            sb.append("select distinct(q) from Question q,QuestionCategory qc where q.id=qc.questionId and q.state=0");
         } else {
-            sb.append("select distinct(q) from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
+            sb.append("select distinct(q) from Question q,QuestionTag qt where q.id=qt.questionId  and q.state=0 ");
         }
         if (hasDeal) {
             sb.append(" and q.rightAskId <> -1");
@@ -49,11 +49,11 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     public int countByRightAskIsNullAndCategoryIdAndTagIdOrderBy(boolean hasDeal, String sort, long categoryId, long tagId) {
         StringBuilder sb = new StringBuilder();
         if (categoryId >= 0 && tagId >= 0) {
-            sb.append("select count(q) from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.question.id and q.id=qc.question.id and q.state=0 qc.category.id=").append(categoryId);
+            sb.append("select count(q) from Question q,QuestionTag qt,QuestionCategory qc where q.id=qt.questionId and q.id=qc.questionId and q.state=0 qc.categoryId=").append(categoryId);
         } else if (tagId < 0 && categoryId >= 0) {
-            sb.append("select count(q) from Question q,QuestionCategory qc where q.id=qc.question.id and q.state=0");
+            sb.append("select count(q) from Question q,QuestionCategory qc where q.id=qc.questionId and q.state=0");
         } else {
-            sb.append("select count(q) from Question q,QuestionTag qt where q.id=qt.question.id  and q.state=0 ");
+            sb.append("select count(q) from Question q,QuestionTag qt where q.id=qt.questionId  and q.state=0 ");
         }
         if (hasDeal) {
             sb.append(" and q.rightAskId <> -1");
@@ -82,7 +82,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
 
     @Override
     public List<Question> findAllByRightAskIsNullAndMoneyGreaterThan(int money, String sort, String order, int max) {
-        Query query = getCurrentSession().createQuery("from Question q where q.rightAsk is null and q.money>:m order by " + sort + " " + order);
+        Query query = getCurrentSession().createQuery("from Question q where q.rightAskId is null and q.money>:m order by " + sort + " " + order);
         query.setDouble("m", money);
         query.setFirstResult(0);
         query.setMaxResults(max);

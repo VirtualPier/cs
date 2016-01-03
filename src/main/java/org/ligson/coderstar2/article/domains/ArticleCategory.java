@@ -12,9 +12,9 @@ import javax.persistence.*;
 public class ArticleCategory {
     private long id;
 
-    private Article article;
+    private long articleId;
 
-    private Category category;
+    private long categoryId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,23 +26,21 @@ public class ArticleCategory {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "article_id")
-    public Article getArticle() {
-        return article;
+    @Column(nullable = false, name = "article_id")
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    public Category getCategory() {
-        return category;
+    @Column(name = "category_id", nullable = false)
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 }

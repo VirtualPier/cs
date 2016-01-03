@@ -226,18 +226,14 @@ public class QuestionController {
         User user = (User) request.getSession().getAttribute("user");
         Ask ask = questionAskService.findAskById(id);
         Map<String, Object> result = questionAskService.deleteAsk(user, ask);
-        return "redirect:/question/view?id=" + ask.getQuestion().getId();
+        return "redirect:/question/view?id=" + ask.getQuestionId();
     }
 
     @RequestMapping("/edit")
     public String edit(@RequestParam("id") long id, HttpServletRequest request) {
         Question question = questionService.findQuestionById(id);
         request.setAttribute("question", question);
-        Set<QuestionTag> questionTags = sysTagService.findByQuestion(question);
-        List<SysTag> sysTags = new ArrayList<>();
-        for (QuestionTag questionTag : questionTags) {
-            sysTags.add(questionTag.getTag());
-        }
+        List<SysTag> sysTags = sysTagService.findByQuestion(question);
         String tags = "";
         for (SysTag sysTag : sysTags) {
             tags += sysTag.getName() + ";";

@@ -13,8 +13,8 @@ import java.util.Date;
 @Table(name = "question_tag")
 public class QuestionTag {
     private long id;
-    private SysTag tag;
-    private Question question;
+    private long tagId;
+    private long questionId;
     private String createDate = DateUtils.format();
 
     @Id
@@ -27,24 +27,22 @@ public class QuestionTag {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "tag_id", referencedColumnName = "id")
-    public SysTag getTag() {
-        return tag;
+    @Column(name = "tag_id", nullable = false)
+    public long getTagId() {
+        return tagId;
     }
 
-    public void setTag(SysTag tag) {
-        this.tag = tag;
+    public void setTagId(long tagId) {
+        this.tagId = tagId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "question_id", referencedColumnName = "id")
-    public Question getQuestion() {
-        return question;
+    @Column(name = "question_id", nullable = false)
+    public long getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionId(long questionId) {
+        this.questionId = questionId;
     }
 
     @Column(name = "create_date", nullable = false)

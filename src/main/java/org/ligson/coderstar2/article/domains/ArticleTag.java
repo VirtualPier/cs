@@ -14,8 +14,8 @@ import java.util.Date;
 @Table(name = "article_tag")
 public class ArticleTag {
     private long id;
-    private SysTag tag;
-    private Article article;
+    private long tagId;
+    private long articleId;
     private String createDate = DateUtils.format();
 
     @Id
@@ -28,24 +28,22 @@ public class ArticleTag {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "tag_id", referencedColumnName = "id")
-    public SysTag getTag() {
-        return tag;
+    @Column(nullable = false, name = "tag_id")
+    public long getTagId() {
+        return tagId;
     }
 
-    public void setTag(SysTag tag) {
-        this.tag = tag;
+    public void setTagId(long tagId) {
+        this.tagId = tagId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "article_id", referencedColumnName = "id")
-    public Article getArticle() {
-        return article;
+    @Column(nullable = false, name = "article_id")
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
     @Column(nullable = false, name = "create_date")

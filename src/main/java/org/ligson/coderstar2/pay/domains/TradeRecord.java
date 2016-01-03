@@ -22,7 +22,7 @@ public class TradeRecord {
     private int objType;
     private String createDate = DateUtils.format();
     private double money = 0.0;
-    private User user;
+    private long userId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,14 +79,13 @@ public class TradeRecord {
         this.money = money;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public static final int Type_PAY = 1;

@@ -30,5 +30,5 @@ public interface SysTagService {
 
     public List<SysTag> questionHotTags(int max);
 
-    public Set<QuestionTag> findByQuestion(Question question);
+    public List<SysTag> findByQuestion(Question question);
 }

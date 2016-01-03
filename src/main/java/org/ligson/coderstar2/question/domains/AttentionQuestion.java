@@ -14,8 +14,8 @@ import java.util.Date;
 @Table(name = "attention_question")
 public class AttentionQuestion {
     private long id;
-    private User user;
-    private Question question;
+    private long userId;
+    private long questionId;
     private String createDate = DateUtils.format();
 
     @Id
@@ -28,24 +28,23 @@ public class AttentionQuestion {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    public User getUser() {
-        return user;
+
+    @Column(nullable = false, name = "user_id")
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
-    public Question getQuestion() {
-        return question;
+    @Column(nullable = false, name = "question_id")
+    public long getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionId(long questionId) {
+        this.questionId = questionId;
     }
 
     @Column(name = "create_date", nullable = false)

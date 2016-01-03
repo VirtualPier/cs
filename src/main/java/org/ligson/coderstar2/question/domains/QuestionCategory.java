@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Table(name = "question_category")
 public class QuestionCategory {
     private long id;
-    private Question question;
-    private Category category;
+    private long questionId;
+    private long categoryId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,23 +26,21 @@ public class QuestionCategory {
     }
 
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
-    public Question getQuestion() {
-        return question;
+    @Column(name = "question_id", nullable = false)
+    public long getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionId(long questionId) {
+        this.questionId = questionId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
-    public Category getCategory() {
-        return category;
+    @Column(name = "category_id", nullable = false)
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 }

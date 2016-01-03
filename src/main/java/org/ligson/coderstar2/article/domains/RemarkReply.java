@@ -14,9 +14,9 @@ import java.util.Date;
 @Table(name = "remark_reply")
 public class RemarkReply {
     private long id;
-    private Remark remark;
-    private User user;
-    private User atUser;
+    private long remarkId;
+    private long userId;
+    private long atUserId;
     private String createDate = DateUtils.format();
 
     @Id
@@ -29,34 +29,31 @@ public class RemarkReply {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "remark_id", referencedColumnName = "id")
-    public Remark getRemark() {
-        return remark;
+    @Column(name = "remark_id", nullable = false)
+    public long getRemarkId() {
+        return remarkId;
     }
 
-    public void setRemark(Remark remark) {
-        this.remark = remark;
+    public void setRemarkId(long remarkId) {
+        this.remarkId = remarkId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "at_user_id", referencedColumnName = "id", nullable = true)
-    public User getAtUser() {
-        return atUser;
+    @Column(nullable = false, name = "at_user_id")
+    public long getAtUserId() {
+        return atUserId;
     }
 
-    public void setAtUser(User atUser) {
-        this.atUser = atUser;
+    public void setAtUserId(long atUserId) {
+        this.atUserId = atUserId;
     }
 
     @Column(nullable = false, name = "create_date")

@@ -247,8 +247,8 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionDao.getById(questionId);
         Ask ask = new Ask();
         ask.setContent(content);
-        ask.setQuestion(question);
-        ask.setUser(user);
+        ask.setQuestionId(questionId);
+        ask.setUserId(user.getId());
         askDao.add(ask);
         Map<String, Object> map = new HashMap<>();
         map.put("ask", ask);
@@ -269,8 +269,8 @@ public class QuestionServiceImpl implements QuestionService {
             }
             askDao.saveOrUpdate(ask);
             rate = new Rate();
-            rate.setAsk(ask);
-            rate.setUser(user);
+            rate.setAskId(ask.getId());
+            rate.setUserId(user.getId());
             rate.setSupport("up".equals(upOrDown));
             rateDao.saveOrUpdate(rate);
             result.put("success", true);
@@ -388,8 +388,9 @@ public class QuestionServiceImpl implements QuestionService {
             result.put("msg", "已经关注");
         } else {
             AttentionQuestion attentionQuestion = new AttentionQuestion();
-            attentionQuestion.setUser(user);
-            attentionQuestion.setQuestion(question);
+            attentionQuestion.setUserId(user.getId());
+            //attentionQuestion.setUser(user);
+            attentionQuestion.setQuestionId(question.getId());
             attentionQuestionDao.saveOrUpdate(attentionQuestion);
 
             question.setAttentionNum(question.getAttentionNum() + 1);
@@ -467,19 +468,20 @@ public class QuestionServiceImpl implements QuestionService {
     public Map<String, Object> selectRightAsk(long askId) {
         Map<String, Object> result = new HashMap<>();
         Ask ask = askDao.getById(askId);
-        Question question = ask.getQuestion();
+        Question question = questionDao.getById(ask.getQuestionId());
 
         if (question.getRightAskId() != -1) {
             result.put("success", false);
             result.put("msg", "已经选择最佳答案");
         } else {
             User user = userDao.getById(question.getCreatorId());
-            if (user == ask.getUser()) {
+            User askUser = userDao.getById(ask.getUserId());
+            if (user == askUser) {
                 result.put("success", false);
                 result.put("msg", "不能选择自己的答案!");
             }
             if (question.getMoney() > 0) {
-                Map<String, Object> isOk = payService.transfer(user, ask.getUser(), question.getMoney(), 1, question.getId());
+                Map<String, Object> isOk = payService.transfer(user, askUser, question.getMoney(), 1, question.getId());
                 boolean success = (boolean) isOk.get("success");
                 if (!success) {
                     return isOk;

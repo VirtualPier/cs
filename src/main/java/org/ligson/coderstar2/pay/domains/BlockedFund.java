@@ -16,7 +16,7 @@ import java.util.Map;
 @Table(name = "blocked_fund")
 public class BlockedFund {
     private long id;
-    private User user;
+    private long userId;
     private String createDate = DateUtils.format();
     private double money = 0;
     private int state = 1;
@@ -35,14 +35,13 @@ public class BlockedFund {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     @Column(name = "create_date", nullable = false)

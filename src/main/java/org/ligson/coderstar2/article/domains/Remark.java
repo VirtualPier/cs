@@ -17,17 +17,13 @@ import java.util.Set;
 public class Remark {
     private long id;
     private String content;
-    private User user;
-    private Article article;
+    private long userId;
+    private long articleId;
     //支持
     private int supportNum;
     //反对
     private int opposeNum;
     private String createDate = DateUtils.format();
-
-    private Set<RemarkRate> rates = new HashSet<>();
-
-    private Set<RemarkReply> replyList = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,24 +46,22 @@ public class Remark {
         this.content = content;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "article_id", referencedColumnName = "id")
-    public Article getArticle() {
-        return article;
+    @Column(name = "article_id", nullable = false)
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
     @Column(name = "support_num", nullable = false)
@@ -97,22 +91,4 @@ public class Remark {
         this.createDate = createDate;
     }
 
-    @OneToMany(mappedBy = "remark", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Set<RemarkRate> getRates() {
-        return rates;
-    }
-
-    public void setRates(Set<RemarkRate> rates) {
-        this.rates = rates;
-    }
-
-    @OneToMany(mappedBy = "remark", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Set<RemarkReply> getReplyList() {
-        return replyList;
-    }
-
-
-    public void setReplyList(Set<RemarkReply> replyList) {
-        this.replyList = replyList;
-    }
 }

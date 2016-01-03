@@ -17,9 +17,9 @@ import java.util.Date;
 public class RemarkRate {
     private long id;
     //评价问题
-    private Remark remark;
+    private long remarkId;
     //评价用户
-    private User user;
+    private long userId;
     //赞一个
     private boolean isSupport = false;
     private String createDate = DateUtils.format();
@@ -34,24 +34,22 @@ public class RemarkRate {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "remark_id", referencedColumnName = "id")
-    public Remark getRemark() {
-        return remark;
+    @Column(name = "remark_id", nullable = false)
+    public long getRemarkId() {
+        return remarkId;
     }
 
-    public void setRemark(Remark remark) {
-        this.remark = remark;
+    public void setRemarkId(long remarkId) {
+        this.remarkId = remarkId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     @Column(name = "is_support", nullable = false)

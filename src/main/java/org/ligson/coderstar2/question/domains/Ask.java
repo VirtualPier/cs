@@ -17,14 +17,14 @@ import java.util.Set;
 public class Ask {
     private long id;
     private String content;
-    private User user;
-    private Question question;
+    private long userId;
+    private long questionId;
     //支持
     private int supportNum = 0;
     //反对
     private int opposeNum = 0;
     private String createDate = DateUtils.format();
-    private Set<Rate> rates = new HashSet<>();
+    //private Set<Rate> rates = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,24 +47,22 @@ public class Ask {
         this.content = content;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
-    public Question getQuestion() {
-        return question;
+    @Column(name = "question_id", nullable = false)
+    public long getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionId(long questionId) {
+        this.questionId = questionId;
     }
 
     @Column(name = "support_num", nullable = false)
@@ -94,12 +92,4 @@ public class Ask {
         this.createDate = createDate;
     }
 
-    @OneToMany(mappedBy = "ask", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Set<Rate> getRates() {
-        return rates;
-    }
-
-    public void setRates(Set<Rate> rates) {
-        this.rates = rates;
-    }
 }

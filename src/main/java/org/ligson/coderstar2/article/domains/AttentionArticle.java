@@ -13,8 +13,8 @@ import java.util.Date;
 @Table(name = "attention_article")
 public class AttentionArticle {
     private long id;
-    private User user;
-    private Article article;
+    private long userId;
+    private long articleId;
     private String createDate = DateUtils.format();
 
     @Id
@@ -27,24 +27,22 @@ public class AttentionArticle {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "article_id", referencedColumnName = "id")
-    public Article getArticle() {
-        return article;
+    @Column(name = "article_id", nullable = false)
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
     @Column(nullable = false, name = "create_date")
