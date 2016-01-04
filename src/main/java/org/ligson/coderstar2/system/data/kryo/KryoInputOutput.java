@@ -4,6 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.serializers.JavaSerializer;
 import org.ligson.coderstar2.system.data.ObjectInputOutput;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * kryo 序列化反序列化实现类
@@ -35,6 +37,7 @@ public class KryoInputOutput implements ObjectInputOutput {
         kryo.setRegistrationRequired(false);
         kryo.setReferences(false);
         kryo.setInstantiatorStrategy(new StdInstantiatorStrategy());
+        kryo.register(ArrayList.class,new JavaSerializer());
         return kryo;
     }
 

@@ -41,7 +41,7 @@
         <lucene.version>5.2.1</lucene.version>
         <jcaptcha.version>1.0-RC6</jcaptcha.version>
         <jedis.version>2.7.3</jedis.version>
-        <kryo.version>2.24.0</kryo.version>
+        <kryo.version>3.0.3</kryo.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <distributionManagement>
@@ -576,7 +576,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.esotericsoftware.kryo</groupId>
+            <groupId>com.esotericsoftware</groupId>
             <artifactId>kryo</artifactId>
             <version>${kryo.version}</version>
         </dependency>

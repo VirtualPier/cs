@@ -3,6 +3,7 @@ package org.ligson.coderstar2.user.domains;
 import com.boful.common.date.utils.DateUtils;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "cs_user")
-public class User {
+public class User implements Serializable{
     private long id;
     private String nickName;
     private String password;
