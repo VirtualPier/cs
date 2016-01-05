@@ -42,6 +42,7 @@
         <jcaptcha.version>1.0-RC6</jcaptcha.version>
         <jedis.version>2.7.3</jedis.version>
         <kryo.version>3.0.3</kryo.version>
+        <fastjson.version>1.2.7</fastjson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <distributionManagement>
@@ -579,6 +580,12 @@
             <groupId>com.esotericsoftware</groupId>
             <artifactId>kryo</artifactId>
             <version>${kryo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
     </dependencies>
 
