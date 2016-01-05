@@ -4,6 +4,7 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "ask_reply")
-public class AskReply {
+public class AskReply implements Serializable {
     private long id;
     private long askId;
     private long userId;

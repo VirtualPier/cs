@@ -3,6 +3,7 @@ package org.ligson.coderstar2.question.domains;
 import org.ligson.coderstar2.system.domains.Category;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by ligson on 2015/7/16.
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "question_category")
-public class QuestionCategory {
+public class QuestionCategory implements Serializable {
     private long id;
     private long questionId;
     private long categoryId;

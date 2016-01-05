@@ -5,6 +5,7 @@ import freemarker.template.utility.DateUtil;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "remark_reply")
-public class RemarkReply {
+public class RemarkReply implements Serializable {
     private long id;
     private long remarkId;
     private long userId;

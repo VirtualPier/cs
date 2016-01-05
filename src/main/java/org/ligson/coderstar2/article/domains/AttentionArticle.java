@@ -4,6 +4,7 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "attention_article")
-public class AttentionArticle {
+public class AttentionArticle implements Serializable {
     private long id;
     private long userId;
     private long articleId;

@@ -5,6 +5,7 @@ import freemarker.template.utility.DateUtil;
 import org.ligson.coderstar2.system.domains.SysTag;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "article_tag")
-public class ArticleTag {
+public class ArticleTag implements Serializable {
     private long id;
     private long tagId;
     private long articleId;

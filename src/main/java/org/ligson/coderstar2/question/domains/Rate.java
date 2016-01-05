@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 评价表
@@ -12,7 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "rate")
-public class Rate {
+public class Rate implements Serializable {
     private long id;
     //评价问题
     private long askId;

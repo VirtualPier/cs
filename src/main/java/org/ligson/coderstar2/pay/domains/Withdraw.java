@@ -4,6 +4,7 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "withdraw")
-public class Withdraw {
+public class Withdraw implements Serializable {
     private long id;
     private long userId;
     private String createDate = DateUtils.format();

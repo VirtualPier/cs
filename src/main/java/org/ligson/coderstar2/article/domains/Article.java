@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "article")
-public class Article {
+public class Article implements Serializable {
     private long id;
     private String title;
     private String description;
@@ -107,6 +108,7 @@ public class Article {
     public void setAttentionNum(long attentionNum) {
         this.attentionNum = attentionNum;
     }
+
     @Column(name = "creator_id", nullable = false)
     public long getCreatorId() {
         return creatorId;

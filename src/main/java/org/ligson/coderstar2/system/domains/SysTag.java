@@ -4,13 +4,14 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by ligson on 2015/7/16.
  */
 @Entity
 @Table(name = "sys_tag")
-public class SysTag {
+public class SysTag implements Serializable {
     private long id;
     private String name;
     private String createDate = DateUtils.format();

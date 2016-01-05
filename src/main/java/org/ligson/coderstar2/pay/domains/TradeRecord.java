@@ -4,6 +4,7 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "trade_record")
-public class TradeRecord {
+public class TradeRecord implements Serializable {
     private long id;
     private int type;
     private long objId;

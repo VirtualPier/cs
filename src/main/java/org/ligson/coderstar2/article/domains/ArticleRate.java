@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "article_rate")
-public class ArticleRate {
+public class ArticleRate implements Serializable {
     private long id;
     private long articleId;
     //评价用户

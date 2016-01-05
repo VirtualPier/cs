@@ -2,13 +2,14 @@ package org.ligson.coderstar2.orgz.domains;
 
 import org.ligson.coderstar2.user.domains.User;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by ligson on 2015/11/6.
  * 机构信息表
  */
-public class OrgDetail {
+public class OrgDetail implements Serializable {
     private long id;
     private String name;
     private User account;

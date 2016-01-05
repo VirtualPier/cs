@@ -4,6 +4,7 @@ import com.boful.common.date.utils.DateUtils;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -14,7 +15,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "pay_order")
-public class PayOrder {
+public class PayOrder implements Serializable {
     private long id;
     private String guid = UUID.randomUUID().toString();
     private double money = 0.0;

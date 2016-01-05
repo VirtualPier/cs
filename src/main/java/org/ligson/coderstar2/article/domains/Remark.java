@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "remark")
-public class Remark {
+public class Remark implements Serializable {
     private long id;
     private String content;
     private long userId;

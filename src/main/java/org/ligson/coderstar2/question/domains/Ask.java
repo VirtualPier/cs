@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.ligson.coderstar2.user.domains.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "ask")
-public class Ask {
+public class Ask implements Serializable {
     private long id;
     private String content;
     private long userId;

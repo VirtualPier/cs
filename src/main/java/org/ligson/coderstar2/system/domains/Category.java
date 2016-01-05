@@ -1,6 +1,7 @@
 package org.ligson.coderstar2.system.domains;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 分类
@@ -8,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category implements Serializable {
     private long id;
     private String name;
     private String description;

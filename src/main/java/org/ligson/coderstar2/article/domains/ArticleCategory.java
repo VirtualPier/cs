@@ -3,13 +3,14 @@ package org.ligson.coderstar2.article.domains;
 import org.ligson.coderstar2.system.domains.Category;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Ruby on 2015/7/16.
  */
 @Entity
 @Table(name = "article_category")
-public class ArticleCategory {
+public class ArticleCategory implements Serializable {
     private long id;
 
     private long articleId;

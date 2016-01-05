@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "cs_user")
-public class User implements Serializable{
+public class User implements Serializable {
     private long id;
     private String nickName;
     private String password;
