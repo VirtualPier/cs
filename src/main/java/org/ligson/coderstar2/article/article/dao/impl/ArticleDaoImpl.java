@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.article.article.dao.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -23,12 +24,21 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     public List<List> countByArticleGroupByUser(String preWeek) {
         List<List> lists = null;
         if (preWeek == null) {
-            Query query = getCurrentSession().createQuery("select a.creator,count(a.id) from Article a group by a.creator order by count(a.id) desc ");
+            Query query = getCurrentSession().createQuery("select a.creatorId,count(a.id) from Article a group by a.creatorId order by count(a.id) desc ");
             lists = query.list();
         } else {
-            Query query = getCurrentSession().createQuery("select a.creator,count(a.id) from Article a where a.createDate>:preWeek group by a.creator order by count(a.id) desc ");
+            Query query = getCurrentSession().createQuery("select a.creatorId,count(a.id) from Article a where a.createDate>:preWeek group by a.creatorId order by count(a.id) desc ");
             query.setString("preWeek", preWeek);
             lists = query.list();
+        }
+        if (CollectionUtils.isNotEmpty(lists)) {
+            for (List tmp : lists) {
+                Long creatorId = (Long) tmp.get(0);
+                Query query = getCurrentSession().createQuery("from User where id=:id");
+                query.setLong("id", creatorId);
+                List list = query.list();
+                tmp.set(0, list.get(0));
+            }
         }
         return lists;
     }

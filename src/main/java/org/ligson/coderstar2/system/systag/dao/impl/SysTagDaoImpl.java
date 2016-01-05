@@ -1,5 +1,6 @@
 package org.ligson.coderstar2.system.systag.dao.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.ligson.coderstar2.article.domains.Article;
@@ -62,10 +63,16 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
 
     @Override
     public List<SysTag> listOrderArticle(int limit) {
-        Query query = getCurrentSession().createQuery("select ta.tag from ArticleTag ta group by ta.tag order by count(ta.article) desc");
+        Query query = getCurrentSession().createQuery("select ta.tagId from ArticleTag ta group by ta.tagId order by count(ta.articleId) desc");
         query.setFirstResult(0);
         query.setMaxResults(limit);
-        List<SysTag> sysTags = (List<SysTag>) query.list();
+        List<Long> idList = (List<Long>) query.list();
+        List<SysTag> sysTags = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(idList)) {
+            query = getCurrentSession().createQuery("from SysTag st where st.id in (:idList)");
+            query.setParameterList("idList", idList);
+            sysTags = query.list();
+        }
         return sysTags;
     }
 
