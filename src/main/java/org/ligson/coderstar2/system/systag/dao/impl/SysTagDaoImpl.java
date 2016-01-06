@@ -46,9 +46,9 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
 
     @Override
     public List<SysTag> findAllByArticle(Article article) {
-        Query query = getCurrentSession().createQuery("select at.tag from ArticleTag at where at.article.id=:articleId ");
+        Query query = getCurrentSession().createQuery("select distinct(st) from ArticleTag at,SysTag st where at.articleId=:articleId and st.id=at.tagId");
         query.setLong("articleId", article.getId());
-        List<SysTag> sysTags = (List<SysTag>) query.list();
+        List<SysTag> sysTags = query.list();
         return sysTags;
     }
 

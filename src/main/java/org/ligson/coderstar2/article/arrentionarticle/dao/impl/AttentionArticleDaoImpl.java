@@ -15,7 +15,7 @@ import java.util.List;
 public class AttentionArticleDaoImpl extends BaseDaoImpl<AttentionArticle> implements AttentionArticleDao {
     @Override
     public AttentionArticle findByUserAndArticle(User user, Article article) {
-        Query query = getCurrentSession().createQuery("from AttentionArticle aa where aa.user.id=:uId and aa.article.id=:aId");
+        Query query = getCurrentSession().createQuery("from AttentionArticle aa where aa.userId=:uId and aa.articleId=:aId");
         query.setLong("uId", user.getId());
         query.setLong("aId", article.getId());
         List<AttentionArticle> attentionArticles = query.list();

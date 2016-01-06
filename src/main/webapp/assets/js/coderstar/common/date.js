@@ -64,7 +64,7 @@ Date.parseFromText = function (text, parttern) {
             throw "月份无效";
         }
         month = parseInt(monthString)-1;
-        if (month < 1 || month > 12) {
+        if (month < 0 || month > 12) {
             throw "月份无效";
         }
     }
@@ -156,7 +156,8 @@ Date.parseFromText = function (text, parttern) {
     if (date.format(parttern) == text) {
         return date;
     } else {
-        throw  "日期无效";
+        //throw  "日期无效";
+        return date;
     }
 };
 

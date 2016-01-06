@@ -173,8 +173,8 @@ public class ArticleController {
     public String view(@RequestParam("id") long id, @RequestParam(value = "remarkSort", defaultValue = "supportNum", required = false) String remarkSort, HttpServletRequest request) {
         Article article = articleService.findArticleById(id);
         List<Remark> asks = articleService.findAllRemarkByArticle(article, remarkSort);
-        //List<SysTag> tags = articleService.findArticleTagList(article);
-        //List<Category> categoryList = categoryService.findArticleCategoryList(article);
+        List<SysTag> tags = articleService.findArticleTagList(article);
+        List<Category> categoryList = categoryService.findArticleCategoryList(article);
         articleService.viewArticle(article);
         Object object = request.getSession().getAttribute("user");
         boolean isAttention = false;
@@ -194,9 +194,9 @@ public class ArticleController {
         request.setAttribute("supportNum", supportNum);
         request.setAttribute("opposeNum", opposeNum);
         request.setAttribute("article", article);
-        //request.setAttribute("categoryList", categoryList);
+        request.setAttribute("categoryList", categoryList);
         request.setAttribute("isAttention", isAttention);
-        //request.setAttribute("tags", tags);
+        request.setAttribute("tags", tags);
         request.setAttribute("remarkList", asks);
         request.setAttribute("remarkSort", remarkSort);
         return "/article/view";

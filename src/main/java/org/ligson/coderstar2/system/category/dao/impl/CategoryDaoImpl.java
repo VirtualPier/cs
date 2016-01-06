@@ -27,7 +27,7 @@ public class CategoryDaoImpl extends BaseDaoImpl<Category> implements CategoryDa
     @Override
     public List<Category> findAllByArticle(Article article) {
         Session session = getCurrentSession();
-        String hql = "select ac.category from ArticleCategory ac where ac.article.id=:aId";
+        String hql = "select c from ArticleCategory ac,Category c where ac.articleId=:aId and c.id=ac.categoryId";
         Query query = session.createQuery(hql);
         query.setLong("aId", article.getId());
         List<Category> categories = (List<Category>) query.list();

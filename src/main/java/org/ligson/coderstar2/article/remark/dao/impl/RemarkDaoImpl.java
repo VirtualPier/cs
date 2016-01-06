@@ -29,7 +29,7 @@ public class RemarkDaoImpl extends BaseDaoImpl<Remark> implements RemarkDao {
 
     @Override
     public List<Remark> findAllByArticleOrderBy(Article article, String remarkSort, String desc) {
-        Query query = getCurrentSession().createQuery("from Remark r where r.article.id=:aId order by " + remarkSort + " " + desc);
+        Query query = getCurrentSession().createQuery("from Remark r where r.articleId=:aId order by " + remarkSort + " " + desc);
         query.setLong("aId", article.getId());
         List<Remark> remarks = (List<Remark>) query.list();
         return remarks;

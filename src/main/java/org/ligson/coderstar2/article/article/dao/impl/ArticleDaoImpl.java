@@ -185,7 +185,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     public int countByCreatorAndStateAndTitleLike(User user, int statePublish, String title) {
         Query query = null;
         if (statePublish >= 0) {
-            String hql = "select count(*) from Article a where a.creator.id=:userId and a.state=:state ";
+            String hql = "select count(*) from Article a where a.creatorId=:userId and a.state=:state ";
             if (StringUtils.isNotBlank(title)) {
                 hql += " and a.title like :title";
             }
@@ -196,7 +196,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
                 query.setString("title", "%" + title + "%");
             }
         } else {
-            String hql = "select count(*) from Article a where a.creator.id=:userId ";
+            String hql = "select count(*) from Article a where a.creatorId=:userId ";
             if (StringUtils.isNotBlank(title)) {
                 hql += " and a.title like :title";
             }
@@ -212,7 +212,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
 
     @Override
     public List<Article> findAllArticleByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
-        String hql = "select new Article(title,id,createDate,state,replyNum,viewNum,attentionNum,poster,recommendNum) from Article a where a.creator.id=:userId ";
+        String hql = "select new Article(title,id,createDate,state,replyNum,viewNum,attentionNum,poster,recommendNum) from Article a where a.creatorId=:userId ";
         if (StringUtils.isNotBlank(title)) {
             hql += " and a.title like :title";
         }

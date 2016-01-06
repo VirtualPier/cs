@@ -22,11 +22,11 @@
                 <h1>${article.title}</h1>
 
                 <p><label>分类:</label>
-                    <#list article.articleCategories as articleCategory>
-                        <a href="/article/index?categoryId=${articleCategory.category.id}">${articleCategory.category.name}</a>
+                    <#list categoryList as articleCategory>
+                        <a href="/article/index?categoryId=${articleCategory.id}">${articleCategory.name}</a>
                     </#list>
 
-                    <#if (user??)&&(user.id==article.creator.id)>
+                    <#if (user??)&&(user.id==article.creatorId)>
                         <a class="pull-right" style="margin-left:10px;" href="/user/deleteArticle?id=${article.id}">
                             <span class="glyphicon glyphicon-remove"></span>&nbsp;删除</a>
                         <a class="pull-right" style="margin-left:10px;" href="/article/edit?id=${article.id}">
@@ -39,8 +39,8 @@
                 </p>
 
                 <p><label>标签:</label>
-                    <#list article.tags as ta>
-                        <a href="/article/index?tagId=${ta.tag.id}" class="cs-question-tags">${ta.tag.name}</a>
+                    <#list tags as ta>
+                        <a href="/article/index?tagId=${ta.id}" class="cs-question-tags">${ta.name}</a>
                     </#list>
                 </p>
             </div>
@@ -97,7 +97,7 @@
                         <a href="/article/view?id=${article.id}&remarkSort=supportNum">热赞</a>
                     </li>
 
-                    <h2 class="hidden-xs">${article.remarks?size} 个回复</h2>
+                    <h2 class="hidden-xs">${article.replyNum} 个回复</h2>
                 </ul>
             </div>
 
@@ -106,7 +106,7 @@
                     <div class="cs-item" uninterested_count="0" force_fold="0" id="answer_list_${remark.id}">
                         <div class="mod-head">
                             <!-- 用户头像 -->
-                            <a href="/user/view?id=${remark.user.id}" class="cs-user-img cs-border-radius-5 pull-right"><img
+                            <a href="/user/view?id=${remark.userId}" class="cs-user-img cs-border-radius-5 pull-right"><img
                                     src="${remark.user.photo}" alt=""
                                     onerror="javascript:this.src='/images/pic_user.gif'"></a>
                             <!-- end 用户头像 -->

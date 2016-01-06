@@ -17,7 +17,7 @@ public class ArticleCategoryDaoImpl extends BaseDaoImpl<ArticleCategory> impleme
     @Override
     public ArticleCategory findByArticleAndCategory(Article article, Category category) {
         Session session = getCurrentSession();
-        Query query = session.createQuery("from ArticleCategory ac where ac.article.id=:aId and ac.category.id=:cId");
+        Query query = session.createQuery("from ArticleCategory ac where ac.articleId=:aId and ac.categoryId=:cId");
         query.setLong("aId", article.getId());
         query.setLong("cId", category.getId());
         List<ArticleCategory> articleCategories = query.list();

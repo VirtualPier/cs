@@ -16,7 +16,7 @@ public class ArticleTagDaoImpl extends BaseDaoImpl<ArticleTag> implements Articl
 
     @Override
     public List<ArticleTag> findAllByArticle(Article article) {
-        Query query = getCurrentSession().createQuery("from ArticleTag at where at.article.id=:aId");
+        Query query = getCurrentSession().createQuery("from ArticleTag at where at.articleId=:aId");
         query.setLong("aId", article.getId());
         List<ArticleTag> articleTags = (List<ArticleTag>) query.list();
         return articleTags;

@@ -15,7 +15,7 @@ import java.util.List;
 public class ArticleRateDaoImpl extends BaseDaoImpl<ArticleRate> implements ArticleRateDao {
     @Override
     public ArticleRate findByUserAndArticle(User currentUser, Article article) {
-        Query query = getCurrentSession().createQuery("from ArticleRate ar where ar.user.id=:uId and ar.article.id=:aId");
+        Query query = getCurrentSession().createQuery("from ArticleRate ar where ar.userId=:uId and ar.articleId=:aId");
         query.setLong("uId", currentUser.getId());
         query.setLong("aId", article.getId());
         List<ArticleRate> articles = query.list();
@@ -28,7 +28,7 @@ public class ArticleRateDaoImpl extends BaseDaoImpl<ArticleRate> implements Arti
 
     @Override
     public int countByArticleAndIsSupport(Article article, boolean isSupport) {
-        Query query = getCurrentSession().createQuery("select count(*) from ArticleRate ar where ar.article.id=:aId and ar.support=:isSupport");
+        Query query = getCurrentSession().createQuery("select count(*) from ArticleRate ar where ar.articleId=:aId and ar.support=:isSupport");
         query.setLong("aId", article.getId());
         query.setBoolean("isSupport", isSupport);
         Long count = (Long) query.uniqueResult();
