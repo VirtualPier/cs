@@ -32,12 +32,26 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
             lists = query.list();
         }
         if (CollectionUtils.isNotEmpty(lists)) {
-            for (List tmp : lists) {
-                Long creatorId = (Long) tmp.get(0);
-                Query query = getCurrentSession().createQuery("from User where id=:id");
-                query.setLong("id", creatorId);
-                List list = query.list();
-                tmp.set(0, list.get(0));
+            boolean isList = lists.get(0) instanceof List;
+            if(isList){
+                for (List tmp : lists) {
+                    Long creatorId = (Long) tmp.get(0);
+                    Query query = getCurrentSession().createQuery("from User where id=:id");
+                    query.setLong("id", creatorId);
+                    List list = query.list();
+                    tmp.set(0, list.get(0));
+                }
+            }else{
+
+                for (Object object: lists) {
+                    Object[] Obj = (Object[]) object;
+
+                    Long creatorId = (Long) Obj[0];
+                    Query query = getCurrentSession().createQuery("from User where id=:id");
+                    query.setLong("id", creatorId);
+                    List list = query.list();
+                    Obj[0]=list.get(0);
+                }
             }
         }
         return lists;
@@ -47,11 +61,11 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     public List<Article> findAllByCategoryIdAndTagIdOrderBy(long categoryId, long tagId, String order, int max, int offset) {
         String hql = "";
         if (categoryId >= 0 && tagId >= 0) {
-            hql = "select DISTINCT(ac.article) from ArticleCategory ac,ArticleTag at where at.article.id=ac.article.id and at.tag.id=" + tagId + " and ac.article.state=0 and ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
+            hql = "select DISTINCT(a) from ArticleCategory ac,ArticleTag at,Article a where a.id=at.articleId and at.articleId=ac.articleId and at.tagId=" + tagId + " and a.state=0 and ac.categoryId=" + categoryId + " order by a." + order + " desc";
         } else if (categoryId < 0 && tagId >= 0) {
-            hql = "select DISTINCT(at.article) from ArticleTag at where at.article.state=0 and at.tag.id=" + tagId + " order by at.article." + order + " desc";
+            hql = "select DISTINCT(a) from ArticleTag at,Article a where a.id=at.articleId and a.state=0 and at.tagId=" + tagId + " order by a." + order + " desc";
         } else if (categoryId >= 0 && tagId < 0) {
-            hql = "select DISTINCT(ac.article)  from ArticleCategory ac where ac.article.state=0 and ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
+            hql = "select DISTINCT(a)  from ArticleCategory ac,Article a where a.id=ac.articleId and  a.state=0 and ac.categoryId=" + categoryId + " order by a." + order + " desc";
         } else {
             //categoryId<0&&tagId<0
             hql = " from Article where state=0 order by " + order + " desc";
@@ -69,11 +83,11 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     public int countByCategoryIdAndTagIdOrderBy(long categoryId, long tagId, String order, int max, int offset) {
         String hql = "";
         if (categoryId >= 0 && tagId >= 0) {
-            hql = "select DISTINCT(ac.article) from ArticleCategory ac,ArticleTag at where at.article.id=ac.article.id and at.tag.id=" + tagId + " and ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
+            hql = "select DISTINCT(a) from ArticleCategory ac,ArticleTag at,Article a where a.id=ac.articleId and  at.articleId=ac.articleId and at.tagId=" + tagId + " and ac.categoryId=" + categoryId + " order by a." + order + " desc";
         } else if (categoryId < 0 && tagId >= 0) {
-            hql = "select DISTINCT(at.article) from ArticleTag at where at.tag.id=" + tagId + " order by at.article." + order + " desc";
+            hql = "select DISTINCT(a) from ArticleTag at,Article a where a.id=at.articleId and at.tagId=" + tagId + " order by a." + order + " desc";
         } else if (categoryId >= 0 && tagId < 0) {
-            hql = " from ArticleCategory ac where  ac.category.id=" + categoryId + " order by ac.article." + order + " desc";
+            hql = " from ArticleCategory ac,Article a where a.id=ac.articleId and  ac.categoryId=" + categoryId + " order by a." + order + " desc";
         } else {
             //categoryId<0&&tagId<0
             hql = " from Article order by " + order + " desc";
@@ -108,11 +122,11 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     public List<Article> findAllArticleByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
         Query query = null;
         if (statePublish >= 0) {
-            query = getCurrentSession().createQuery("from Article a where a.creator.id=:userId and a.state=:state order by a." + sort + " " + order);
+            query = getCurrentSession().createQuery("from Article a where a.creatorId=:userId and a.state=:state order by a." + sort + " " + order);
             query.setLong("userId", user.getId());
             query.setInteger("state", statePublish);
         } else {
-            query = getCurrentSession().createQuery("from Article a where a.creator.id=:userId  order by a." + sort + " " + order);
+            query = getCurrentSession().createQuery("from Article a where a.creatorId=:userId  order by a." + sort + " " + order);
             query.setLong("userId", user.getId());
         }
 
@@ -126,11 +140,11 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article> implements ArticleDao {
     public int countByCreatorAndState(User user, int statePublish) {
         Query query = null;
         if (statePublish >= 0) {
-            query = getCurrentSession().createQuery("select count(*) from Article a where a.creator.id=:userId and a.state=:state");
+            query = getCurrentSession().createQuery("select count(*) from Article a where a.creatorId=:userId and a.state=:state");
             query.setLong("userId", user.getId());
             query.setInteger("state", statePublish);
         } else {
-            query = getCurrentSession().createQuery("select count(*) from Article a where a.creator.id=:userId");
+            query = getCurrentSession().createQuery("select count(*) from Article a where a.creatorId=:userId");
             query.setLong("userId", user.getId());
         }
         Long count = (Long) query.uniqueResult();

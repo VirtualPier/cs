@@ -57,7 +57,7 @@
                     <div class="col-md-10">
                         <#assign tags=""/>
                         <#list sysTags as tag>
-                            <#assign tags="${tag.name},"/>
+                            <#assign tags="${tags+tag.name},"/>
                         </#list>
                         <input type="text" class="form-control" id="tagTxt" data-role="tagsinput"
                                placeholder="输入后回车提交" value="${tags}" name="tags"/>

@@ -169,8 +169,8 @@ public class QuestionController {
     public String view(@RequestParam("id") long id, @RequestParam(value = "askSort", defaultValue = "supportNum", required = false) String askSort, HttpServletRequest request) {
         Question question = questionService.findQuestionById(id);
         List<Ask> asks = questionService.findQuestionAskList(question, askSort);
-        //List<SysTag> tags = questionService.findQuestionTagList(question);
-        //List<Category> categoryList = categoryService.findQuestionCategoryList(question);
+        List<SysTag> tags = questionService.findQuestionTagList(question);
+        List<Category> categoryList = categoryService.findQuestionCategoryList(question);
         questionService.viewQuestion(question);
         Object object = request.getSession().getAttribute("user");
         boolean isAttention = false;
@@ -181,9 +181,9 @@ public class QuestionController {
         List<Question> relatedQuestionList = fullTextSearchService.relatedQuestion(question, 10);
         request.setAttribute("relatedQuestionList", relatedQuestionList);
         request.setAttribute("question", question);
-        //request.setAttribute("categoryList", categoryList);
+        request.setAttribute("categoryList", categoryList);
         request.setAttribute("isAttention", isAttention);
-        //request.setAttribute("tags", tags);
+        request.setAttribute("tags", tags);
         request.setAttribute("asks", asks);
         request.setAttribute("askSort", askSort);
         return "/question/view";

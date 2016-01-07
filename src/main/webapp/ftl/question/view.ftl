@@ -28,14 +28,14 @@
 
             <p>
                 <label>分类:</label>
-                <#list question.questionCategories as category>
-                    <a href="/question/index?categoryId=${category.category.id}">${category.category.name}</a>
+                <#list categoryList as category>
+                    <a href="/question/index?categoryId=${category.id}">${category.name}</a>
                 </#list>
 
-                <#if (user??)&&(user.id==question.creator.id)>
-                    <a class="pull-right" style="margin-left:10px;">
+                <#if (user??)&&(user.id==question.creatorId)>
+                    <a class="pull-right" style="margin-left:10px;" href="/user/deleteQuestion?ids=${question.id}">
                         <span class="glyphicon glyphicon-remove"></span>&nbsp;删除</a>
-                    <a class="pull-right" style="margin-left:10px;">
+                    <a class="pull-right" style="margin-left:10px;" href="/question/edit?id=${question.id}">
                         <span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
                 </#if>
                 <a id="attentionQuestionBtn" data-flag="${isAttention?string("0","1")}" class="pull-right"
@@ -46,8 +46,8 @@
             </p>
 
             <p><label>标签:</label>
-                <#list question.tags as tag>
-                    <a href="/question/index?tagId=${tag.tag.id}" class="cs-question-tags">${tag.tag.name}</a>
+                <#list tags as tag>
+                    <a href="/question/index?tagId=${tag.id}" class="cs-question-tags">${tag.name}</a>
                 </#list>
             </p>
 
@@ -97,7 +97,7 @@
                                    href="/user/view?id=${ask.user.id}"
                                    data-id="2">${ask.user.nickName}</a>
                                 <#if user??>
-                                    <#if (user.id==question.creator.id)||(user.id==ask.user.id)>
+                                    <#if (user.id==question.creatorId)||(user.id==ask.userId)>
                                         <a href="/question/deleteAsk?id=${ask.id}"
                                            class="btn btn-success pull-right" style="margin-left:10px;">删除
                                         </a>

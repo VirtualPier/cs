@@ -2,6 +2,7 @@ package org.ligson.coderstar2.question.service.impl;
 
 import com.boful.common.file.utils.FileType;
 import com.boful.common.file.utils.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.ligson.coderstar2.article.domains.Article;
 import org.ligson.coderstar2.pay.service.PayService;
@@ -211,7 +212,9 @@ public class QuestionServiceImpl implements QuestionService {
             sysTagService.deleteTagByQuestion(question);
         }
         for (String tag : tags) {
-            sysTagService.addQuestionTag(user, question, tag);
+            if (!StringUtils.isEmpty(tag)) {
+                sysTagService.addQuestionTag(user, question, tag);
+            }
         }
         if (id == -1) {
             user.setQuestionNum(user.getQuestionNum() + 1);

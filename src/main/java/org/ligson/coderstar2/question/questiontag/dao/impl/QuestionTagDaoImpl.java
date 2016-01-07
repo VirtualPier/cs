@@ -17,7 +17,7 @@ public class QuestionTagDaoImpl extends BaseDaoImpl<QuestionTag> implements Ques
     @Override
     public List<QuestionTag> findAllByQuestion(Question question) {
         Session session = getCurrentSession();
-        Query query = session.createQuery("from QuestionTag qt where qt.question.id=:qid");
+        Query query = session.createQuery("from QuestionTag qt where qt.questionId=:qid");
         query.setLong("qid", question.getId());
         List<QuestionTag> questionTags = (List<QuestionTag>) query.list();
         return questionTags;

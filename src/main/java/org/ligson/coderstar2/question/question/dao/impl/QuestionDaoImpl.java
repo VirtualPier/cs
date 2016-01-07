@@ -105,11 +105,11 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     public List<Question> findAllQuestionByCreatorAndState(User user, int statePublish, String sort, String order, int offset, int max) {
         Query query = null;
         if (statePublish >= 0) {
-            query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId and q.state=:state order by " + sort + " " + order);
+            query = getCurrentSession().createQuery("from Question q where q.creatorId=:userId and q.state=:state order by " + sort + " " + order);
             query.setLong("userId", user.getId());
             query.setInteger("state", statePublish);
         } else {
-            query = getCurrentSession().createQuery("from Question q where q.creator.id=:userId  order by " + sort + " " + order);
+            query = getCurrentSession().createQuery("from Question q where q.creatorId=:userId  order by " + sort + " " + order);
             query.setLong("userId", user.getId());
         }
         query.setFirstResult(offset);
@@ -121,7 +121,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
 
     @Override
     public int countByUserAndState(User user, int statePublish) {
-        Query query = getCurrentSession().createQuery("select count(*) from Question q where q.creator.id=:userId and q.state=:state");
+        Query query = getCurrentSession().createQuery("select count(*) from Question q where q.creatorId=:userId and q.state=:state");
         query.setLong("userId", user.getId());
         query.setInteger("state", statePublish);
         Long count = (Long) query.uniqueResult();
@@ -185,7 +185,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
     public int countByCreatorAndStateAndTitleLike(User user, int statePublish, String title) {
         Query query = null;
         if (statePublish >= 0) {
-            String hql = "select count(*) from Question q where q.creator.id=:userId and q.state=:state ";
+            String hql = "select count(*) from Question q where q.creatorId=:userId and q.state=:state ";
             if (StringUtils.isNotBlank(title)) {
                 hql += " and q.title like :title";
             }
@@ -196,7 +196,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
                 query.setString("title", "%" + title + "%");
             }
         } else {
-            String hql = "select count(*) from Question q where q.creator.id=:userId ";
+            String hql = "select count(*) from Question q where q.creatorId=:userId ";
             if (StringUtils.isNotBlank(title)) {
                 hql += " and q.title like :title";
             }
@@ -212,7 +212,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
 
     @Override
     public List<Question> findAllQuestionByUserAndTitleLikeOrder(User user, String title, int offset, int max, String sort, String order) {
-        String hql = "from Question q where q.creator.id=:userId ";
+        String hql = "from Question q where q.creatorId=:userId ";
         if (StringUtils.isNotBlank(title)) {
             hql += " and q.title like :title";
         }

@@ -15,7 +15,7 @@ import java.util.List;
 public class QuestionCategoryDaoImpl extends BaseDaoImpl<QuestionCategory> implements QuestionCategoryDao {
     @Override
     public QuestionCategory findByQuestionAndCategory(Question question, Category category) {
-        Query query = getCurrentSession().createQuery("from QuestionCategory qc where qc.question.id=:qId and qc.category.id=:cId");
+        Query query = getCurrentSession().createQuery("from QuestionCategory qc where qc.questionId=:qId and qc.categoryId=:cId");
         query.setParameter("qId",question.getId());
         query.setParameter("cId",category.getId());
         List<QuestionCategory> questionCategories = query.list();

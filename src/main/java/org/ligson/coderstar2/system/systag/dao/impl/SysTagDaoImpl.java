@@ -20,7 +20,7 @@ import java.util.List;
 public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
     @Override
     public List<SysTag> findAllByQuestion(Question question) {
-        Query query = getCurrentSession().createQuery("select qt.tag from QuestionTag qt where qt.question.id=:qId");
+        Query query = getCurrentSession().createQuery("select distinct(st) from QuestionTag qt,SysTag st where qt.questionId=:qId and st.id=qt.tagId");
         query.setLong("qId", question.getId());
         List<SysTag> tags = (List<SysTag>) query.list();
         return tags;
@@ -54,7 +54,7 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
 
     @Override
     public List<SysTag> findAllByCreator(User user, int max) {
-        Query query = getCurrentSession().createQuery("from SysTag st where st.creator.id=:userId");
+        Query query = getCurrentSession().createQuery("from SysTag st where st.creatorId=:userId");
         query.setMaxResults(max);
         query.setLong("userId", user.getId());
         List<SysTag> sysTags = (List<SysTag>) query.list();
@@ -78,9 +78,12 @@ public class SysTagDaoImpl extends BaseDaoImpl<SysTag> implements SysTagDao {
 
     @Override
     public List<SysTag> findQuestionHotTags(int max) {
-        Query query = getCurrentSession().createQuery("select qt.tag from QuestionTag qt group by qt.tag order by count(qt.question) desc");
+        Query query = getCurrentSession().createQuery("select qt.tagId from QuestionTag qt group by qt.tagId order by count(qt.questionId) desc");
         query.setFirstResult(0);
         query.setMaxResults(max);
+        List<Long> idList = query.list();
+        query = getCurrentSession().createQuery("from SysTag st where st.id in (:idList)");
+        query.setParameterList("idList", idList);
         List<SysTag> sysTags = (List<SysTag>) query.list();
         return sysTags;
     }
