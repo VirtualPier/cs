@@ -182,7 +182,7 @@ public class IndexController extends BaseController {
         }
     }
 
-    @RequestMapping("/checkEmailExist")
+    @RequestMapping("/index/checkEmailExist")
     @ResponseBody
     public Map<String, Object> checkEmailExist(String email) {
         Map<String, Object> result = new HashMap<>();
@@ -192,7 +192,7 @@ public class IndexController extends BaseController {
         return result;
     }
 
-    @RequestMapping("/checkCellphoneExist")
+    @RequestMapping("/index/checkCellphoneExist")
     @ResponseBody
     public Map<String, Object> checkCellphoneExist(String cellphone) {
         Map<String, Object> result = new HashMap<>();
